@@ -6,5 +6,8 @@
   "repository": "https://github.com/aucsc220/BookstoreCustomOrdering.git",
   "author": "Phil Nadon <phil@nadon.io>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "electron": "^7.1.7"
+  }
 }
