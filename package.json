@@ -1,0 +1,10 @@
+{
+  "name": "bookstore-custom-ordering",
+  "version": "1.0.0",
+  "description": "An app which allows the user to process hoodie orders",
+  "main": "index.js",
+  "repository": "https://github.com/aucsc220/BookstoreCustomOrdering.git",
+  "author": "Phil Nadon <phil@nadon.io>",
+  "license": "MIT",
+  "private": true
+}
