@@ -1,5 +1,5 @@
 {
-  "name": "bookstore-custom-ordering",
+  "name": "BookstoreCustomOrdering",
   "version": "1.0.0",
   "description": "An app which allows the user to process hoodie orders",
   "main": "index.js",
@@ -8,9 +8,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "win-build": "electron-packager . --platform=win32 --arch=x64 --out=./out",
+    "mac-build": "electron-packager . --platform=darwin --arch=x64 --out=./out"
   },
   "devDependencies": {
-    "electron": "^7.1.7"
+    "electron": "^7.1.7",
+    "electron-packager": "^14.1.1"
   }
 }
