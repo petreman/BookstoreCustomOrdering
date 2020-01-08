@@ -9,8 +9,7 @@
   "private": true,
   "scripts": {
     "start": "electron .",
-    "win-build": "electron-packager . --platform=win32 --arch=x64 --out=./out",
-    "mac-build": "electron-packager . --platform=darwin --arch=x64 --out=./out"
+    "win-build": "electron-packager . --platform=win32 --arch=x64 --out=./out --overwrite"
   },
   "devDependencies": {
     "electron": "^7.1.7",
