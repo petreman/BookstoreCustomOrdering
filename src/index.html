@@ -7,9 +7,34 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
+    <p>Do you want a hoodie or crewneck?</p>
+    <select>
+      <option value="hoodie">Hoodie</option>
+      <option value="crewneck">Crewneck</option>
+    </select>
+    <p>What is the color for it?</p>
+    <select>
+      <option value="green">Green</option>
+      <option value="gray">Gray</option>
+    </select>
+    <p>What do you want to put on the front?</p>
+      <input type="text" name="front" value="">
+    <p>What do you want to put on the left arm?</p>
+      <input type="text" name="leftArm" value="">
+    <p>What do you want to put on the right arm?</p>
+      <input type="text" name="rightArm" value="">
+    <p>What do you want to put on the hood (if applicable)?</p>
+      <input type="text" name="hood" value="">
+    <p>What do you want to put on the back?</p>
+      <input type="text" name="back" value="">
+    <p>What do you want to put on the bottom?</p>
+      <input type="text" name="bottom" value="">
+    <p>Remark</p>
+      <input type="text" name="remark" value="">
+    <div style="width:300px; height:auto; float:left; display:inline">TestA</div> 
+    <div style="width:300px; height:auto; float:left; display:inline">TestB</div> 
+    <!--We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    and Electron <script>document.write(process.versions.electron)</script>.-->
   </body>
 </html>
