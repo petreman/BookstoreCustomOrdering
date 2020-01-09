@@ -40,6 +40,20 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
+document.getElementById("front_select").addEventListener("change", function(){
+  var e = document.getElementById("front_select");
+  var strFrontSelction = e.options[e.selectedIndex].text;
+  var strFrontInput = document.getElementById("front_toggle");
+
+  if (strFrontSelction == "No"){
+    strFrontInput.style.display = "none";
+  }
+
+  else {
+    strFrontInput.style.display = "block";
+  }
+});
+
 document.getElementById("front_text").addEventListener("input", function(){
   store.set('front_text', this.value);
 });
