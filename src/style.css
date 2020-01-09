@@ -1,0 +1,22 @@
+p {margin:10px;}
+p.pos_fixed{
+  position:fixed;
+  top:50px;
+  right:50px;
+}
+div#header{
+    background-color:greenyellow;
+    border:1px solid black;
+}
+div#sidediv{
+    border:1px solid black;
+}
+#wrapper {
+  display: flex;
+}
+#left {
+  flex: 0 0 65%;
+}
+#right {
+  flex: 1;
+}
