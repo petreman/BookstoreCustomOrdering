@@ -31,6 +31,17 @@ document.getElementById("load_btn").addEventListener("click", function(){
   });
 });
 
+document.getElementById("new_order_btn").addEventListener("click", function(){
+  const new_date = new Date();
+  const date_str = new_date.getTime().toString();
+  store.set('order_num', date_str.substring(0, date_str.length-3));
+  refreshOrderNumberDisplay();
+})
+
+function refreshOrderNumberDisplay() {
+  document.getElementById("order_num_disp").innerHTML = store.get("order_num", "ORDER NUM NOT SET");
+}
+
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
@@ -50,9 +61,6 @@ document.getElementById("save_btn").addEventListener("click", function(){
 
 document.getElementById("export_btn").addEventListener("click", function(){
   window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
-  const new_date = new Date();
-  const date_str = new_date.getTime().toString();
-  store.set('order_num', date_str.substring(0, date_str.length-3));
   fs.writeFileSync("./tmp/temp.html", Mustache.to_html(export_template, store.store));
   window_to_PDF.loadFile("./tmp/temp.html"); //give the file link you want to display
   const print_options = {
