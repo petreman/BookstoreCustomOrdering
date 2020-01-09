@@ -53,8 +53,8 @@ document.getElementById("export_btn").addEventListener("click", function(){
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
   store.set('order_num', date_str.substring(0, date_str.length-3));
-  fs.writeFileSync("./temp.html", Mustache.to_html(export_template, store.store));
-  window_to_PDF.loadFile("./temp.html"); //give the file link you want to display
+  fs.writeFileSync("./tmp/temp.html", Mustache.to_html(export_template, store.store));
+  window_to_PDF.loadFile("./tmp/temp.html"); //give the file link you want to display
   const print_options = {
       landscape: false,
       marginsType: 0,
