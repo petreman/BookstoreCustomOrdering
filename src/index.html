@@ -5,27 +5,27 @@
     <title>Hmmmm</title>
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <style></style>
+    <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
     <div id="header" style="text-align:center; margin-bottom:20px">Header</div>
 
     <div id="wrapper">
       <div id="sidediv" style="width:50%; height:auto; float:left">
-        <p style="margin:10px 5%; width:90%; height:suto">Do you want a hoodie or crewneck?</p>
+        <p style="margin:10px 5%; width:90%; height:auto">Do you want a hoodie or crewneck?</p>
         <select style="margin:10px 5%; width:90%; height:50px">
           <option value="hoodie">Hoodie</option>
           <option value="crewneck">Crewneck</option>
         </select>
       </div>
       <div id="sidediv" style="width:50%; height:auto">
-        <img border="0" src="./src/images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
     <div id="wrapper">
       <div id="sidediv" style="width:50%; height:auto">
-        <p>What is the color for it?</p>
+        <p style="margin:10px 5%; width:90%; height:auto">What is the color for it?</p>
         <select style="margin:10px 5%; width:90%; height:50px">
           <option value="green">Green</option>
           <option value="gray">Gray</option>
@@ -36,39 +36,75 @@
       </div>
     </div>
 
-
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the front?</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="front" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
 
     <div id="wrapper">
-    <div id="sidediv" style="width:50%; height:auto; float:left">
-      <p style="margin:10px 5%; width:90%; height:suto">Do you want a hoodie or crewneck?</p>
-      <select style="margin:10px 5%; width:90%; height:50px">
-        <option value="hoodie">Hoodie</option>
-        <option value="crewneck">Crewneck</option>
-      </select>
-      <p>What is the color for it?</p>
-      <select style="margin:10px 5%; width:90%; height:50px">
-        <option value="green">Green</option>
-        <option value="gray">Gray</option>
-      </select>
-      <p>What do you want to put on the front?</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="front" cols="20"></textarea>
-      <p>What do you want to put on the left arm?</p>
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the left arm?</p>
         <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="leftArm" cols="20"></textarea>
-      <p>What do you want to put on the right arm?</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="rightArm" cols="20"></textarea>
-      <p>What do you want to put on the hood (if applicable)?</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="hood" cols="20"></textarea>
-      <p>What do you want to put on the back?</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="back" cols="20"></textarea>
-      <p>What do you want to put on the bottom?</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="bottom" cols="20"></textarea>
-      <p>Remark</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
-    </div>
-      <div id="sidediv" style="width:50%; height:auto; float:right">
-        <img border="0" src="https://uc0e01795b1dcd1bdb31953995f5.dl.dropboxusercontent.com/cd/0/inline/Av32OHEEiGYqp2x7tLPfBEsHsaFZh7Z23WVBBc60Ar5ZkyefbEAO2aRVvLBY0veIyQPdtV_LXim4fLDuG7e4s9yRO3W9RmNqKgnA7dnr4rzPNmcXfBsQZuj3aV_cC-Ipe7I/file#" alt="blah" width="50%" height="auto">
       </div>
-    </div>  
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the right arm?</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="rightArm" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the hood (if applicable)?</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="hood" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the back?</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="back" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the bottom?</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="bottom" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:auto">Remark</p>
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
+      </div>
+    </div> 
   <!--We are using node <script>document.write(process.versions.node)</script>,
 >>>>>>> html_CSS_1.0
     Chrome <script>document.write(process.versions.chrome)</script>,
