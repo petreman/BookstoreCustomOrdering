@@ -147,7 +147,7 @@ document.getElementById("left_arm_select").addEventListener("change", function()
 
 });  
 
-document.getElementById("left_arm_text").addEventListener("input", function(){
+document.getElementById("left_arm_text").addEventListener("change", function(){
   store.set('left_arm_text', this.value);
 });
 
@@ -191,7 +191,7 @@ document.getElementById("back_select").addEventListener("change", function(){
 
 });  
 
-document.getElementById("back_text").addEventListener("input", function(){
+document.getElementById("back_text").addEventListener("change", function(){
   store.set('back_text', this.value);
 });
 
@@ -213,10 +213,10 @@ document.getElementById("hood_select").addEventListener("change", function(){
 
 });  
 
-document.getElementById("hood_text").addEventListener("input", function(){
+document.getElementById("hood_text").addEventListener("change", function(){
   store.set('hood_text', this.value);
 });
 
-document.getElementById("other_comment").addEventListener("input", function(){
+document.getElementById("other_comment").addEventListener("change", function(){
   store.set('other_comment', this.value);
 });
