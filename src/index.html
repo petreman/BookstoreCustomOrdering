@@ -6,44 +6,51 @@
     <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <style>
-      p {margin:20px;}
+      p {margin:10px;}
       p.pos_fixed{
         position:fixed;
         top:50px;
         right:50px;
       }
+      div#header{
+      	background-color:greenyellow;
+      	border:1px solid black;
+      }
+      div#sidediv{
+      	border:1px solid black;
+      }
     </style>
   </head>
   <body>
-    <div style="text-align:center; margin:20px">Header</div>
-    <div style="width:auto; height:auto; float:left; display:inline">
-      <p>Do you want a hoodie or crewneck?</p>
-      <select style="margin:20px">
+    <div id="header" style="text-align:center; margin-bottom:20px">Header</div>
+    <div id="sidediv" style="width:50%; height:auto; float:left; display:inline">
+      <p style="margin:10px 5%; width:90%; height:suto">Do you want a hoodie or crewneck?</p>
+      <select style="margin:10px 5%; width:90%; height:50px">
         <option value="hoodie">Hoodie</option>
         <option value="crewneck">Crewneck</option>
       </select>
       <p>What is the color for it?</p>
-      <select style="margin:20px">
+      <select style="margin:10px 5%; width:90%; height:50px">
         <option value="green">Green</option>
         <option value="gray">Gray</option>
       </select>
       <p>What do you want to put on the front?</p>
-        <input style="margin:20px" type="text" name="front" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="front" cols="20"></textarea>
       <p>What do you want to put on the left arm?</p>
-        <input style="margin:20px" type="text" name="leftArm" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="leftArm" cols="20"></textarea>
       <p>What do you want to put on the right arm?</p>
-        <input style="margin:20px" type="text" name="rightArm" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="rightArm" cols="20"></textarea>
       <p>What do you want to put on the hood (if applicable)?</p>
-        <input style="margin:20px" type="text" name="hood" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="hood" cols="20"></textarea>
       <p>What do you want to put on the back?</p>
-        <input style="margin:20px" type="text" name="back" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="back" cols="20"></textarea>
       <p>What do you want to put on the bottom?</p>
-        <input style="margin:20px" type="text" name="bottom" value="">
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="bottom" cols="20"></textarea>
       <p>Remark</p>
-       <input style="margin:20px" type="text" name="remark" value=""> 
+        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
     </div>
-    <div style="width:auto; height:auto; float:left; display:inline">
-      <p class="pos_fixed" >Preview</p>
+    <div id="sidediv" style="width:50%; height:auto; float:right; display:inline">
+      <img border="0" src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjk06Cg5fXmAhUEpJ4KHUKLCvAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.urbanoutfitters.com%2Fshop%2Fnasa-hoodie-sweatshirt&psig=AOvVaw32igHzuIDr3YE5ePBEYQgE&ust=1578634316801674" alt="blah" width="auto" height="auto">
     </div> 
     <!--We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
