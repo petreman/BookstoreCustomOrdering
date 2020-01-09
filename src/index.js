@@ -79,9 +79,9 @@ document.getElementById("export_btn").addEventListener("click", function(){
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
-  var e = document.getElementById("type_select");
-  var strTypeSelection = e.options[e.selectedIndex].text;
-  var hoodOption = document.getElementById("hood_option");
+  let e = document.getElementById("type_select");
+  let strTypeSelection = e.options[e.selectedIndex].text;
+  let hoodOption = document.getElementById("hood_option");
 
   if (strTypeSelection == "Hoodie"){
     hoodOption.style.display = "block"
@@ -97,20 +97,29 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
-var strFrontInput = document.getElementById("front_toggle");
+let e = document.getElementById("front_select");
+let strFrontSelection = e.options[e.selectedIndex].text;
+let strFrontInput = document.getElementById("front_toggle");
 strFrontInput.style.display = "none";
 
+if (strFrontSelection == "No"){
+  strFrontInput.style.display = "none";
+  store.set('front_text', "n/a");
+}
+
 document.getElementById("front_select").addEventListener("change", function(){
-  var e = document.getElementById("front_select");
-  var strFrontSelection = e.options[e.selectedIndex].text;
-  var strFrontInput = document.getElementById("front_toggle");
+  let e = document.getElementById("front_select");
+  let strFrontSelection = e.options[e.selectedIndex].text;
+  let strFrontInput = document.getElementById("front_toggle");
 
   if (strFrontSelection == "No"){
     strFrontInput.style.display = "none";
+    store.set('front_text', "n/a");
   }
 
   else {
     strFrontInput.style.display = "block";
+    store.set('front_text', document.getElementById("front_text").value);
   }
 
 });
@@ -120,13 +129,13 @@ document.getElementById("front_text").addEventListener("change", function(){
 });
 
 //set no display initially
-var strLeftArmInput = document.getElementById("left_arm_toggle");
+let strLeftArmInput = document.getElementById("left_arm_toggle");
 strLeftArmInput.style.display = "none";
 
 document.getElementById("left_arm_select").addEventListener("change", function(){
-  var e = document.getElementById("left_arm_select");
-  var strLeftArmSelection = e.options[e.selectedIndex].text;
-  var strLeftArmInput = document.getElementById("left_arm_toggle");
+  let e = document.getElementById("left_arm_select");
+  let strLeftArmSelection = e.options[e.selectedIndex].text;
+  let strLeftArmInput = document.getElementById("left_arm_toggle");
 
   if (strLeftArmSelection == "No"){
     strLeftArmInput.style.display = "none";
@@ -142,13 +151,13 @@ document.getElementById("left_arm_text").addEventListener("input", function(){
   store.set('left_arm_text', this.value);
 });
 
-var strRightArmInput = document.getElementById("right_arm_toggle");
+let strRightArmInput = document.getElementById("right_arm_toggle");
 strRightArmInput.style.display = "none";
 
 document.getElementById("right_arm_select").addEventListener("change", function(){
-  var e = document.getElementById("right_arm_select");
-  var strLeftArmSelection = e.options[e.selectedIndex].text;
-  var strLeftArmInput = document.getElementById("right_arm_toggle");
+  let e = document.getElementById("right_arm_select");
+  let strLeftArmSelection = e.options[e.selectedIndex].text;
+  let strLeftArmInput = document.getElementById("right_arm_toggle");
 
   if (strRightArmSelection == "No"){
     strRightArmInput.style.display = "none";
@@ -164,13 +173,13 @@ document.getElementById("right_arm_text").addEventListener("change", function(){
   store.set('right_arm_text', this.value);
 });
 
-var strBackInput = document.getElementById("back_toggle");
+let strBackInput = document.getElementById("back_toggle");
 strBackInput.style.display = "none";
 
 document.getElementById("back_select").addEventListener("change", function(){
-  var e = document.getElementById("back_select");
-  var strBackSelection = e.options[e.selectedIndex].text;
-  var strBackInput = document.getElementById("back_toggle");
+  let e = document.getElementById("back_select");
+  let strBackSelection = e.options[e.selectedIndex].text;
+  let strBackInput = document.getElementById("back_toggle");
 
   if (strBackSelection == "No"){
     strBackInput.style.display = "none";
@@ -186,13 +195,13 @@ document.getElementById("back_text").addEventListener("input", function(){
   store.set('back_text', this.value);
 });
 
-var strHoodInput = document.getElementById("hood_toggle");
+let strHoodInput = document.getElementById("hood_toggle");
 strHoodInput.style.display = "none";
 
 document.getElementById("hood_select").addEventListener("change", function(){
-  var e = document.getElementById("hood_select");
-  var strHoodSelection = e.options[e.selectedIndex].text;
-  var strHoodInput = document.getElementById("hood_toggle");
+  let e = document.getElementById("hood_select");
+  let strHoodSelection = e.options[e.selectedIndex].text;
+  let strHoodInput = document.getElementById("hood_toggle");
 
   if (strHoodSelection == "No"){
     strHoodInput.style.display = "none";
