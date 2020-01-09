@@ -19,10 +19,49 @@
       div#sidediv{
       	border:1px solid black;
       }
+      #wrapper {
+        display: flex;
+      }
+      #left {
+        flex: 0 0 65%;
+      }
+      #right {
+        flex: 1;
+      }
     </style>
   </head>
   <body>
     <div id="header" style="text-align:center; margin-bottom:20px">Header</div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto; float:left">
+        <p style="margin:10px 5%; width:90%; height:suto">Do you want a hoodie or crewneck?</p>
+        <select style="margin:10px 5%; width:90%; height:50px">
+          <option value="hoodie">Hoodie</option>
+          <option value="crewneck">Crewneck</option>
+        </select>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+    <div id="wrapper">
+      <div id="sidediv" style="width:50%; height:auto">
+        <p>What is the color for it?</p>
+        <select style="margin:10px 5%; width:90%; height:50px">
+          <option value="green">Green</option>
+          <option value="gray">Gray</option>
+        </select>
+      </div>
+      <div id="sidediv" style="width:50%; height:auto">
+        <img border="0" src="https://uc0e01795b1dcd1bdb31953995f5.dl.dropboxusercontent.com/cd/0/inline/Av32OHEEiGYqp2x7tLPfBEsHsaFZh7Z23WVBBc60Ar5ZkyefbEAO2aRVvLBY0veIyQPdtV_LXim4fLDuG7e4s9yRO3W9RmNqKgnA7dnr4rzPNmcXfBsQZuj3aV_cC-Ipe7I/file#" alt="blah" width="50%" height="auto">
+      </div>
+    </div>
+
+
+
+    <div id="wrapper">
     <div id="sidediv" style="width:50%; height:auto; float:left">
       <p style="margin:10px 5%; width:90%; height:suto">Do you want a hoodie or crewneck?</p>
       <select style="margin:10px 5%; width:90%; height:50px">
@@ -49,10 +88,11 @@
       <p>Remark</p>
         <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
     </div>
-    <div id="sidediv" style="width:50%; height:auto; float:right">
-      <img border="0" src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjk06Cg5fXmAhUEpJ4KHUKLCvAQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.urbanoutfitters.com%2Fshop%2Fnasa-hoodie-sweatshirt&psig=AOvVaw32igHzuIDr3YE5ePBEYQgE&ust=1578634316801674" alt="blah" width="auto" height="auto">
-    </div>
-    <!--We are using node <script>document.write(process.versions.node)</script>,
+      <div id="sidediv" style="width:50%; height:auto; float:right">
+        <img border="0" src="https://uc0e01795b1dcd1bdb31953995f5.dl.dropboxusercontent.com/cd/0/inline/Av32OHEEiGYqp2x7tLPfBEsHsaFZh7Z23WVBBc60Ar5ZkyefbEAO2aRVvLBY0veIyQPdtV_LXim4fLDuG7e4s9yRO3W9RmNqKgnA7dnr4rzPNmcXfBsQZuj3aV_cC-Ipe7I/file#" alt="blah" width="50%" height="auto">
+      </div>
+    </div>  
+  <!--We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.-->
   </body>
