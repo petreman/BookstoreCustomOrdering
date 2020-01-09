@@ -40,23 +40,46 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
+var strFrontInput = document.getElementById("front_toggle");
+strFrontInput.style.display = "none";
+
 document.getElementById("front_select").addEventListener("change", function(){
   var e = document.getElementById("front_select");
-  var strFrontSelction = e.options[e.selectedIndex].text;
+  var strFrontSelection = e.options[e.selectedIndex].text;
   var strFrontInput = document.getElementById("front_toggle");
 
-  if (strFrontSelction == "No"){
+  if (strFrontSelection == "No"){
     strFrontInput.style.display = "none";
   }
 
   else {
     strFrontInput.style.display = "block";
   }
+
 });
 
 document.getElementById("front_text").addEventListener("input", function(){
   store.set('front_text', this.value);
 });
+
+//set no display initially
+var strLeftArmInput = document.getElementById("left_arm_toggle");
+strLeftArmInput.style.display = "none";
+
+document.getElementById("left_arm_select").addEventListener("change", function(){
+  var e = document.getElementById("left_arm_select");
+  var strLeftArmSelection = e.options[e.selectedIndex].text;
+  var strLeftArmInput = document.getElementById("left_arm_toggle");
+
+  if (strLeftArmSelection == "No"){
+    strLeftArmInput.style.display = "none";
+  }
+
+  else {
+    strLeftArmInput.style.display = "block";
+  }
+
+});  
 
 document.getElementById("left_arm_text").addEventListener("input", function(){
   store.set('left_arm_text', this.value);
