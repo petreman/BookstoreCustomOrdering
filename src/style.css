@@ -8,10 +8,10 @@ div#header{
     background-color: #00c741;
     border:1px solid black;
 }
-div#sidediv{
+div.sidediv{
     border:1px solid black;
 }
-#wrapper {
+.wrapper {
   display: flex;
 }
 #left {

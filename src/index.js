@@ -164,8 +164,8 @@ strRightArmInput.style.display = "none";
 
 document.getElementById("right_arm_select").addEventListener("change", function(){
   let e = document.getElementById("right_arm_select");
-  let strLeftArmSelection = e.options[e.selectedIndex].text;
-  let strLeftArmInput = document.getElementById("right_arm_toggle");
+  let strRightArmSelection = e.options[e.selectedIndex].text;
+  let strRightArmInput = document.getElementById("right_arm_toggle");
 
   if (strRightArmSelection == "No"){
     strRightArmInput.style.display = "none";

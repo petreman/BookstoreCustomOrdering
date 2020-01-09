@@ -10,6 +10,7 @@
   <body>
     <div id="header" style="text-align:center; margin-bottom:20px">
       <button id="load_btn">Load order file</button>
+      <button id="new_order_btn">Generate new order number</button>
       <button id="save_btn">Save order file</button>
       <button id="export_btn">Export to PDF</button>
       <button id="img_btn">Load clothing images</button>
@@ -17,34 +18,34 @@
 
     <h2>Customization</h2>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a hoodie or crewneck?</p>
         <select id="type_select" style="margin:10px 5%; width:90%; height:50px">
           <option value="hoodie">Hoodie</option>
           <option value="crewneck">Crewneck</option>
         </select>
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto">
         <p style="margin:10px 5%; width:90%; height:auto">What is the color for it?</p>
         <select id="color_select" style="margin:10px 5%; width:90%; height:50px">
           <option value="green">Green</option>
           <option value="gray">Gray</option>
         </select>
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a custom front?</p>
         <select id="front_select" style="margin:10px 5%; width:90%; height:50px">
@@ -58,13 +59,13 @@
         </div> 
         
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a custom left arm?</p>
         <select id="left_arm_select" style="margin:10px 5%; width:90%; height:50px">
@@ -78,13 +79,13 @@
         </div>
         
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a custom right arm?</p>
         <select id="right_arm_select" style="margin:10px 5%; width:90%; height:50px">
@@ -94,17 +95,17 @@
         
         <div id="right_arm_toggle">
           <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the right arm?</p>
-          <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="rightArm" cols="20"></textarea>
+          <textarea id="right_arm_text" style="margin:10px 5%; width:90%; height:50px" rows="2" name="rightArm" cols="20"></textarea>
         </div>
 
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a custom back?</p>
         <select id="back_select" style="margin:10px 5%; width:90%; height:50px">
@@ -114,17 +115,17 @@
 
         <div id="back_toggle">
           <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the back?</p>
-          <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="back" cols="20"></textarea>
+          <textarea id="back_text" style="margin:10px 5%; width:90%; height:50px" rows="2" name="back" cols="20"></textarea>
         </div>
         
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         
         <p style="margin:10px 5%; width:90%; height:auto">Do you want a custom hood?</p>
         <select id="hood_select" style="margin:10px 5%; width:90%; height:50px">
@@ -134,21 +135,21 @@
         
         <div id="hood_toggle">
           <p style="margin:10px 5%; width:90%; height:auto">What do you want to put on the hood?</p>
-          <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="hood" cols="20"></textarea>
+          <textarea id="hood_text" style="margin:10px 5%; width:90%; height:50px" rows="2" name="hood" cols="20"></textarea>
         </div>
 
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div>
 
-    <div id="wrapper">
-      <div id="sidediv" style="width:50%; height:auto; float:left">
+    <div class="wrapper">
+      <div class="sidediv" style="width:50%; height:auto; float:left">
         <p style="margin:10px 5%; width:90%; height:auto">Remark</p>
-        <textarea style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
+        <textarea id="other_comment" style="margin:10px 5%; width:90%; height:50px" rows="2" name="remark" cols="20"></textarea>
       </div>
-      <div id="sidediv" style="width:50%; height:auto">
+      <div class="sidediv" style="width:50%; height:auto">
         <img border="0" src="./images/hoodieSample.jpg" alt="blah" width="50%" height="auto">
       </div>
     </div> 
