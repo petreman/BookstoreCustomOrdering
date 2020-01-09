@@ -18,6 +18,13 @@ const export_template = `
   </body>
   </html>
 `
+const print_options = {
+  landscape: false,
+  marginsType: 0,
+  printBackground: false,
+  printSelectionOnly: false,
+  pageSize: "A4",
+};
 const store = new Store();
 
 document.getElementById("load_btn").addEventListener("click", function(){
@@ -63,13 +70,6 @@ document.getElementById("export_btn").addEventListener("click", function(){
   window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
   fs.writeFileSync("./tmp/temp.html", Mustache.to_html(export_template, store.store));
   window_to_PDF.loadFile("./tmp/temp.html"); //give the file link you want to display
-  const print_options = {
-      landscape: false,
-      marginsType: 0,
-      printBackground: false,
-      printSelectionOnly: false,
-      pageSize: "A4",
-  };
   window_to_PDF.webContents.on('did-finish-load', () => {
     window_to_PDF.webContents.printToPDF(print_options).then(data => {
       const path_promise = dialog.showSaveDialog({defaultPath: './order.pdf'});
