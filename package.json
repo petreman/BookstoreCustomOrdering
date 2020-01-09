@@ -3,9 +3,10 @@
   "productName": "BookstoreCustomOrdering",
   "version": "1.0.0",
   "description": "An app which allows a student to customize decals on a product before ordering",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
+    "compile-schema": "ajv compile -s ./src/schema_clothing.json -o ./src/schema_clothing_compiled.js",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "make:win": "electron-forge make --arch=x64 --platform=win32",
@@ -42,7 +43,9 @@
     }
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "ajv-cli": "^3.0.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^5.1.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.47",

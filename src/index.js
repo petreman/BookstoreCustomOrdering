@@ -1,61 +1,66 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+const { dialog } = require('electron').remote;
+const Store = require('electron-store');
+const fs = require('fs');
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-  app.quit();
-}
+const store = new Store();
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-
-const createWindow = () => {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true
-    }
+document.getElementById("load_btn").addEventListener("click", function(){
+  const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
+  file_promise.then(function(value) {
+    console.log('loading file from:');
+    console.log(value.filePaths[0]);
+    store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
+    console.log('loaded:');
+    console.log(store.store);
   });
-
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-};
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
 });
 
-app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
+document.getElementById("img_btn").addEventListener("click", function(){
+  const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
+  img_promise.then(function(value) {
+    console.log('setting img directory to:');
+    console.log(value.filePaths[0]);
+    store.set('img_location', value.filePaths[0]);
+  });
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+document.getElementById("save_btn").addEventListener("click", function(){
+  const save_promise = dialog.showSaveDialog();
+  save_promise.then(function(value) {
+    console.log('saving at: ' + value.filePath);
+    fs.writeFileSync(value.filePath, JSON.stringify(store.store), 'utf-8');
+  });
+});
+
+document.getElementById("type_select").addEventListener("change", function(){
+  store.set('clothing_type', this.value);
+});
+
+document.getElementById("color_select").addEventListener("change", function(){
+  store.set('color', this.value);
+});
+
+document.getElementById("front_text").addEventListener("input", function(){
+  store.set('front_text', this.value);
+});
+
+document.getElementById("left_arm_text").addEventListener("input", function(){
+  store.set('left_arm_text', this.value);
+});
+
+document.getElementById("right_arm_text").addEventListener("input", function(){
+  store.set('right_arm_text', this.value);
+});
+
+document.getElementById("hood_text").addEventListener("input", function(){
+  store.set('hood_text', this.value);
+});
+
+document.getElementById("back_text").addEventListener("input", function(){
+  store.set('back_text', this.value);
+});
+
+document.getElementById("other_comment").addEventListener("input", function(){
+  store.set('other_comment', this.value);
+});
+
