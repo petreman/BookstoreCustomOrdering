@@ -79,6 +79,18 @@ document.getElementById("export_btn").addEventListener("click", function(){
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
+  var e = document.getElementById("type_select");
+  var strTypeSelection = e.options[e.selectedIndex].text;
+  var hoodOption = document.getElementById("hood_option");
+
+  if (strTypeSelection == "Hoodie"){
+    hoodOption.style.display = "block"
+  }
+
+  else {
+    hoodOption.style.display = "none"
+  }
+
 });
 
 document.getElementById("color_select").addEventListener("change", function(){
@@ -103,7 +115,7 @@ document.getElementById("front_select").addEventListener("change", function(){
 
 });
 
-document.getElementById("front_text").addEventListener("input", function(){
+document.getElementById("front_text").addEventListener("change", function(){
   store.set('front_text', this.value);
 });
 
@@ -130,16 +142,70 @@ document.getElementById("left_arm_text").addEventListener("input", function(){
   store.set('left_arm_text', this.value);
 });
 
-document.getElementById("right_arm_text").addEventListener("input", function(){
+var strRightArmInput = document.getElementById("right_arm_toggle");
+strRightArmInput.style.display = "none";
+
+document.getElementById("right_arm_select").addEventListener("change", function(){
+  var e = document.getElementById("right_arm_select");
+  var strLeftArmSelection = e.options[e.selectedIndex].text;
+  var strLeftArmInput = document.getElementById("right_arm_toggle");
+
+  if (strRightArmSelection == "No"){
+    strRightArmInput.style.display = "none";
+  }
+
+  else {
+    strRightArmInput.style.display = "block";
+  }
+
+});  
+
+document.getElementById("right_arm_text").addEventListener("change", function(){
   store.set('right_arm_text', this.value);
 });
 
-document.getElementById("hood_text").addEventListener("input", function(){
-  store.set('hood_text', this.value);
-});
+var strBackInput = document.getElementById("back_toggle");
+strBackInput.style.display = "none";
+
+document.getElementById("back_select").addEventListener("change", function(){
+  var e = document.getElementById("back_select");
+  var strBackSelection = e.options[e.selectedIndex].text;
+  var strBackInput = document.getElementById("back_toggle");
+
+  if (strBackSelection == "No"){
+    strBackInput.style.display = "none";
+  }
+
+  else {
+    strBackInput.style.display = "block";
+  }
+
+});  
 
 document.getElementById("back_text").addEventListener("input", function(){
   store.set('back_text', this.value);
+});
+
+var strHoodInput = document.getElementById("hood_toggle");
+strHoodInput.style.display = "none";
+
+document.getElementById("hood_select").addEventListener("change", function(){
+  var e = document.getElementById("hood_select");
+  var strHoodSelection = e.options[e.selectedIndex].text;
+  var strHoodInput = document.getElementById("hood_toggle");
+
+  if (strHoodSelection == "No"){
+    strHoodInput.style.display = "none";
+  }
+
+  else {
+    strHoodInput.style.display = "block";
+  }
+
+});  
+
+document.getElementById("hood_text").addEventListener("input", function(){
+  store.set('hood_text', this.value);
 });
 
 document.getElementById("other_comment").addEventListener("input", function(){

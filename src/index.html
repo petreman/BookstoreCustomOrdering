@@ -47,12 +47,43 @@
         <input id="left_arm_text" type="text" name="leftArm" value="">
     </div>
 
-    <p>What do you want to put on the right arm?</p>
-      <input id="right_arm_text" type="text" name="rightArm" value="">
-    <p>What do you want to put on the hood (if applicable)?</p>
-      <input id="hood_text" type="text" name="hood" value="">
-    <p>What do you want to put on the back?</p>
-      <input id="back_text" type="text" name="back" value="">
+    <p>Do you want a custom right arm?</p>
+    <select id="right_arm_select">
+      <option value="right_arm_no">No</option>
+      <option value="right_arm_yes">Yes</option>
+    </select>
+
+    <div id="right_arm_toggle">
+      <p>What do you want to put on the right arm?</p>
+        <input id="right_arm_text" type="text" name="rightArm" value="">
+    </div>
+
+    <p>Do you want a custom back?</p>
+    <select id="back_select">
+      <option value="back_no">No</option>
+      <option value="back_yes">Yes</option>
+    </select>
+
+    <div id="back_toggle">
+      <p>What do you want to put on the back?</p>
+        <input id="back_text" type="text" name="back" value="">
+    </div>
+
+    <div id="hood_option">
+
+      <p>Do you want a custom hood?</p>
+      <select id="hood_select">
+        <option value="hood_no">No</option>
+        <option value="hood_yes">Yes</option>
+      </select>
+
+      <div id="hood_toggle">
+        <p>What do you want to put on the hood?</p>
+          <input id="hood_text" type="text" name="hood" value="">
+      </div>
+
+    </div>
+
     <p>Remark</p>
       <input id="other_comment" type="text" name="remark" value="">
     <!--We are using node <script>document.write(process.versions.node)</script>,
