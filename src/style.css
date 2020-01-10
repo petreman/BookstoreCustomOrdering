@@ -4,10 +4,54 @@ p.pos_fixed{
   top:50px;
   right:50px;
 }
-div#header{
-    background-color: #00c741;
-    border:1px solid black;
+
+body{
+  margin-top: 7%;
 }
+
+header{
+  border-bottom:3px solid #ffdb05;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  padding: 0;
+  margin: 0 0 0 0;
+  top: 0;
+  height: 8%;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  align-items: center;
+
+  background:
+    transparent url("./images/banner-bg.svg") center center;
+    background-color: transparent;
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: url("./images/banner-bg.svg");
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+
+
+   
+}
+
+header ul {
+  list-style-type: none;
+  padding: 0 20px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+header li{
+  display: inline-block;
+  margin: 0;
+}
+
 div.sidediv{
     border:1px solid black;
 }
