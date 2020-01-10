@@ -10,17 +10,33 @@ body{
 }
 
 header{
-    background-color: #007C41;
-    border-bottom:1px solid #007C41;
-    position: fixed;
-    width: 100%;
-    z-index: 9999;
-    padding: 0;
-    margin: 0 0 0 0;
-    top: 0;
-    height: 8%;
-    left: 0;
-    right: 0;
+  border-bottom:3px solid #ffdb05;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+  padding: 0;
+  margin: 0 0 0 0;
+  top: 0;
+  height: 8%;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  align-items: center;
+
+  background:
+    transparent url("./images/banner-bg.svg") center center;
+    background-color: transparent;
+    background-position-x: center;
+    background-position-y: center;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-image: url("./images/banner-bg.svg");
+    background-size: auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+
+
+   
 }
 
 header ul {
