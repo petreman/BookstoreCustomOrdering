@@ -9,8 +9,8 @@
     "compile-schema": "ajv compile -s ./src/schema_clothing.json -o ./src/schema_clothing_compiled.js",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "make:win": "electron-forge make --arch=x64 --platform=win32",
-    "make:darwin": "electron-forge make --arch=x64 --platform=darwin",
+    "make:win": "electron-forge make --arch=x64 --platform=win32 --icon=./bookstore.icns",
+    "make:darwin": "electron-forge make --arch=x64 --platform=darwin --icon=./bookstore.icns",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
@@ -23,7 +23,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./bookstore.icns"
+        "icon": "./bookstore"
       },
       "makers": [
         {
