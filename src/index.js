@@ -87,8 +87,7 @@ document.getElementById("export_btn").addEventListener("click", function(){
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
-  let e = document.getElementById("type_select");
-  let strTypeSelection = e.options[e.selectedIndex].text;
+  let strTypeSelection = this.options[this.selectedIndex].text;
   let hoodOption = document.getElementById("hood_option");
 
   if (strTypeSelection == "Hoodie"){
@@ -116,8 +115,7 @@ if (strFrontSelection == "No"){
 }
 
 document.getElementById("front_select").addEventListener("change", function(){
-  let e = document.getElementById("front_select");
-  let strFrontSelection = e.options[e.selectedIndex].text;
+  let strFrontSelection = this.options[this.selectedIndex].text;
   let strFrontInput = document.getElementById("front_toggle");
 
   if (strFrontSelection == "No"){
@@ -141,8 +139,7 @@ let strLeftArmInput = document.getElementById("left_arm_toggle");
 strLeftArmInput.style.display = "none";
 
 document.getElementById("left_arm_select").addEventListener("change", function(){
-  let e = document.getElementById("left_arm_select");
-  let strLeftArmSelection = e.options[e.selectedIndex].text;
+  let strLeftArmSelection = this.options[this.selectedIndex].text;
   let strLeftArmInput = document.getElementById("left_arm_toggle");
 
   if (strLeftArmSelection == "No"){
@@ -163,8 +160,7 @@ let strRightArmInput = document.getElementById("right_arm_toggle");
 strRightArmInput.style.display = "none";
 
 document.getElementById("right_arm_select").addEventListener("change", function(){
-  let e = document.getElementById("right_arm_select");
-  let strRightArmSelection = e.options[e.selectedIndex].text;
+  let strRightArmSelection = this.options[this.selectedIndex].text;
   let strRightArmInput = document.getElementById("right_arm_toggle");
 
   if (strRightArmSelection == "No"){
@@ -185,8 +181,7 @@ let strBackInput = document.getElementById("back_toggle");
 strBackInput.style.display = "none";
 
 document.getElementById("back_select").addEventListener("change", function(){
-  let e = document.getElementById("back_select");
-  let strBackSelection = e.options[e.selectedIndex].text;
+  let strBackSelection = this.options[this.selectedIndex].text;
   let strBackInput = document.getElementById("back_toggle");
 
   if (strBackSelection == "No"){
@@ -207,8 +202,7 @@ let strHoodInput = document.getElementById("hood_toggle");
 strHoodInput.style.display = "none";
 
 document.getElementById("hood_select").addEventListener("change", function(){
-  let e = document.getElementById("hood_select");
-  let strHoodSelection = e.options[e.selectedIndex].text;
+  let strHoodSelection = this.options[this.selectedIndex].text;
   let strHoodInput = document.getElementById("hood_toggle");
 
   if (strHoodSelection == "No"){
