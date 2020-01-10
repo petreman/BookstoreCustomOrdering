@@ -41,6 +41,7 @@ document.getElementById("load_btn").addEventListener("click", function(){
 document.getElementById("new_order_btn").addEventListener("click", function(){
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
+  store.clear();
   store.set('order_num', date_str.substring(0, date_str.length-3));
   refreshOrderNumberDisplay();
 })
