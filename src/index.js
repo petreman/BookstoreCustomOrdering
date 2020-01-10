@@ -106,8 +106,7 @@ setUpdateListener("other_comment");
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
-   
-  let strTypeSelection = e.options[e.selectedIndex].text;
+  let strTypeSelection = this.options[this.selectedIndex].text;
   let hoodOption = document.getElementById("hood_option");
 
   if (strTypeSelection == "Hoodie"){
