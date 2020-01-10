@@ -22,7 +22,9 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./bookstore.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-zip",
@@ -44,7 +46,6 @@
   },
   "dependencies": {
     "ajv-cli": "^3.0.0",
-    "clean": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.1.0",
     "mustache": "^3.2.1"
