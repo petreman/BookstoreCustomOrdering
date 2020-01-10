@@ -7,17 +7,19 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-  <body>
-    <div id="header" style="text-align:center; margin-bottom:20px">
-      <button id="load_btn">Load order file</button>
-      <button id="new_order_btn">Generate new order number</button>
-      <button id="save_btn">Save order file</button>
-      <button id="export_btn">Export to PDF</button>
-      <button id="img_btn">Load clothing images</button>
-    </div>
 
-    <h2>Customization</h2>
-    <h3 id="order_num_disp"></h3>
+  <header>
+    <nav><ul style="text-align:center">
+      <li><button id="load_btn">Load order file</button></li>
+      <li><button id="new_order_btn">Generate new order number</button></li>
+      <li><button id="save_btn">Save order file</button></li>
+      <li><button id="export_btn">Export to PDF</button></li>
+      <li><button id="img_btn">Load clothing images</button></li>
+      <li><h3 id="order_num_disp"></h3></li>
+    </ul></nav>
+  </header>
+
+  <body>
 
     <div class="wrapper">
       <div class="sidediv" style="width:50%; height:auto; float:left">
