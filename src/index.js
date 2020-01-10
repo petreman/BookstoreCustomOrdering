@@ -56,7 +56,7 @@ document.getElementById("img_btn").addEventListener("click", function(){
     console.log('setting img directory to:');
     console.log(value.filePaths[0]);
     store.set('img_location', value.filePaths[0]);
-    document.getElementById('hoodie').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
+    document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
     document.getElementById('color').setAttribute('src',value.filePaths[0]+'/color_green.png');
     document.getElementById('front_pic').setAttribute('src',value.filePaths[0]+'/front_pic.jpg');
     document.getElementById('left_arm').setAttribute('src',value.filePaths[0]+'/left_arm.png');
