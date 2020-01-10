@@ -56,13 +56,13 @@ document.getElementById("img_btn").addEventListener("click", function(){
     console.log('setting img directory to:');
     console.log(value.filePaths[0]);
     store.set('img_location', value.filePaths[0]);
-    document.getElementById('hoodie').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
-    document.getElementById('color').setAttribute('src',value.filePaths[0]+'/color_green.png');
-    document.getElementById('front_pic').setAttribute('src',value.filePaths[0]+'/front_pic.jpg');
-    document.getElementById('left_arm').setAttribute('src',value.filePaths[0]+'/left_arm.png');
-    document.getElementById('right_arm').setAttribute('src',value.filePaths[0]+'/right_arm.png');
-    document.getElementById('back').setAttribute('src',value.filePaths[0]+'/back.png');
-    document.getElementById('hood').setAttribute('src',value.filePaths[0]+'/hood.jpg');
+    document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
+    document.getElementById('color_img').setAttribute('src',value.filePaths[0]+'/color_green.png');
+    document.getElementById('front_img').setAttribute('src',value.filePaths[0]+'/front_pic.jpg');
+    document.getElementById('left_arm_img').setAttribute('src',value.filePaths[0]+'/left_arm.png');
+    document.getElementById('right_arm_img').setAttribute('src',value.filePaths[0]+'/right_arm.png');
+    document.getElementById('back_img').setAttribute('src',value.filePaths[0]+'/back.png');
+    document.getElementById('hood_img').setAttribute('src',value.filePaths[0]+'/hood.jpg');
   });
 });
 
