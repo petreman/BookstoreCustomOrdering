@@ -92,6 +92,25 @@ document.getElementById("export_btn").addEventListener("click", function(){
   });
 });
 
+//initializations
+//these are just initial calls to each's listener, 
+//as the listener only listens for changes
+
+//type
+let type_init = document.getElementById("type_select");
+store.set('clothing_type', type_init.options[type_init.selectedIndex].text);
+
+//color
+let color_init = document.getElementById("color_select");
+store.set('color', color_init.options[color_init.selectedIndex].text);
+
+setSelectListener("front");
+setSelectListener("left_arm");
+setSelectListener("right_arm");
+setSelectListener("back");
+setSelectListener("hood");
+setUpdateListener("other_comment");
+
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
   let strTypeSelection = this.options[this.selectedIndex].text;
@@ -111,121 +130,102 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
-let e = document.getElementById("front_select");
-let strFrontSelection = e.options[e.selectedIndex].text;
-let strFrontInput = document.getElementById("front_toggle");
-strFrontInput.style.display = "none";
-
-if (strFrontSelection == "No"){
-  strFrontInput.style.display = "none";
-  store.set('front_text', "n/a");
-}
-
 document.getElementById("front_select").addEventListener("change", function(){
-  let strFrontSelection = this.options[this.selectedIndex].text;
-  let strFrontInput = document.getElementById("front_toggle");
-
-  if (strFrontSelection == "No"){
-    strFrontInput.style.display = "none";
-    store.set('front_text', "n/a");
-  }
-
-  else {
-    strFrontInput.style.display = "block";
-    store.set('front_text', document.getElementById("front_text").value);
-  }
-
+  setSelectListener("front");
 });
 
 document.getElementById("front_text").addEventListener("change", function(){
-  store.set('front_text', this.value);
+  setUpdateListener("front")
 });
 
-//set no display initially
-let strLeftArmInput = document.getElementById("left_arm_toggle");
-strLeftArmInput.style.display = "none";
-
 document.getElementById("left_arm_select").addEventListener("change", function(){
-  let strLeftArmSelection = this.options[this.selectedIndex].text;
-  let strLeftArmInput = document.getElementById("left_arm_toggle");
-
-  if (strLeftArmSelection == "No"){
-    strLeftArmInput.style.display = "none";
-  }
-
-  else {
-    strLeftArmInput.style.display = "block";
-  }
-
+  setSelectListener("left_arm");
 });  
 
 document.getElementById("left_arm_text").addEventListener("change", function(){
-  store.set('left_arm_text', this.value);
+  setUpdateListener("left_arm");
 });
 
-let strRightArmInput = document.getElementById("right_arm_toggle");
-strRightArmInput.style.display = "none";
-
 document.getElementById("right_arm_select").addEventListener("change", function(){
-  let strRightArmSelection = this.options[this.selectedIndex].text;
-  let strRightArmInput = document.getElementById("right_arm_toggle");
-
-  if (strRightArmSelection == "No"){
-    strRightArmInput.style.display = "none";
-  }
-
-  else {
-    strRightArmInput.style.display = "block";
-  }
-
+  setSelectListener("right_arm");
 });  
 
 document.getElementById("right_arm_text").addEventListener("change", function(){
-  store.set('right_arm_text', this.value);
+  setUpdateListener("right_arm");
 });
 
-let strBackInput = document.getElementById("back_toggle");
-strBackInput.style.display = "none";
-
 document.getElementById("back_select").addEventListener("change", function(){
-  let strBackSelection = this.options[this.selectedIndex].text;
-  let strBackInput = document.getElementById("back_toggle");
-
-  if (strBackSelection == "No"){
-    strBackInput.style.display = "none";
-  }
-
-  else {
-    strBackInput.style.display = "block";
-  }
-
+  setSelectListener("back");
 });  
 
 document.getElementById("back_text").addEventListener("change", function(){
-  store.set('back_text', this.value);
+  setUpdateListener("back");
 });
 
-let strHoodInput = document.getElementById("hood_toggle");
-strHoodInput.style.display = "none";
-
 document.getElementById("hood_select").addEventListener("change", function(){
-  let strHoodSelection = this.options[this.selectedIndex].text;
-  let strHoodInput = document.getElementById("hood_toggle");
-
-  if (strHoodSelection == "No"){
-    strHoodInput.style.display = "none";
-  }
-
-  else {
-    strHoodInput.style.display = "block";
-  }
-
+  setSelectListener("hood");
 });  
 
 document.getElementById("hood_text").addEventListener("change", function(){
-  store.set('hood_text', this.value);
+  setUpdateListener("hood");
 });
 
 document.getElementById("other_comment").addEventListener("change", function(){
-  store.set('other_comment', this.value);
+  setUpdateListener("other_comment");
 });
+
+function setSelectListener(name){
+
+  let selectName = name + "_select";
+  let toggleName = name + "_toggle";
+  let textName = name + "_text";
+
+  let e = document.getElementById(selectName);
+  let strSelection = e.options[e.selectedIndex].text;
+  let strInput = document.getElementById(toggleName);
+
+  //if option not selected, hide front message box and update json
+  if (strSelection == "No"){
+    strInput.style.display = "none";
+    store.set(textName, "n/a");
+  }
+
+  else {
+    strInput.style.display = "block";
+
+    //empty message box is the same as "n/a"
+    if (document.getElementById(textName).value != ''){
+      store.set(textName, document.getElementById(textName).value);
+    }
+    
+    else{
+      store.set(textName, "n/a");
+    }
+  }
+
+}
+
+function setUpdateListener(name){
+
+  let textName;
+
+  if (name != "other_comment"){
+    textName = name + "_text";
+  }
+
+  else {
+    textName = "other_comment";
+  }
+  
+  let textContent = document.getElementById(textName).value;
+  
+  //empty message box is the same as "n/a"
+  if (textContent != ''){
+    store.set(textName, textContent);
+  }
+  
+  else{
+    store.set(textName, "n/a");
+  }
+
+}
