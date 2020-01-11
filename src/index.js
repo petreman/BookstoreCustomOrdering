@@ -35,9 +35,8 @@ document.getElementById("load_btn").addEventListener("click", function(){
     store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
     console.log('loaded:');
     console.log(store.store);
+    setLoadedValues();
   });
-
-  setLoadedValues();
 
 });
 
@@ -78,6 +77,7 @@ document.getElementById("save_btn").addEventListener("click", function(){
 });
 
 document.getElementById("export_btn").addEventListener("click", function(){
+  refreshStore();
   window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
   fs.writeFileSync("./tmp/temp.html", Mustache.to_html(export_template, store.store));
   window_to_PDF.loadFile("./tmp/temp.html"); //give the file link you want to display
@@ -96,24 +96,8 @@ document.getElementById("export_btn").addEventListener("click", function(){
   });
 });
 
-//initializations
-//these are just initial calls to each's listener, 
-//as the listener only listens for changes
-
-//type
-let type_init = document.getElementById("type_select");
-store.set('clothing_type', type_init.options[type_init.selectedIndex].text);
-
-//color
-let color_init = document.getElementById("color_select");
-store.set('color', color_init.options[color_init.selectedIndex].text);
-
-setUpdateListener("front");
-setUpdateListener("left_arm");
-setUpdateListener("right_arm");
-setUpdateListener("back");
-setUpdateListener("hood");
-setUpdateListener("other_comment");
+//initialization
+refreshStore();
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
@@ -134,29 +118,21 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
-
-
 document.getElementById("front_text").addEventListener("change", function(){
   setUpdateListener("front")
 });
-
-
 
 document.getElementById("left_arm_text").addEventListener("change", function(){
   setUpdateListener("left_arm");
 });
 
- 
-
 document.getElementById("right_arm_text").addEventListener("change", function(){
   setUpdateListener("right_arm");
 });
 
-
 document.getElementById("back_text").addEventListener("change", function(){
   setUpdateListener("back");
 });
-
 
 document.getElementById("hood_text").addEventListener("change", function(){
   setUpdateListener("hood");
@@ -165,7 +141,6 @@ document.getElementById("hood_text").addEventListener("change", function(){
 document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
-
 
 function setUpdateListener(name){
 
@@ -194,26 +169,30 @@ function setUpdateListener(name){
 
 function setLoadedValues(){
 
-  let index;
+  let index = 0;
+
+  refreshOrderNumberDisplay();
 
   switch (store.get("clothing_type")){
-    case "Hoodie":
+    case "hoodie":
       index = 0;
+      document.getElementById("hood_option").style.display = "block"
       break;
     
-    case "Crewneck":
+    case "crewneck":
       index = 1;
+      document.getElementById("hood_option").style.display = "none"
       break;
   }
     
   document.getElementById("type_select").selectedIndex = index;
 
-  switch (store.get("color")){
-    case "Green":
+  switch (store.get("color").toUpperCase()){
+    case "green":
       index = 0;
       break;
     
-    case "Gray":
+    case "gray":
       index = 1;
       break;
   }
@@ -233,12 +212,31 @@ function setLoadedText(name){
 
   let textName = name + "_text";
 
-  if (store.get(textName) != "n/a"){
-    document.getElementById(textName) = store.get(textName);
+  if (store.get(textName) != "n/a" || store.get(textName) != "undefined"){
+    document.getElementById(textName).value = store.get(textName);
   }
 
   else{
-    document.getElementById(textName) = "";
+    document.getElementById(textName).value = "";
   }
+
+}
+
+function refreshStore(){
+  
+  //type
+  let type_init = document.getElementById("type_select");
+  store.set('clothing_type', type_init.options[type_init.selectedIndex].text);
+
+  //color
+  let color_init = document.getElementById("color_select");
+  store.set('color', color_init.options[color_init.selectedIndex].text);
+
+  setUpdateListener("front");
+  setUpdateListener("left_arm");
+  setUpdateListener("right_arm");
+  setUpdateListener("back");
+  setUpdateListener("hood");
+  setUpdateListener("other_comment");
 
 }
