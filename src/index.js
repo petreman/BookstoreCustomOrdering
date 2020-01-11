@@ -105,11 +105,11 @@ store.set('clothing_type', type_init.options[type_init.selectedIndex].text);
 let color_init = document.getElementById("color_select");
 store.set('color', color_init.options[color_init.selectedIndex].text);
 
-setSelectListener("front");
-setSelectListener("left_arm");
-setSelectListener("right_arm");
-setSelectListener("back");
-setSelectListener("hood");
+setUpdateListener("front");
+setUpdateListener("left_arm");
+setUpdateListener("right_arm");
+setUpdateListener("back");
+setUpdateListener("hood");
 setUpdateListener("other_comment");
 
 document.getElementById("type_select").addEventListener("change", function(){
@@ -131,41 +131,29 @@ document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
 
-document.getElementById("front_select").addEventListener("change", function(){
-  setSelectListener("front");
-});
+
 
 document.getElementById("front_text").addEventListener("change", function(){
   setUpdateListener("front")
 });
 
-document.getElementById("left_arm_select").addEventListener("change", function(){
-  setSelectListener("left_arm");
-});  
+
 
 document.getElementById("left_arm_text").addEventListener("change", function(){
   setUpdateListener("left_arm");
 });
 
-document.getElementById("right_arm_select").addEventListener("change", function(){
-  setSelectListener("right_arm");
-});  
+ 
 
 document.getElementById("right_arm_text").addEventListener("change", function(){
   setUpdateListener("right_arm");
 });
 
-document.getElementById("back_select").addEventListener("change", function(){
-  setSelectListener("back");
-});  
 
 document.getElementById("back_text").addEventListener("change", function(){
   setUpdateListener("back");
 });
 
-document.getElementById("hood_select").addEventListener("change", function(){
-  setSelectListener("hood");
-});  
 
 document.getElementById("hood_text").addEventListener("change", function(){
   setUpdateListener("hood");
@@ -175,36 +163,6 @@ document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
 
-function setSelectListener(name){
-
-  let selectName = name + "_select";
-  let toggleName = name + "_toggle";
-  let textName = name + "_text";
-
-  let e = document.getElementById(selectName);
-  let strSelection = e.options[e.selectedIndex].text;
-  let strInput = document.getElementById(toggleName);
-
-  //if option not selected, hide front message box and update json
-  if (strSelection == "No"){
-    strInput.style.display = "none";
-    store.set(textName, "n/a");
-  }
-
-  else {
-    strInput.style.display = "block";
-
-    //empty message box is the same as "n/a"
-    if (document.getElementById(textName).value != ''){
-      store.set(textName, document.getElementById(textName).value);
-    }
-    
-    else{
-      store.set(textName, "n/a");
-    }
-  }
-
-}
 
 function setUpdateListener(name){
 
