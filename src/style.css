@@ -1,8 +1,24 @@
-p {margin:10px; font-size: 20px;}
+p {
+  font-size: 20px;
+  margin:10px 5%; 
+  width:90%; 
+  height:auto
+}
 p.pos_fixed{
   position:fixed;
   top:50px;
   right:50px;
+}
+textarea{
+  margin:10px 5%; 
+  width:90%; 
+  height:100px;
+}
+
+select{
+  margin:10px 5%; 
+  width:90%; 
+  height:50px
 }
 
 body{
@@ -132,6 +148,8 @@ header li{
 
 div.sidediv{
   border:1px solid black;
+  width:50%; 
+  height:auto; 
 }
 
 .wrapper {
