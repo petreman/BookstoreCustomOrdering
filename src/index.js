@@ -36,6 +36,9 @@ document.getElementById("load_btn").addEventListener("click", function(){
     console.log('loaded:');
     console.log(store.store);
   });
+
+  setLoadedValues();
+
 });
 
 document.getElementById("new_order_btn").addEventListener("click", function(){
@@ -185,6 +188,57 @@ function setUpdateListener(name){
   
   else{
     store.set(textName, "n/a");
+  }
+
+}
+
+function setLoadedValues(){
+
+  let index;
+
+  switch (store.get("clothing_type")){
+    case "Hoodie":
+      index = 0;
+      break;
+    
+    case "Crewneck":
+      index = 1;
+      break;
+  }
+    
+  document.getElementById("type_select").selectedIndex = index;
+
+  switch (store.get("color")){
+    case "Green":
+      index = 0;
+      break;
+    
+    case "Gray":
+      index = 1;
+      break;
+  }
+
+  document.getElementById("color_select").selectedIndex = index;
+
+  setLoadedText("front");
+  setLoadedText("left_arm");
+  setLoadedText("right_arm");
+  setLoadedText("back");
+  setLoadedText("hood");
+  setLoadedText("other_comment");
+
+}
+
+function setLoadedText(name){
+
+  let textName = name + "_text";
+
+  if (store.get(textName) != "n/a"){
+    document.getElementById(textName) = store.get(textName);
+  }
+
+  else{
+    document.getElementById(textName) = "";
   }
 
 }
