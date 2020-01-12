@@ -61,7 +61,7 @@ document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
     store.set('img_location', value.filePaths[0]);
-    document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
+    document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/hoodieSample.png');
     document.getElementById('color_img').setAttribute('src',value.filePaths[0]+'/color_green.png');
     document.getElementById('front_img').setAttribute('src',value.filePaths[0]+'/front_pic.jpg');
     document.getElementById('left_arm_img').setAttribute('src',value.filePaths[0]+'/left_arm.png');
