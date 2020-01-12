@@ -1,3 +1,13 @@
+/*
+main.js
+
+Main component which starts the Electron process. Original file and 
+comments obtained from the official Electron documentation.
+
+Author: Philippe Nadon
+
+*/
+
 const { app, BrowserWindow, Menu} = require('electron');
 const path = require('path');
 

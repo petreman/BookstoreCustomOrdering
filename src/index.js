@@ -1,3 +1,12 @@
+/*
+index.js
+
+Javascript file for the index.html page.
+Majority of methods are used to pass data between input areas and the Store.
+
+Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
+*/
+
 const { dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
