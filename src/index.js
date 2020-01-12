@@ -39,11 +39,7 @@ const store = new Store();
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
-    console.log('loading file from:');
-    console.log(value.filePaths[0]);
     store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
-    console.log('loaded:');
-    console.log(store.store);
     setLoadedValues();
   });
 
@@ -64,8 +60,6 @@ function refreshOrderNumberDisplay() {
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
-    console.log('setting img directory to:');
-    console.log(value.filePaths[0]);
     store.set('img_location', value.filePaths[0]);
     document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/hoodieSample.jpg');
     document.getElementById('color_img').setAttribute('src',value.filePaths[0]+'/color_green.png');
@@ -80,7 +74,6 @@ document.getElementById("img_btn").addEventListener("click", function(){
 document.getElementById("save_btn").addEventListener("click", function(){
   const save_promise = dialog.showSaveDialog({defaultPath: './clothing_order.json'});
   save_promise.then(function(value) {
-    console.log('saving at: ' + value.filePath);
     fs.writeFileSync(value.filePath, JSON.stringify(store.store), 'utf-8');
   });
 });
@@ -247,5 +240,4 @@ function refreshStore(){
   setUpdateListener("back");
   setUpdateListener("hood");
   setUpdateListener("other_comment");
-
 }
