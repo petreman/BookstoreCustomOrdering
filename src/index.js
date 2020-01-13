@@ -54,7 +54,7 @@ document.getElementById("new_order_btn").addEventListener("click", function(){
 })
 
 function refreshOrderNumberDisplay() {
-  document.getElementById("order_num_disp").innerHTML = store.get("order_num", "ORDER NUM NOT SET");
+  document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
 }
 
 document.getElementById("img_btn").addEventListener("click", function(){
@@ -248,4 +248,5 @@ function refreshStore(){
   setUpdateListener("back");
   setUpdateListener("hood");
   setUpdateListener("other_comment");
+
 }
