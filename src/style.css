@@ -13,10 +13,13 @@ p {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-select {
-  font-size: 30px;
-  font-family: sans-serif, "Open Sans", Arial;
+.center{
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  width:100%;
 }
+
 p.pos_fixed{
   position:fixed;
   top:50px;
@@ -33,7 +36,9 @@ textarea{
 select{
   margin:10px 5%; 
   width:90%; 
-  height:50px
+  height:50px;
+  font-size: 30px;
+  font-family: sans-serif, "Open Sans", Arial;
 }
 
 body{
@@ -189,6 +194,7 @@ div.sidediv{
   border:1px solid black;
   width:50%; 
   height:auto; 
+  position: relative;
 }
 
 .wrapper {
