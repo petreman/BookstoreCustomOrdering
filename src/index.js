@@ -212,7 +212,15 @@ function setLoadedValues(){
 
 function setLoadedText(name){
 
-  let textName = name + "_text";
+  let textName;
+
+  if (name != "other_comment"){
+    textName = name + "_text";
+  }
+
+  else {
+    textName = "other_comment";
+  }
 
   if (store.get(textName) != "n/a" || store.get(textName) != "undefined"){
     document.getElementById(textName).value = store.get(textName);
