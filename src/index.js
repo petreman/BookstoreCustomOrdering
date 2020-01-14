@@ -200,7 +200,7 @@ function setLoadedValues(){
   switch (store.get("clothing_type").toLowerCase()){
     case "hoodie":
       index = 0;
-      document.getElementById("hood_option").style.display = "block"
+      document.getElementById("hood_option").style.display = "flex"
       break;
     
     case "crewneck":
