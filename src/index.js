@@ -16,8 +16,8 @@ const export_template = `
   <html>
   <body>
   <h1>Order number {{order_num}}</h1>
-  <p>Color: {{color}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
+  <p>Color: {{color}}</p>
   <p>Text on Front: {{front_text}}</p>
   <p>Text on Left Arm: {{left_arm_text}}</p>
   <p>Text on Right Arm: {{right_arm_text}}</p>
