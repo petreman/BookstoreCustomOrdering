@@ -7,7 +7,7 @@ Majority of methods are used to pass data between input areas and the Store.
 Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
 */
 
-const { dialog, BrowserWindow } = require('electron').remote;
+const { app, dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
 const fs = require('fs');
@@ -34,7 +34,24 @@ const print_options = {
   printSelectionOnly: false,
   pageSize: "A4",
 };
-const store = new Store();
+
+let store;
+try {
+  const store_path = app.getPath('userData') + '/config.json';
+  console.log(store_path);
+  const store_data = JSON.parse(fs.readFileSync(store_path));
+  console.log(store_data);
+  store = new Store();
+  store.store = store_data;
+  setLoadedValues();
+} catch {
+  console.log('failed to load data');
+  store = new Store();
+}
+
+if( store.get('img_location')) {
+  loadImages();
+}
 
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
@@ -61,15 +78,20 @@ document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
     store.set('img_location', value.filePaths[0]);
-    document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/type_img.png');
-    document.getElementById('color_img').setAttribute('src',value.filePaths[0]+'/color_img.png');
-    document.getElementById('front_img').setAttribute('src',value.filePaths[0]+'/front_img.png');
-    document.getElementById('left_arm_img').setAttribute('src',value.filePaths[0]+'/left_arm_img.png');
-    document.getElementById('right_arm_img').setAttribute('src',value.filePaths[0]+'/right_arm_img.png');
-    document.getElementById('back_img').setAttribute('src',value.filePaths[0]+'/back_img.png');
-    document.getElementById('hood_img').setAttribute('src',value.filePaths[0]+'/hood_img.png');
+    loadImages();
   });
 });
+
+function loadImages() {
+  const img_dir = store.get('img_location');
+  document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
+  document.getElementById('color_img').setAttribute('src', img_dir + '/color_img.png');
+  document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
+  document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
+  document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
+  document.getElementById('back_img').setAttribute('src', img_dir + '/back_img.png');
+  document.getElementById('hood_img').setAttribute('src', img_dir + '/hood_img.png');
+}
 
 document.getElementById("save_btn").addEventListener("click", function(){
   const save_promise = dialog.showSaveDialog({defaultPath: './clothing_order.json'});
@@ -175,7 +197,7 @@ function setLoadedValues(){
 
   refreshOrderNumberDisplay();
 
-  switch (store.get("clothing_type")){
+  switch (store.get("clothing_type").toLowerCase()){
     case "hoodie":
       index = 0;
       document.getElementById("hood_option").style.display = "block"
@@ -189,7 +211,7 @@ function setLoadedValues(){
     
   document.getElementById("type_select").selectedIndex = index;
 
-  switch (store.get("color").toUpperCase()){
+  switch (store.get("color").toLowerCase()){
     case "green":
       index = 0;
       break;
