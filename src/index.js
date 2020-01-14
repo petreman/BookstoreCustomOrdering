@@ -63,11 +63,11 @@ document.getElementById("img_btn").addEventListener("click", function(){
     store.set('img_location', value.filePaths[0]);
     document.getElementById('type_img').setAttribute('src',value.filePaths[0]+'/type_img.png');
     document.getElementById('color_img').setAttribute('src',value.filePaths[0]+'/color_img.png');
-    document.getElementById('front_img').setAttribute('src',value.filePaths[0]+'/front_img.jpg');
+    document.getElementById('front_img').setAttribute('src',value.filePaths[0]+'/front_img.png');
     document.getElementById('left_arm_img').setAttribute('src',value.filePaths[0]+'/left_arm_img.png');
     document.getElementById('right_arm_img').setAttribute('src',value.filePaths[0]+'/right_arm_img.png');
     document.getElementById('back_img').setAttribute('src',value.filePaths[0]+'/back_img.png');
-    document.getElementById('hood_img').setAttribute('src',value.filePaths[0]+'/hood_img.jpg');
+    document.getElementById('hood_img').setAttribute('src',value.filePaths[0]+'/hood_img.png');
   });
 });
 
