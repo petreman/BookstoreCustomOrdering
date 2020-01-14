@@ -129,7 +129,7 @@ document.getElementById("type_select").addEventListener("change", function(){
   let hoodOption = document.getElementById("hood_option");
 
   if (strTypeSelection == "Hoodie"){
-    hoodOption.style.display = "block"
+    hoodOption.style.display = "flex"
   }
 
   else {
