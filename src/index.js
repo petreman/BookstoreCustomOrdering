@@ -244,12 +244,12 @@ function setLoadedText(name){
     textName = "other_comment";
   }
 
-  if (store.get(textName) != "n/a" || store.get(textName) != "undefined"){
-    document.getElementById(textName).value = store.get(textName);
+  if (store.get(textName) === "n/a" || store.get(textName) === "undefined"){
+    document.getElementById(textName).value = "";
   }
 
   else{
-    document.getElementById(textName).value = "";
+    document.getElementById(textName).value = store.get(textName);
   }
 
 }
@@ -258,11 +258,11 @@ function refreshStore(){
   
   //type
   let type_init = document.getElementById("type_select");
-  store.set('clothing_type', type_init.options[type_init.selectedIndex].text);
+  store.set('clothing_type', type_init.options[type_init.selectedIndex].value);
 
   //color
   let color_init = document.getElementById("color_select");
-  store.set('color', color_init.options[color_init.selectedIndex].text);
+  store.set('color', color_init.options[color_init.selectedIndex].value);
 
   setUpdateListener("front");
   setUpdateListener("left_arm");
