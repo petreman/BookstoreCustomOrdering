@@ -272,3 +272,28 @@ function refreshStore(){
   setUpdateListener("other_comment");
 
 }
+
+function nextSection(currentSection){
+
+  let nextSection;
+
+  switch (currentSection){
+    case "welcome_section":
+      nextSection = "type_section"
+      document.getElementById("prev_button").disabled = true;
+      document.getElementById("nav").style.display = "table";
+      break;
+
+  }
+
+  document.getElementById(currentSection).style.display = "none";
+  document.getElementById(nextSection).style.display = "flex";
+
+}
+
+document.getElementById("welcome_new").addEventListener("click", function(){
+  nextSection("welcome_section");
+
+});
+
+document.getElementById("nav").style.display = "none";

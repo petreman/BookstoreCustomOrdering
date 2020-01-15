@@ -15,7 +15,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
   </head>
 
   <header>
-    <nav><ul style="text-align:center">
+    <nav><ul>
       <li><button id="new_order_btn" class="menu_btn">New Order</button></li>
       <li><button id="save_btn" class="menu_btn">Save Order</button></li>
       <li><button id="load_btn" class="menu_btn">Load Order</button></li>
@@ -27,41 +27,60 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
   <body>
 
-    <div class="wrapper">
+    <div id="welcome_section">
+      
+        <h1>Welcome</h1>
+        <ul>
+          <li><button id="welcome_new">New Order</button i></li>
+          <li><button>Load Order</button></li>
+        </ul>  
+      
+    </div>
+  
+    <div class="wrapper" id="type_section">
+      
       <div class="sidediv">
-        <div class="center">
-          <p>Do you want a hoodie or crewneck?</p>
+        
+          <p>Clothing Type</p>
           <select id="type_select">
+            <option value="none">--</option>
             <option value="hoodie">Hoodie</option>
             <option value="crewneck">Crewneck</option>
           </select>
-        </div>
-      </div>
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="type_img" alt="This is hoodie" width="100%" height="auto">
-      </div>
-    </div>
-
-    <div class="wrapper">
-      <div class="sidediv">
-        <div class="center">
-          <p>What color do you want?</p>
+        
+          <p>Color</p>
           <select id="color_select">
+            <option value="none">--</option>
             <option value="green">Green</option>
             <option value="gray">Gray</option>
           </select>
-        </div>
+
+          <p>Size</p>
+          <select id="size_select">
+            <option value="none">--</option>
+            <option value="2XS">2XS</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="2XL">2XL</option>
+          </select>
+
       </div>
+
       <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="color_img" alt="This is color" width="100%" height="auto">
+        <img border="0" src="./images/img_not_loaded.png" id="type_img" alt="This is hoodie" width="100%" height="auto">
       </div>
+
     </div>
+  </div>
 
     <div class="wrapper">
       <div class="sidediv">
         <div class="center">
           <div id= front_option>
-            <p id= "front-text-input">What text do you want on the front? (If any)</p>
+            <p id= "front-text-input">What do you want on the front (if applicable)?</p>
             <textarea id="front_text" rows="2" name="front" cols="20"></textarea>
           </div> 
         </div>
@@ -76,7 +95,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
         <div class="center">
           
           <div id="left_arm_option">
-            <p>What text do you want on the left arm? (If any)</p>
+            <p>What do you want on the left arm (if applicable)?</p>
             <textarea id= "left_arm_text" rows="2" name="leftArm" cols="20"></textarea>
           </div>
         </div>
@@ -90,7 +109,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <div class="sidediv">
         <div class="center">
           <div id="right_arm_option">
-            <p>What text do you want on the right arm? (If any)</p>
+            <p>What do you want on the right arm (if applicable)?</p>
             <textarea id="right_arm_text" rows="2" name="rightArm" cols="20"></textarea>
           </div>
         </div>
@@ -104,7 +123,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <div class="sidediv">
         <div class="center">
           <div id="back_option">
-            <p>What text do you want on the back? (If any)</p>
+            <p>What do you want on the back (if applicable)?</p>
             <textarea id="back_text" rows="2" name="back" cols="20"></textarea>
           </div>
         </div>
@@ -118,7 +137,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <div class="sidediv">
         <div class="center">
           <div id="hood_toggle">
-            <p>What text do you want on the hood? (If any)</p>
+            <p>What do you want on the front (if applicable)?</p>
             <textarea id="hood_text" rows="2" name="hood" cols="20"></textarea>
           </div>
         </div>
@@ -131,7 +150,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper">
       <div class="sidediv">
         <div class="center">
-          <p>Other comments</p>
+          <p>Other Comments</p>
           <textarea id="other_comment" rows="2" name="remark" cols="20"></textarea>
         </div>
       </div>
@@ -139,6 +158,14 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
         <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
       </div>
     </div> 
+
+    <header id="footer">
+      <ul id="nav">
+        <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
+        <li id="next_section"><button class="menu_btn">Next</button></li>
+      </ul id>
+    </header>
+
   <!--We are using node <script>document.write(process.versions.node)</script>,
 >>>>>>> html_CSS_1.0
     Chrome <script>document.write(process.versions.chrome)</script>,
