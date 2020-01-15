@@ -128,19 +128,19 @@ document.getElementById("type_select").addEventListener("change", function(){
   let strTypeSelection = this.options[this.selectedIndex].text;
   let hoodOption = document.getElementById("hood_option");
 
-  if (strTypeSelection == "Hoodie"){
-    hoodOption.style.display = "flex"
-  }
-
-  else {
-    hoodOption.style.display = "none"
-  }
+  defaultCheck("welcome_section");
 
 });
 
 document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
+  defaultCheck("welcome_section");
 });
+
+document.getElementById("size_select").addEventListener("change", function(){
+  store.set("size", this.value);
+  defaultCheck("welcome_section");
+});  
 
 document.getElementById("front_text").addEventListener("change", function(){
   setUpdateListener("front")
@@ -281,7 +281,9 @@ function nextSection(currentSection){
     case "welcome_section":
       nextSection = "type_section"
       document.getElementById("prev_button").disabled = true;
+      document.getElementById("next_button").disabled = true;
       document.getElementById("nav").style.display = "table";
+      defaultCheck(currentSection);
       break;
 
   }
@@ -297,3 +299,21 @@ document.getElementById("welcome_new").addEventListener("click", function(){
 });
 
 document.getElementById("nav").style.display = "none";
+
+function defaultCheck(section){
+
+  switch (section){
+    case "welcome_section":
+      
+      if (document.getElementById("type_select").value !== "none" &&
+          document.getElementById("color_select").value !== "none" && 
+          document.getElementById("size_select").value !== "none"){
+        document.getElementById("next_button").disabled = false;
+      }
+
+      else {
+        document.getElementById("next_button").disabled = true;
+      }  
+  }
+
+}
