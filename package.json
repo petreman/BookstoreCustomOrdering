@@ -5,6 +5,7 @@
   "description": "An app which allows a student to customize decals on a product before ordering",
   "main": "src/main.js",
   "scripts": {
+    "test:sheets": "node ./src/authenticate_sheets.js",
     "start": "electron-forge start",
     "compile-schema": "ajv compile -s ./src/schema_clothing.json -o ./src/schema_clothing_compiled.js",
     "package": "electron-forge package",
