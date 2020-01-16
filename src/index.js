@@ -11,6 +11,8 @@ const { app, dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
 const fs = require('fs');
+// See sheets.js for example usage
+const { newOrder, updateOrder, getOrders, setSettings, getSetting } = require('./sheets.js');
 const export_template = `
   <!DOCTYPE html>
   <html>

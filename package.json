@@ -47,6 +47,7 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.1.0",
+    "googleapis": "^39.2.0",
     "mustache": "^3.2.1"
   },
   "devDependencies": {
