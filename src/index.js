@@ -19,6 +19,7 @@ const export_template = `
   <p>Name: {{first_name_text}}</p>
   <p>Name: {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
+  <p>Phone number: {{phone_number_text}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
   <p>Text on Front: {{front_text}}</p>
@@ -141,6 +142,22 @@ document.getElementById("type_select").addEventListener("change", function(){
 
 });
 
+document.getElementById("first_name_text").addEventListener("change", function(){
+  setUpdateListener("first_name")
+});
+
+document.getElementById("last_name_text").addEventListener("change", function(){
+  setUpdateListener("last_name")
+});
+
+document.getElementById("email_text").addEventListener("change", function(){
+  setUpdateListener("email")
+});
+
+document.getElementById("phone_number_text").addEventListener("change", function(){
+  setUpdateListener("phone_number")
+});
+
 document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
 });
@@ -167,18 +184,6 @@ document.getElementById("hood_text").addEventListener("change", function(){
 
 document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
-});
-
-document.getElementById("first_name_text").addEventListener("change", function(){
-  setUpdateListener("first_name")
-});
-
-document.getElementById("last_name_text").addEventListener("change", function(){
-  setUpdateListener("last_name")
-});
-
-document.getElementById("email_text").addEventListener("change", function(){
-  setUpdateListener("email")
 });
 
 function setUpdateListener(name){
@@ -238,16 +243,16 @@ function setLoadedValues(){
 
   document.getElementById("color_select").selectedIndex = index;
 
+  setLoadedText("first_name");
+  setLoadedText("last_name");
+  setLoadedText("email");
+  setLoadedText("phone_number");
   setLoadedText("front");
   setLoadedText("left_arm");
   setLoadedText("right_arm");
   setLoadedText("back");
   setLoadedText("hood");
-  setLoadedText("other_comment");
-  setLoadedText("first_name");
-  setLoadedText("last_name");
-  setLoadedText("email");
-
+  setLoadedText("other_comment")
 }
 
 function setLoadedText(name){
@@ -282,14 +287,14 @@ function refreshStore(){
   let color_init = document.getElementById("color_select");
   store.set('color', color_init.options[color_init.selectedIndex].value);
 
+  setUpdateListener("first_name");
+  setUpdateListener("last_name");
+  setUpdateListener("email");
+  setUpdateListener("phone_number");
   setUpdateListener("front");
   setUpdateListener("left_arm");
   setUpdateListener("right_arm");
   setUpdateListener("back");
   setUpdateListener("hood");
-  setUpdateListener("other_comment");
-  setUpdateListener("first_name");
-  setUpdateListener("last_name");
-  setUpdateListener("email");
-
+  setUpdateListener("other_comment")
 }
