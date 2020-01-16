@@ -44,6 +44,14 @@ validate.schema = {
   "other_comment": {
     "type": "string",
     "default": ""
+  },
+  "name": {
+    "type": "string",
+    "default": ""
+  },
+  "email": {
+    "type": "string",
+    "default": ""
   }
 };
 validate.errors = null;

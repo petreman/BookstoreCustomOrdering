@@ -166,6 +166,14 @@ document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
 
+document.getElementById("name").addEventListener("change", function(){
+  setUpdateListener("name")
+});
+
+document.getElementById("email").addEventListener("change", function(){
+  setUpdateListener("email")
+});
+
 function setUpdateListener(name){
 
   let textName;
