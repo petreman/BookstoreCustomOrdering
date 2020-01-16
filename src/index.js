@@ -81,6 +81,10 @@ document.getElementById("next_button").addEventListener("click", function(){
   goToNextSection();
 });
 
+document.getElementById("prev_button").addEventListener("click", function(){
+  goToPrevSection();
+});
+
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
@@ -270,27 +274,61 @@ function updateStore(){
 }
 
 /**
+ * Goes to the previous section based on what the current one is
+ * For now it is a switch case. Once I get it working I'll
+ * modify it into something simpler
+ * -Keegan
+ */
+function goToPrevSection(){
+  
+  let prevSection;
+
+  switch (currentSection){
+    case "front_section":
+      prevSection = "type_section";
+      document.getElementById("prev_button").disabled = true;
+      defaultCheck(prevSection);
+  }
+
+  document.getElementById(currentSection).style.display = "none";
+  document.getElementById(prevSection).style.display = "flex";
+  currentSection = prevSection;
+
+  checkIfWelcomeSection();
+
+}
+
+/**
  * Goes to the next section based on what the current one is
+ * For now it is a switch case. Once I get it working I'll
+ * modify it into something simpler
+ * -Keegan
  */
 function goToNextSection(){
+
+  let nextSection;
 
   switch (currentSection){
     
     case "welcome_section":
-      nextSection = "type_section"
+      nextSection = "type_section";
       document.getElementById("prev_button").disabled = true;
       document.getElementById("nav").style.display = "table";
       defaultCheck(nextSection);
       break;
 
     case "type_section":
-      nextSection = "front_section"
+      nextSection = "front_section";
       document.getElementById("prev_button").disabled = false;
       document.getElementById("next_button").disabled = true;
-      document.getElementById(currentSection).style.display = "none";
-      document.getElementById(nextSection).style.display = "flex";
       defaultCheck(nextSection);
       break;
+
+    case "front_section":
+      nextSection = "left_arm_section";  
+      document.getElementById("prev_button").disabled = false;
+      document.getElementById("next_button").disabled = true;
+      //defaultCheck(nextSection);
 
   }
 
