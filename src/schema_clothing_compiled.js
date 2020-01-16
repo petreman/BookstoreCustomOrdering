@@ -17,7 +17,7 @@ validate.schema = {
     "type": "string",
     "default": "./clothing_images"
   },
-  "clothing_type": {
+  "type": {
     "type": "string",
     "default": ""
   },
@@ -41,7 +41,7 @@ validate.schema = {
     "type": "string",
     "default": ""
   },
-  "other_comment": {
+  "comment_text": {
     "type": "string",
     "default": ""
   }

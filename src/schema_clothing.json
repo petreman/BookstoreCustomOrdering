@@ -7,11 +7,11 @@
   "img_location":   { 
     "type": "string", 
     "default": "./clothing_images" },
-  "clothing_type":  { "type": "string", "default": "" },
+  "type":  { "type": "string", "default": "" },
   "front_text":     { "type": "string", "default": "" },
   "left_arm_text":  { "type": "string", "default": "" },
   "right_arm_text": { "type": "string", "default": "" },
   "back_text":      { "type": "string", "default": "" },
   "hood_text":      { "type": "string", "default": "" },
-  "other_comment":  { "type": "string", "default": "" }
+  "comment_text":  { "type": "string", "default": "" }
 }

@@ -16,14 +16,14 @@ const export_template = `
   <html>
   <body>
   <h1>Order #{{order_num}}</h1>
-  <p>Clothing Type: {{clothing_type}}</p>
+  <p>Clothing Type: {{type}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
   <p>Right Arm: {{right_arm_text}}</p>
   <p>Back: {{back_text}}</p>
   <p>Hood: {{hood_text}}</p>
-  <p>Other Comments: {{other_comment}}</p>
+  <p>Other Comments: {"comment_text"}</p>
   </body>
   </html>
 `
@@ -44,35 +44,51 @@ try {
   console.log(store_data);
   store = new Store();
   store.store = store_data;
-  setLoadedValues();
+  setFromStore();
 } catch {
   console.log('failed to load data');
   store = new Store();
 }
 
-if( store.get('img_location')) {
+if(store.get('img_location')) {
   loadImages();
 }
 
-var type;
-var currentSection = "welcome_section";
+//variables
+let type; //will be used to check if hood option should be taken
+let currentSection = "welcome_section";
+let selects = ["type", "color", "size"];
+let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
-//hide prev and next on first screen
-document.getElementById("nav").style.display = "none";
-document.getElementById("order_num_disp").style.display = "none";
+//initialization
+updateStore();
+disableNavButtons();
+setSelectListeners();
+setTextListeners();
+
+document.getElementById("welcome_new").addEventListener("click", function(){
+  const new_date = new Date();
+  const date_str = new_date.getTime().toString();
+  store.clear();
+  store.set('order_num', date_str.substring(0, date_str.length-3));
+  refreshOrderNumberDisplay();
+  document.getElementById("order_num_disp").style.display = "inline-block";
+  goToNextSection();
+  setDefaults();
+});
+
+document.getElementById("next_button").addEventListener("click", function(){
+  goToNextSection();
+});
 
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
     store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
-    setLoadedValues();
+    setFromStore();
   });
 
 });
-
-function refreshOrderNumberDisplay() {
-  document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
-}
 
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
@@ -101,7 +117,7 @@ document.getElementById("save_btn").addEventListener("click", function(){
 });
 
 document.getElementById("export_btn").addEventListener("click", function(){
-  refreshStore();
+  updateStore();
   window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
   fs.writeFileSync("./temp.html", Mustache.to_html(export_template, store.store));
   window_to_PDF.loadFile("./temp.html"); //give the file link you want to display
@@ -118,83 +134,64 @@ document.getElementById("export_btn").addEventListener("click", function(){
         console.log(error)
     });
   });
-});
-
-//initialization
-refreshStore();
-
-document.getElementById("type_select").addEventListener("change", function(){
-  store.set('clothing_type', this.value);
-  type = this.value;
-  defaultCheck("type_section");
-});
-
-document.getElementById("color_select").addEventListener("change", function(){
-  store.set('color', this.value);
-  defaultCheck("type_section");
-});
-
-document.getElementById("size_select").addEventListener("change", function(){
-  store.set("size", this.value);
-  defaultCheck("type_section");
 });  
 
-document.getElementById("front_text").addEventListener("change", function(){
-  setUpdateListener("front")
-});
-
-document.getElementById("left_arm_text").addEventListener("change", function(){
-  setUpdateListener("left_arm");
-});
-
-document.getElementById("right_arm_text").addEventListener("change", function(){
-  setUpdateListener("right_arm");
-});
-
-document.getElementById("back_text").addEventListener("change", function(){
-  setUpdateListener("back");
-});
-
-document.getElementById("hood_text").addEventListener("change", function(){
-  setUpdateListener("hood");
-});
-
-document.getElementById("other_comment").addEventListener("change", function(){
-  setUpdateListener("other_comment");
-});
-
-function setUpdateListener(name){
-
-  let textName;
-
-  if (name != "other_comment"){
-    textName = name + "_text";
-  }
-
-  else {
-    textName = "other_comment";
-  }
+function setSelectListeners(){
   
-  let textContent = document.getElementById(textName).value;
-  
-  //empty message box is the same as "n/a"
-  if (textContent != ''){
-    store.set(textName, textContent);
-  }
-  
-  else{
-    store.set(textName, "n/a");
+  for (let i = 0 ; i < selects.length ; i++){
+    
+    document.getElementById((selects[i] + "_select")).addEventListener("change", function(){
+      
+      store.set(selects[i], this.value);
+      
+      //even though the selects are all uniquely names, they are all placed
+      //in the "type" section
+      defaultCheck("type_section");
+
+      if (i === "type"){
+        type = this.value;
+      }
+
+    });
+
   }
 
 }
 
-function setLoadedValues(){
+/**
+ * Sets all the listeners for text input areas
+ */
+function setTextListeners(){
+
+  for (let i = 1 ; i < customizationSections.length ; i++){
+    document.getElementById( (customizationSections[i] + "_text") ).addEventListener("change", function(){
+      updateStoreFromTextArea(i);
+    });
+  }
+
+}
+
+function refreshOrderNumberDisplay() {
+  document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
+}
+
+function enableNavButtons(){
+  document.getElementById("nav").style.display = "flex";
+  document.getElementById("order_num_disp").style.display = "flex";
+}
+
+function disableNavButtons(){
+  document.getElementById("nav").style.display = "none";
+  document.getElementById("order_num_disp").style.display = "none";
+}
+
+function setFromStore(){
 
   let index = 0;
 
   refreshOrderNumberDisplay();
 
-  switch (store.get("clothing_type").toLowerCase()){
+  switch (store.get("type").toLowerCase()){
     case "hoodie":
       index = 0;
       type = "hoodie"
@@ -220,27 +217,16 @@ function setLoadedValues(){
 
   document.getElementById("color_select").selectedIndex = index;
 
-  setLoadedText("front");
-  setLoadedText("left_arm");
-  setLoadedText("right_arm");
-  setLoadedText("back");
-  setLoadedText("hood");
-  setLoadedText("other_comment");
+  for (i = 1 ; i < customizationSections.length ; i++){
+    setTextAreaFromStore(customizationSections[i]);
+  }
 
 }
 
-function setLoadedText(name){
+function setTextAreaFromStore(name){
 
-  let textName;
-
-  if (name != "other_comment"){
-    textName = name + "_text";
-  }
-
-  else {
-    textName = "other_comment";
-  }
-
+  let textName = name + "_text";
+  
   if (store.get(textName) === "n/a" || store.get(textName) === "undefined"){
     document.getElementById(textName).value = "";
   }
@@ -251,32 +237,48 @@ function setLoadedText(name){
 
 }
 
-function refreshStore(){
+function updateStoreFromTextArea(name){
+
+  let textName = name + "_text";
+  let textContent = document.getElementById(textName).value;
+  
+  //empty message box is the same as "n/a"
+  if (textContent != ''){
+    store.set(textName, textContent);
+  }
+  
+  else{
+    store.set(textName, "n/a");
+  }
+
+}
+
+function updateStore(){
   
   //type
   let type_init = document.getElementById("type_select");
-  store.set('clothing_type', type_init.options[type_init.selectedIndex].value);
+  store.set('type', type_init.options[type_init.selectedIndex].value);
 
   //color
   let color_init = document.getElementById("color_select");
   store.set('color', color_init.options[color_init.selectedIndex].value);
 
-  setUpdateListener("front");
-  setUpdateListener("left_arm");
-  setUpdateListener("right_arm");
-  setUpdateListener("back");
-  setUpdateListener("hood");
-  setUpdateListener("other_comment");
+  for (i = 1 ; i < customizationSections.length ; i++){
+    updateStoreFromTextArea(customizationSections[i]);
+  }
 
 }
 
+/**
+ * Goes to the next section based on what the current one is
+ */
 function goToNextSection(){
 
   switch (currentSection){
+    
     case "welcome_section":
       nextSection = "type_section"
       document.getElementById("prev_button").disabled = true;
-      document.getElementById("next_button").disabled = true;
       document.getElementById("nav").style.display = "table";
       defaultCheck(nextSection);
       break;
@@ -289,29 +291,24 @@ function goToNextSection(){
       document.getElementById(nextSection).style.display = "flex";
       defaultCheck(nextSection);
       break;
+
   }
 
   document.getElementById(currentSection).style.display = "none";
   document.getElementById(nextSection).style.display = "flex";
   currentSection = nextSection;
 
+  checkIfWelcomeSection();
+
 }
 
-document.getElementById("welcome_new").addEventListener("click", function(){
-  const new_date = new Date();
-  const date_str = new_date.getTime().toString();
-  store.clear();
-  store.set('order_num', date_str.substring(0, date_str.length-3));
-  refreshOrderNumberDisplay();
-  document.getElementById("order_num_disp").style.display = "inline-block";
-  goToNextSection();
-  setDefaults();
-});
-
-document.getElementById("next_button").addEventListener("click", function(){
-  goToNextSection();
-});
-
+/**
+ * Checks to see if the provided section has any default/unchanged values. If there are,
+ * can't progress to the next section.
+ * 
+ * @param {*} section - the section to be checking
+ * 
+ */
 function defaultCheck(section){
 
   switch (section){
@@ -336,10 +333,11 @@ function defaultCheck(section){
 }
 
 /**
- * Sets all changeable areas to their default values
- * Inteneded to be used when a new order is started
+ * Sets all changeable areas to their default values.
+ * Inteneded to be used when a new order is started.
  */
 function setDefaults(){
+  
   document.getElementById("type_select").selectedIndex = 0;
   document.getElementById("color_select").selectedIndex = 0;
   document.getElementById("size_select").selectedIndex = 0;
@@ -349,5 +347,20 @@ function setDefaults(){
   document.getElementById("right_arm_text").value = "";
   document.getElementById("back_text").value = "";
   document.getElementById("hood_text").value = "";
+
+}
+
+/**
+ * Hides the prev and next buttons if on the welcome screen
+ */ 
+function checkIfWelcomeSection(){
+  
+  if (currentSection === "welcome_section"){
+    disableNavButtons();
+  }
+  
+  else {
+    enableNavButtons();
+  }
 
 }
