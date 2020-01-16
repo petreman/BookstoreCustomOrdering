@@ -103,7 +103,7 @@ function updateOrderCallback(auth, request_vals, callback) {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-function getOrdersCallback(auth, request, callback) {
+function getOrderCallback(auth, request, callback) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get(request, callback);
 }
@@ -125,7 +125,7 @@ function setSettingsCallback(auth, request_vals, callback) {
   sheets.spreadsheets.values.update(request, callback);
 }
 
-function getSettingCallback(auth, request, callback) {
+function getSettingsCallback(auth, request, callback) {
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.get(request, callback);
 }
@@ -134,41 +134,70 @@ module.exports = {
   // Example request:
   // {
   //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "range": "Orders!A2:O",
-  //   "values": [[
+  //   "values": [
   //     "New Order", "New Order 2"
-  //   ]]
+  //   ]
   // }
   newOrder: (request, callback) => {
-    return opSheet(newOrderCallback, request, callback);
+
+    return opSheet(newOrderCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "Orders!B2:P",
+      "values": [
+        request.values
+      ]
+    }, callback);
   },
 
   // Example request:
   // {
   //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "range": "Orders!A3:B",
-  //   "values": [[
-  //     "Order 4 Updated", "updated"
-  //   ]]
+  //   "row": "3",
+  //   "column_range": ["A", "B"]
+  //   "values": [
+  //     "Order 4 Updated", "B column value"
+  //   ]
   // }
   updateOrder: (request, callback) => {
-    return opSheet(updateOrderCallback, request, callback);
+    if (request.column_range[0] == "A") {
+      console.error("DENIED ACCESS TO COLUMN A: CANNOT MODIFY Order Number!");
+      return;
+    }
+    return opSheet(updateOrderCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "Orders!".concat(
+        request.column_range[0], 
+        request.row, 
+        ":", 
+        request.column_range[1]
+      ),
+      "values": [
+        request.values
+      ]
+    }, callback);
   },
 
   // Example request:
   // {
   //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   range: 'Completed Orders!A2:O',
+  //   row: "2",
   // }
-  getOrders: (request, callback) => {
-    return opSheet(getOrdersCallback, request, callback);
+  getOrder: (request, callback) => {
+    return opSheet(getOrderCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "Orders!".concat(
+        "A",
+        request.row,
+        ":P"
+      )
+    }, callback);
   },
 
   // Example request:
   // {
   //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "range": "App Settings!B2:B",
-  //   "values": [["~/Desktop/clothing_images/",
+  //   "range": ["2", ""],
+  //   "values": ["~/Desktop/clothing_images/",
   //     "30.5",
   //     "25.5",
   //     "10.5",
@@ -178,25 +207,46 @@ module.exports = {
   //     "3.5",
   //     "4.5",
   //     "2.5"
-  //   ]]
+  //   ]
   // }
   setSettings: (request, callback) => {
-    return opSheet(setSettingsCallback, request, callback);
+    if (request.range[0] == "1") {
+      console.error("INVALID ROW RANGE ACCESSED: DO NOT ACCESS HEADERS!");
+      return;
+    }
+    return opSheet(setSettingsCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "App Settings!B".concat(
+        request.range[0],
+        ":B",
+        request.range[1]
+      ),
+      "values": [
+        request.values
+      ]
+    }, callback);
   },
 
   // Example request:
   // {
   //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   range: 'App Settings!B2:B',
+  //   range: ["2", ""]
   // }
-  getSetting: (request, callback) => {
-    return opSheet(getSettingCallback, request, callback);
+  getSettings: (request, callback) => {
+    return opSheet(getSettingsCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "App Settings!A".concat(
+        request.range[0],
+        ":B",
+        request.range[1]
+      )
+    }, callback);
   }
 
   // Example usage:
   // getSetting({
   //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   range: 'App Settings!B2:B'
+  //   range: ["2", ""]
   //   },
   //   function(err, res) {
   //     if (err) console.log(err);
