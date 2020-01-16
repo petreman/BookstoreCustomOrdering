@@ -197,12 +197,12 @@ function setLoadedValues(){
   switch (store.get("clothing_type").toLowerCase()){
     case "hoodie":
       index = 0;
-      document.getElementById("hood_option").style.display = "flex"
+      type = "hoodie"
       break;
     
     case "crewneck":
       index = 1;
-      document.getElementById("hood_option").style.display = "none"
+      type = "crewneck"
       break;
   }
     
@@ -270,7 +270,7 @@ function refreshStore(){
 
 }
 
-function nextSection(){
+function goToNextSection(){
 
   switch (currentSection){
     case "welcome_section":
@@ -293,6 +293,7 @@ function nextSection(){
 
   document.getElementById(currentSection).style.display = "none";
   document.getElementById(nextSection).style.display = "flex";
+  currentSection = nextSection;
 
 }
 
@@ -303,11 +304,12 @@ document.getElementById("welcome_new").addEventListener("click", function(){
   store.set('order_num', date_str.substring(0, date_str.length-3));
   refreshOrderNumberDisplay();
   document.getElementById("order_num_disp").style.display = "inline-block";
-  nextSection("welcome_section");
+  goToNextSection();
+  setDefaults();
 });
 
 document.getElementById("next_button").addEventListener("click", function(){
-  nextSection(currentSection);
+  goToNextSection();
 });
 
 function defaultCheck(section){
@@ -330,5 +332,22 @@ function defaultCheck(section){
     case "front_section": 
       break;
   }
+
+}
+
+/**
+ * Sets all changeable areas to their default values
+ * Inteneded to be used when a new order is started
+ */
+function setDefaults(){
+  document.getElementById("type_select").selectedIndex = 0;
+  document.getElementById("color_select").selectedIndex = 0;
+  document.getElementById("size_select").selectedIndex = 0;
+  
+  document.getElementById("front_text").value = "";
+  document.getElementById("left_arm_text").value = "";
+  document.getElementById("right_arm_text").value = "";
+  document.getElementById("back_text").value = "";
+  document.getElementById("hood_text").value = "";
 
 }
