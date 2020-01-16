@@ -152,7 +152,7 @@ function setSelectListeners(){
       //in the "type" section
       defaultCheck("type_section");
 
-      if (i === "type"){
+      if (selects[i] === "type"){
         type = this.value;
       }
 
@@ -293,18 +293,45 @@ function goToPrevSection(){
   let prevSection;
 
   switch (currentSection){
+    
+    case "welcome_section":
+      break;
+
     case "front_section":
       prevSection = "type_section";
       document.getElementById("prev_button").disabled = true;
-      defaultCheck(prevSection);
       break;
 
     case "left_arm_section":
       prevSection = "front_section";
-      defaultCheck(prevSection);
+      break;
+      
+    case "right_arm_section":  
+      prevSection = "left_arm_section";
+      break;
+
+    case "back_section":  
+      prevSection = "right_arm_section";
       break;  
+
+    case "hood_section":  
+      prevSection = "back_section";
+      break;  
+
+    case "comment_section":  
+      if (type == "hoodie"){
+        prevSection = "hood_section";
+      }
+
+      else {
+        prevSection = "back_section";
+      }
+
+      break;
+      
   }
 
+  defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
   document.getElementById(prevSection).style.display = "flex";
   currentSection = prevSection;
@@ -329,29 +356,54 @@ function goToNextSection(){
       nextSection = "type_section";
       document.getElementById("prev_button").disabled = true;
       document.getElementById("nav").style.display = "table";
-      defaultCheck(nextSection);
       break;
 
     case "type_section":
       nextSection = "front_section";
       document.getElementById("prev_button").disabled = false;
       document.getElementById("next_button").disabled = true;
-      defaultCheck(nextSection);
       break;
 
     case "front_section":
       nextSection = "left_arm_section";  
       document.getElementById("prev_button").disabled = false;
-      defaultCheck(nextSection);
       break;
 
     case "left_arm_section":
       nextSection = "right_arm_section";  
-      document.getElementById("prev_button").disabled = false;
-      defaultCheck(nextSection);  
+      document.getElementById("prev_button").disabled = false;  
       break;
 
+    case "right_arm_section":
+      nextSection = "back_section";  
+      document.getElementById("prev_button").disabled = false;  
+      break;  
+
+    case "back_section": 
+      
+      if (type == "hoodie"){
+        nextSection = "hood_section";
+      }
+
+      else {
+        nextSection = "comment_section";
+      }
+      
+      document.getElementById("prev_button").disabled = false;  
+      break; 
+      
+    case "hood_section":
+      nextSection = "comment_section";  
+      document.getElementById("prev_button").disabled = false;  
+      break;
+
+    case "comment_section":
+      //set going to summary page here
+      break;  
+
   }
+
+  defaultCheck(nextSection);
 
   document.getElementById(currentSection).style.display = "none";
   document.getElementById(nextSection).style.display = "flex";
@@ -387,16 +439,41 @@ function defaultCheck(section){
       break;
       
     case "front_section":
-      
-      if (document.getElementById("front_text").value !== "") {
-        document.getElementById("next_button").disabled = false;
-      }
-
-      else {
-        document.getElementById("next_button").disabled = true;
-      }
-
+      nextButtonCheck("front");
       break;
+
+    case "left_arm_section":
+      nextButtonCheck("left_arm");
+      break;
+
+    case "right_arm_section":
+      nextButtonCheck("right_arm");
+      break;
+
+    case "back_section":
+      nextButtonCheck("back");
+      break; 
+      
+    case "hood_section":
+      nextButtonCheck("hood");
+      break; 
+      
+    case "comment_section":
+      nextButtonCheck("comment");
+      break;   
+
+  }
+
+}
+
+function nextButtonCheck(name){
+  
+  if (document.getElementById(name + "_text").value !== "") {
+    document.getElementById("next_button").disabled = false;
+  }
+
+  else {
+    document.getElementById("next_button").disabled = true;
   }
 
 }
