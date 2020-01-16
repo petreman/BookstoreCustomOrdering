@@ -9,12 +9,12 @@ function getCurrentDate() {
 
 const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
 // getNewToken();
-// newOrder({
-//     "spreadsheetId": "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc",
-//     "values": [
-//       "New Order", "New Order 2"
-//     ]
-//   });
+newOrder({
+    "spreadsheetId": "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc",
+    "values": [
+      "New Order using Adam's token", "New Order 2"
+    ]
+  });
 // updateOrder({
 //   "spreadsheetId": spreadsheetId,
 //   "row": "3",

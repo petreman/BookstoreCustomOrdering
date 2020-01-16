@@ -185,7 +185,7 @@ module.exports = {
   newOrder: (request, callback) => {
     opSheet(newOrderCallback, {
       "spreadsheetId": request.spreadsheetId,
-      "range": "Orders!B2:Q",
+      "range": "Orders!A2:Q",
       "values": [
         [null, getCurrentDate()].concat(request.values)
       ]
