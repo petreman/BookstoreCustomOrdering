@@ -16,6 +16,8 @@ const export_template = `
   <html>
   <body>
   <h1>Order number {{order_num}}</h1>
+  <p>Name: {{name}}</p>
+  <p>Email: {{email}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
   <p>Text on Front: {{front_text}}</p>
@@ -166,6 +168,14 @@ document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
 
+document.getElementById("name").addEventListener("change", function(){
+  setUpdateListener("name")
+});
+
+document.getElementById("email").addEventListener("change", function(){
+  setUpdateListener("email")
+});
+
 function setUpdateListener(name){
 
   let textName;
@@ -229,6 +239,8 @@ function setLoadedValues(){
   setLoadedText("back");
   setLoadedText("hood");
   setLoadedText("other_comment");
+  setLoadedText("name");
+  setLoadedText("email");
 
 }
 
@@ -270,5 +282,7 @@ function refreshStore(){
   setUpdateListener("back");
   setUpdateListener("hood");
   setUpdateListener("other_comment");
+  setUpdateListener("name");
+  setUpdateListener("email");
 
 }
