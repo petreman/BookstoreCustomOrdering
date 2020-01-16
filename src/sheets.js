@@ -9,41 +9,10 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // time.
 const TOKEN_PATH = 'token.json';
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
- */
-function getNewToken(oAuth2Client, operationCallback, request, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
-  console.log('Authorize this app by visiting this url:', authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question('Enter the code from that page here: ', (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error while trying to retrieve access token', err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
-      });
-      return operationCallback(oAuth2Client, request, callback);
-    });
-  });
-}
-
 const opSheet = (operationCallback, request, callback) => {
   fs.readFile('credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
-    return authorize(JSON.parse(content), operationCallback, request, callback)
+    authorize(JSON.parse(content), operationCallback, request, callback)
   });
 }
 
@@ -60,9 +29,12 @@ function authorize(credentials, operationCallback, request, callback) {
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getNewToken(oAuth2Client, operationCallback, request, callback);
+    if (err) {
+      console.error("COULD NOT FIND TOKEN, PLEASE GENERATE ONE FIRST!");
+      return;
+    }
     oAuth2Client.setCredentials(JSON.parse(token));
-    return operationCallback(oAuth2Client, request, callback);
+    operationCallback(oAuth2Client, request, callback);
   });
 }
 
@@ -131,6 +103,62 @@ function getSettingsCallback(auth, request, callback) {
 }
 
 module.exports = {
+  getNewToken: () => {
+    fs.readFile('credentials.json', (err, content) => {
+      if (err) return console.log('Error loading client secret file:', err);
+      const oAuth2Client = JSON.parse(content);
+      const authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: SCOPES,
+      });
+      console.log('Authorize this app by visiting this url:', authUrl);
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+      rl.question('Enter the code from that page here: ', (code) => {
+        rl.close();
+        oAuth2Client.getToken(code, (err, token) => {
+          if (err) return console.error('Error while trying to retrieve access token', err);
+          oAuth2Client.setCredentials(token);
+          // Store the token to disk for later program executions
+          fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+            if (err) return console.error(err);
+            console.log('Token stored to', TOKEN_PATH);
+          });
+        });
+      });
+    });
+  },
+
+  getTokenGeneratorURL: (callback) => {
+    fs.readFile('credentials.json', (err, content) => {
+      if (err) return console.log('Error loading client secret file:', err);
+      const oAuth2Client = JSON.parse(content);
+      const authUrl = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: SCOPES,
+      });
+      callback(authUrl);
+    });
+  },
+
+  generateTokenFromURLCode: (code) => {
+    fs.readFile('credentials.json', (err, content) => {
+      if (err) return console.log('Error loading client secret file:', err);
+      const oAuth2Client = JSON.parse(content);
+      oAuth2Client.getToken(code, (err, token) => {
+        if (err) return console.error('Error while trying to retrieve access token', err);
+        oAuth2Client.setCredentials(token);
+        // Store the token to disk for later program executions
+        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+          if (err) return console.error(err);
+          console.log('Token stored to', TOKEN_PATH);
+        });
+      });
+    });
+  },
+  
   // Example request:
   // {
   //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
