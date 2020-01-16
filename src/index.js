@@ -169,7 +169,16 @@ function setTextListeners(){
 
   for (let i = 1 ; i < customizationSections.length ; i++){
     document.getElementById( (customizationSections[i] + "_text") ).addEventListener("change", function(){
-      updateStoreFromTextArea(i);
+      updateStoreFromTextArea(customizationSections[i]);
+
+      if (this.value.trim() == "" && currentSection == (customizationSections[i] + "_section")){
+        document.getElementById("next_button").disabled = true;
+      }
+
+      else {
+        document.getElementById("next_button").disabled = false;
+      }
+
     });
   }
 
@@ -288,6 +297,12 @@ function goToPrevSection(){
       prevSection = "type_section";
       document.getElementById("prev_button").disabled = true;
       defaultCheck(prevSection);
+      break;
+
+    case "left_arm_section":
+      prevSection = "front_section";
+      defaultCheck(prevSection);
+      break;  
   }
 
   document.getElementById(currentSection).style.display = "none";
@@ -327,8 +342,14 @@ function goToNextSection(){
     case "front_section":
       nextSection = "left_arm_section";  
       document.getElementById("prev_button").disabled = false;
-      document.getElementById("next_button").disabled = true;
-      //defaultCheck(nextSection);
+      defaultCheck(nextSection);
+      break;
+
+    case "left_arm_section":
+      nextSection = "right_arm_section";  
+      document.getElementById("prev_button").disabled = false;
+      defaultCheck(nextSection);  
+      break;
 
   }
 
@@ -352,6 +373,7 @@ function defaultCheck(section){
   switch (section){
     
     case "type_section":
+      
       if (document.getElementById("type_select").value !== "none" &&
           document.getElementById("color_select").value !== "none" && 
           document.getElementById("size_select").value !== "none"){
@@ -364,7 +386,16 @@ function defaultCheck(section){
 
       break;
       
-    case "front_section": 
+    case "front_section":
+      
+      if (document.getElementById("front_text").value !== "") {
+        document.getElementById("next_button").disabled = false;
+      }
+
+      else {
+        document.getElementById("next_button").disabled = true;
+      }
+
       break;
   }
 
