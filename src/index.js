@@ -16,7 +16,8 @@ const export_template = `
   <html>
   <body>
   <h1>Order number {{order_num}}</h1>
-  <p>Name: {{name_text}}</p>
+  <p>Name: {{first_name_text}}</p>
+  <p>Name: {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
@@ -168,8 +169,12 @@ document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
 
-document.getElementById("name_text").addEventListener("change", function(){
-  setUpdateListener("name")
+document.getElementById("first_name_text").addEventListener("change", function(){
+  setUpdateListener("first_name")
+});
+
+document.getElementById("last_name_text").addEventListener("change", function(){
+  setUpdateListener("last_name")
 });
 
 document.getElementById("email_text").addEventListener("change", function(){
@@ -239,7 +244,8 @@ function setLoadedValues(){
   setLoadedText("back");
   setLoadedText("hood");
   setLoadedText("other_comment");
-  setLoadedText("name");
+  setLoadedText("first_name");
+  setLoadedText("last_name");
   setLoadedText("email");
 
 }
@@ -282,7 +288,8 @@ function refreshStore(){
   setUpdateListener("back");
   setUpdateListener("hood");
   setUpdateListener("other_comment");
-  setUpdateListener("name");
+  setUpdateListener("first_name");
+  setUpdateListener("last_name");
   setUpdateListener("email");
 
 }
