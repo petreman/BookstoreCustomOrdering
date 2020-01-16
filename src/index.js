@@ -15,18 +15,19 @@ const export_template = `
   <!DOCTYPE html>
   <html>
   <body>
-  <h1>Order number {{order_num}}</h1>
+  <h1>Order #{{order_num}}</h1>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
-  <p>Text on Front: {{front_text}}</p>
-  <p>Text on Left Arm: {{left_arm_text}}</p>
-  <p>Text on Right Arm: {{right_arm_text}}</p>
-  <p>Text on Back: {{back_text}}</p>
-  <p>Text on Hood: {{hood_text}}</p>
-  <p>Other comments: {{other_comment}}</p>
+  <p>Front: {{front_text}}</p>
+  <p>Left Arm: {{left_arm_text}}</p>
+  <p>Right Arm: {{right_arm_text}}</p>
+  <p>Back: {{back_text}}</p>
+  <p>Hood: {{hood_text}}</p>
+  <p>Other Comments: {{other_comment}}</p>
   </body>
   </html>
 `
+
 const print_options = {
   landscape: false,
   marginsType: 0,
@@ -53,6 +54,13 @@ if( store.get('img_location')) {
   loadImages();
 }
 
+var type;
+var currentSection = "welcome_section";
+
+//hide prev and next on first screen
+document.getElementById("nav").style.display = "none";
+document.getElementById("order_num_disp").style.display = "none";
+
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
@@ -61,14 +69,6 @@ document.getElementById("load_btn").addEventListener("click", function(){
   });
 
 });
-
-document.getElementById("new_order_btn").addEventListener("click", function(){
-  const new_date = new Date();
-  const date_str = new_date.getTime().toString();
-  store.clear();
-  store.set('order_num', date_str.substring(0, date_str.length-3));
-  refreshOrderNumberDisplay();
-})
 
 function refreshOrderNumberDisplay() {
   document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
@@ -125,21 +125,18 @@ refreshStore();
 
 document.getElementById("type_select").addEventListener("change", function(){
   store.set('clothing_type', this.value);
-  let strTypeSelection = this.options[this.selectedIndex].text;
-  let hoodOption = document.getElementById("hood_option");
-
-  defaultCheck("welcome_section");
-
+  type = this.value;
+  defaultCheck("type_section");
 });
 
 document.getElementById("color_select").addEventListener("change", function(){
   store.set('color', this.value);
-  defaultCheck("welcome_section");
+  defaultCheck("type_section");
 });
 
 document.getElementById("size_select").addEventListener("change", function(){
   store.set("size", this.value);
-  defaultCheck("welcome_section");
+  defaultCheck("type_section");
 });  
 
 document.getElementById("front_text").addEventListener("change", function(){
@@ -273,9 +270,7 @@ function refreshStore(){
 
 }
 
-function nextSection(currentSection){
-
-  let nextSection;
+function nextSection(){
 
   switch (currentSection){
     case "welcome_section":
@@ -283,9 +278,17 @@ function nextSection(currentSection){
       document.getElementById("prev_button").disabled = true;
       document.getElementById("next_button").disabled = true;
       document.getElementById("nav").style.display = "table";
-      defaultCheck(currentSection);
+      defaultCheck(nextSection);
       break;
 
+    case "type_section":
+      nextSection = "front_section"
+      document.getElementById("prev_button").disabled = false;
+      document.getElementById("next_button").disabled = true;
+      document.getElementById(currentSection).style.display = "none";
+      document.getElementById(nextSection).style.display = "flex";
+      defaultCheck(nextSection);
+      break;
   }
 
   document.getElementById(currentSection).style.display = "none";
@@ -294,17 +297,24 @@ function nextSection(currentSection){
 }
 
 document.getElementById("welcome_new").addEventListener("click", function(){
+  const new_date = new Date();
+  const date_str = new_date.getTime().toString();
+  store.clear();
+  store.set('order_num', date_str.substring(0, date_str.length-3));
+  refreshOrderNumberDisplay();
+  document.getElementById("order_num_disp").style.display = "inline-block";
   nextSection("welcome_section");
-
 });
 
-document.getElementById("nav").style.display = "none";
+document.getElementById("next_button").addEventListener("click", function(){
+  nextSection(currentSection);
+});
 
 function defaultCheck(section){
 
   switch (section){
-    case "welcome_section":
-      
+    
+    case "type_section":
       if (document.getElementById("type_select").value !== "none" &&
           document.getElementById("color_select").value !== "none" && 
           document.getElementById("size_select").value !== "none"){
@@ -313,7 +323,12 @@ function defaultCheck(section){
 
       else {
         document.getElementById("next_button").disabled = true;
-      }  
+      } 
+
+      break;
+      
+    case "front_section": 
+      break;
   }
 
 }
