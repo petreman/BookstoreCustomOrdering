@@ -1,3 +1,4 @@
+const dateTime = require('node-datetime');
 const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
@@ -50,6 +51,7 @@ function newOrderCallback(auth, request_vals, callback) {
       "values": request_vals.values},
     auth: auth,
   };
+  console.log(request.range);
   const sheets = google.sheets({version: 'v4', auth});
   sheets.spreadsheets.values.append(request, callback);
 }
@@ -102,11 +104,19 @@ function getSettingsCallback(auth, request, callback) {
   sheets.spreadsheets.values.get(request, callback);
 }
 
+function getCurrentDate() {
+  const dt = dateTime.create();
+  return dt.format('Y-m-d H:M:S');
+}
+
 module.exports = {
   getNewToken: () => {
     fs.readFile('credentials.json', (err, content) => {
       if (err) return console.log('Error loading client secret file:', err);
-      const oAuth2Client = JSON.parse(content);
+      const credentials = JSON.parse(content);
+      const {client_secret, client_id, redirect_uris} = credentials.installed;
+      const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris[0]);
       const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
@@ -134,7 +144,10 @@ module.exports = {
   getTokenGeneratorURL: (callback) => {
     fs.readFile('credentials.json', (err, content) => {
       if (err) return console.log('Error loading client secret file:', err);
-      const oAuth2Client = JSON.parse(content);
+      const credentials = JSON.parse(content);
+      const {client_secret, client_id, redirect_uris} = credentials.installed;
+      const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris[0]);
       const authUrl = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
         scope: SCOPES,
@@ -146,7 +159,10 @@ module.exports = {
   generateTokenFromURLCode: (code) => {
     fs.readFile('credentials.json', (err, content) => {
       if (err) return console.log('Error loading client secret file:', err);
-      const oAuth2Client = JSON.parse(content);
+      const credentials = JSON.parse(content);
+      const {client_secret, client_id, redirect_uris} = credentials.installed;
+      const oAuth2Client = new google.auth.OAuth2(
+        client_id, client_secret, redirect_uris[0]);
       oAuth2Client.getToken(code, (err, token) => {
         if (err) return console.error('Error while trying to retrieve access token', err);
         oAuth2Client.setCredentials(token);
@@ -167,12 +183,11 @@ module.exports = {
   //   ]
   // }
   newOrder: (request, callback) => {
-
-    return opSheet(newOrderCallback, {
+    opSheet(newOrderCallback, {
       "spreadsheetId": request.spreadsheetId,
-      "range": "Orders!B2:P",
+      "range": "Orders!B2:Q",
       "values": [
-        request.values
+        [null, getCurrentDate()].concat(request.values)
       ]
     }, callback);
   },
@@ -181,23 +196,20 @@ module.exports = {
   // {
   //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
   //   "row": "3",
-  //   "column_range": ["A", "B"]
+  //   "column_range": ["A", "B"],
   //   "values": [
   //     "Order 4 Updated", "B column value"
   //   ]
   // }
   updateOrder: (request, callback) => {
-    if (request.column_range[0] == "A") {
-      console.error("DENIED ACCESS TO COLUMN A: CANNOT MODIFY Order Number!");
-      return;
-    }
-    return opSheet(updateOrderCallback, {
+    opSheet(updateOrderCallback, {
       "spreadsheetId": request.spreadsheetId,
       "range": "Orders!".concat(
         request.column_range[0], 
         request.row, 
         ":", 
-        request.column_range[1]
+        request.column_range[1],
+        request.row
       ),
       "values": [
         request.values
@@ -211,12 +223,13 @@ module.exports = {
   //   row: "2",
   // }
   getOrder: (request, callback) => {
-    return opSheet(getOrderCallback, {
+    opSheet(getOrderCallback, {
       "spreadsheetId": request.spreadsheetId,
       "range": "Orders!".concat(
         "A",
         request.row,
-        ":P"
+        ":Q",
+        request.row
       )
     }, callback);
   },
@@ -242,7 +255,7 @@ module.exports = {
       console.error("INVALID ROW RANGE ACCESSED: DO NOT ACCESS HEADERS!");
       return;
     }
-    return opSheet(setSettingsCallback, {
+    opSheet(setSettingsCallback, {
       "spreadsheetId": request.spreadsheetId,
       "range": "App Settings!B".concat(
         request.range[0],
@@ -261,7 +274,7 @@ module.exports = {
   //   range: ["2", ""]
   // }
   getSettings: (request, callback) => {
-    return opSheet(getSettingsCallback, {
+    opSheet(getSettingsCallback, {
       "spreadsheetId": request.spreadsheetId,
       "range": "App Settings!A".concat(
         request.range[0],
@@ -269,7 +282,21 @@ module.exports = {
         request.range[1]
       )
     }, callback);
-  }
+  },
+
+  finalizeOrder: (request, callback) => {
+    opSheet(updateOrderCallback, {
+      "spreadsheetId": request.spreadsheetId,
+      "range": "Orders!P".concat(
+        request.row,
+        ":Q",
+        request.row
+      ),
+      "values": [
+        ["yes", getCurrentDate()]
+      ]
+    }, callback);
+  },
 
   // Example usage:
   // getSetting({
