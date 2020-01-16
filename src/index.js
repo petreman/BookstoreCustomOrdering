@@ -16,8 +16,8 @@ const export_template = `
   <html>
   <body>
   <h1>Order number {{order_num}}</h1>
-  <p>Name: {{name}}</p>
-  <p>Email: {{email}}</p>
+  <p>Name: {{name_text}}</p>
+  <p>Email: {{email_text}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
   <p>Text on Front: {{front_text}}</p>
@@ -168,11 +168,11 @@ document.getElementById("other_comment").addEventListener("change", function(){
   setUpdateListener("other_comment");
 });
 
-document.getElementById("name").addEventListener("change", function(){
+document.getElementById("name_text").addEventListener("change", function(){
   setUpdateListener("name")
 });
 
-document.getElementById("email").addEventListener("change", function(){
+document.getElementById("email_text").addEventListener("change", function(){
   setUpdateListener("email")
 });
 
