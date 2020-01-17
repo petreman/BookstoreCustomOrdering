@@ -65,20 +65,29 @@ let selects = ["type", "color", "size"];
 let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
 //initialization
+<<<<<<< Updated upstream
 updateStore();
+=======
+>>>>>>> Stashed changes
 disableNavButtons();
 setSelectListeners();
 setTextListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function(){
+  store.clear();
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
+<<<<<<< Updated upstream
   store.clear();
   store.set('order_num', date_str.substring(0, date_str.length-3));
+=======
+  store.set("order_num", date_str.substring(0, date_str.length-3));
+>>>>>>> Stashed changes
   refreshOrderNumberDisplay();
   document.getElementById("order_num_disp").style.display = "inline-block";
-  goToNextSection();
   setDefaults();
+  updateStore();
+  goToNextSection();
 });
 
 document.getElementById("next_button").addEventListener("click", function(){
@@ -260,7 +269,7 @@ function updateStoreFromTextArea(name){
   let textContent = document.getElementById(textName).value;
   
   //empty message box is the same as "n/a"
-  if (textContent != ''){
+  if (textContent.trim() != ''){
     store.set(textName, textContent);
   }
   
@@ -280,7 +289,17 @@ function updateStore(){
   let color_init = document.getElementById("color_select");
   store.set('color', color_init.options[color_init.selectedIndex].value);
 
+<<<<<<< Updated upstream
   for (i = 1 ; i < customizationSections.length ; i++){
+=======
+  //welcome inputs
+  for (let i = 0 ; i < welcomeInputs.length ; i++){
+    updateStoreFromTextArea(welcomeInputs[i]);
+  }
+
+  //customization section inputs
+  for (let i = 1 ; i < customizationSections.length ; i++){
+>>>>>>> Stashed changes
     updateStoreFromTextArea(customizationSections[i]);
   }
 
@@ -299,6 +318,12 @@ function goToPrevSection(){
   switch (currentSection){
     
     case "welcome_section":
+      break;
+
+    case "type_section":
+      prevSection = "welcome_section";  
+      document.getElementById("prev_button").disabled = true;
+      document.getElementById("next_button").disabled = false;
       break;
 
     case "front_section":
@@ -332,15 +357,29 @@ function goToPrevSection(){
       }
 
       break;
+<<<<<<< Updated upstream
       
+=======
+
+    case "summary_section":
+      prevSection = "comment_section";
+      document.getElementById("next_button").disabled = false;   
+      break;
+>>>>>>> Stashed changes
   }
 
   defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
-  document.getElementById(prevSection).style.display = "flex";
-  currentSection = prevSection;
+  
+  if (prevSection !== "welcome_section"){
+    document.getElementById(prevSection).style.display = "flex";
+  }
 
-  checkIfWelcomeSection();
+  else {
+    document.getElementById(prevSection).style.display = "initial";
+  }
+  
+  currentSection = prevSection;
 
 }
 
@@ -358,7 +397,7 @@ function goToNextSection(){
     
     case "welcome_section":
       nextSection = "type_section";
-      document.getElementById("prev_button").disabled = true;
+      document.getElementById("prev_button").disabled = false;
       document.getElementById("nav").style.display = "table";
       break;
 
@@ -407,13 +446,18 @@ function goToNextSection(){
 
   }
 
+  if (nextSection !== "summary_section"){
+    document.getElementById(nextSection).style.display = "flex";
+  }
+
+  else {
+    document.getElementById(nextSection).style.display = "initial";
+  }
+
   defaultCheck(nextSection);
 
   document.getElementById(currentSection).style.display = "none";
-  document.getElementById(nextSection).style.display = "flex";
   currentSection = nextSection;
-
-  checkIfWelcomeSection();
 
 }
 
@@ -427,6 +471,9 @@ function goToNextSection(){
 function defaultCheck(section){
 
   switch (section){
+
+    case "welcome_section":
+      break;
     
     case "type_section":
       
