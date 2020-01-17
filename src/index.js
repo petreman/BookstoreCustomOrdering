@@ -11,6 +11,9 @@ const { app, dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
 const fs = require('fs');
+// See sheets.js for example usage
+const { newOrder, updateOrder, getOrders, setSettings, getSetting } = require('./sheets.js');
+const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
 const export_template = `
   <!DOCTYPE html>
   <html>
@@ -22,15 +25,16 @@ const export_template = `
   <p>Phone number: {{phone_number_text}}</p>
   <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
-  <p>Text on Front: {{front_text}}</p>
-  <p>Text on Left Arm: {{left_arm_text}}</p>
-  <p>Text on Right Arm: {{right_arm_text}}</p>
-  <p>Text on Back: {{back_text}}</p>
-  <p>Text on Hood: {{hood_text}}</p>
-  <p>Other comments: {{other_comment}}</p>
+  <p>Front: {{front_text}}</p>
+  <p>Left Arm: {{left_arm_text}}</p>
+  <p>Right Arm: {{right_arm_text}}</p>
+  <p>Back: {{back_text}}</p>
+  <p>Hood: {{hood_text}}</p>
+  <p>Other Comments: {"comment_text"}</p>
   </body>
   </html>
 `
+
 const print_options = {
   landscape: false,
   marginsType: 0,
@@ -47,36 +51,56 @@ try {
   console.log(store_data);
   store = new Store();
   store.store = store_data;
-  setLoadedValues();
+  setFromStore();
 } catch {
   console.log('failed to load data');
   store = new Store();
 }
 
-if( store.get('img_location')) {
+if(store.get('img_location')) {
   loadImages();
 }
 
-document.getElementById("load_btn").addEventListener("click", function(){
-  const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
-  file_promise.then(function(value) {
-    store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
-    setLoadedValues();
-  });
+//variables
+let type; //will be used to check if hood option should be taken
+let currentSection = "welcome_section";
+let welcomeInputs = ["name", "email", "phone"];
+let selects = ["type", "color", "size"];
+let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
-});
+//initialization
+updateStore();
+disableNavButtons();
+setSelectListeners();
+setTextListeners();
 
-document.getElementById("new_order_btn").addEventListener("click", function(){
+document.getElementById("welcome_new").addEventListener("click", function(){
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
   store.clear();
   store.set('order_num', date_str.substring(0, date_str.length-3));
   refreshOrderNumberDisplay();
-})
+  document.getElementById("order_num_disp").style.display = "inline-block";
+  goToNextSection();
+  setDefaults();
+});
 
-function refreshOrderNumberDisplay() {
-  document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
-}
+document.getElementById("next_button").addEventListener("click", function(){
+  goToNextSection();
+});
+
+document.getElementById("prev_button").addEventListener("click", function(){
+  goToPrevSection();
+});
+
+document.getElementById("load_btn").addEventListener("click", function(){
+  const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
+  file_promise.then(function(value) {
+    store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
+    setFromStore();
+  });
+
+});
 
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
@@ -105,7 +129,7 @@ document.getElementById("save_btn").addEventListener("click", function(){
 });
 
 document.getElementById("export_btn").addEventListener("click", function(){
-  refreshStore();
+  updateStore();
   window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
   fs.writeFileSync("./temp.html", Mustache.to_html(export_template, store.store));
   window_to_PDF.loadFile("./temp.html"); //give the file link you want to display
@@ -122,25 +146,27 @@ document.getElementById("export_btn").addEventListener("click", function(){
         console.log(error)
     });
   });
-});
+});  
 
-//initialization
-refreshStore();
+function setSelectListeners(){
+  
+  for (let i = 0 ; i < selects.length ; i++){
+    
+    document.getElementById((selects[i] + "_select")).addEventListener("change", function(){
+      
+      store.set(selects[i], this.value);
+      
+      //even though the selects are all uniquely names, they are all placed
+      //in the "type" section
+      defaultCheck("type_section");
 
-document.getElementById("type_select").addEventListener("change", function(){
-  store.set('clothing_type', this.value);
-  let strTypeSelection = this.options[this.selectedIndex].text;
-  let hoodOption = document.getElementById("hood_option");
+      if (selects[i] === "type"){
+        type = this.value;
+      }
 
-  if (strTypeSelection == "Hoodie"){
-    hoodOption.style.display = "flex"
+    });
+
   }
-
-  else {
-    hoodOption.style.display = "none"
-  }
-
-});
 
 document.getElementById("first_name_text").addEventListener("change", function(){
   setUpdateListener("first_name")
@@ -166,66 +192,57 @@ document.getElementById("front_text").addEventListener("change", function(){
   setUpdateListener("front")
 });
 
-document.getElementById("left_arm_text").addEventListener("change", function(){
-  setUpdateListener("left_arm");
-});
+/**
+ * Sets all the listeners for text input areas
+ */
+function setTextListeners(){
 
-document.getElementById("right_arm_text").addEventListener("change", function(){
-  setUpdateListener("right_arm");
-});
+  for (let i = 1 ; i < customizationSections.length ; i++){
+    document.getElementById( (customizationSections[i] + "_text") ).addEventListener("change", function(){
+      updateStoreFromTextArea(customizationSections[i]);
 
-document.getElementById("back_text").addEventListener("change", function(){
-  setUpdateListener("back");
-});
+      if (this.value.trim() == "" && currentSection == (customizationSections[i] + "_section")){
+        document.getElementById("next_button").disabled = true;
+      }
 
-document.getElementById("hood_text").addEventListener("change", function(){
-  setUpdateListener("hood");
-});
+      else {
+        document.getElementById("next_button").disabled = false;
+      }
 
-document.getElementById("other_comment").addEventListener("change", function(){
-  setUpdateListener("other_comment");
-});
-
-function setUpdateListener(name){
-
-  let textName;
-
-  if (name != "other_comment"){
-    textName = name + "_text";
-  }
-
-  else {
-    textName = "other_comment";
-  }
-  
-  let textContent = document.getElementById(textName).value;
-  
-  //empty message box is the same as "n/a"
-  if (textContent != ''){
-    store.set(textName, textContent);
-  }
-  
-  else{
-    store.set(textName, "n/a");
+    });
   }
 
 }
 
-function setLoadedValues(){
+function refreshOrderNumberDisplay() {
+  document.getElementById("order_num_disp").innerHTML = "Order #" + store.get("order_num", "ORDER NUM NOT SET");
+}
+
+function enableNavButtons(){
+  document.getElementById("nav").style.display = "flex";
+  document.getElementById("order_num_disp").style.display = "flex";
+}
+
+function disableNavButtons(){
+  document.getElementById("nav").style.display = "none";
+  document.getElementById("order_num_disp").style.display = "none";
+}
+
+function setFromStore(){
 
   let index = 0;
 
   refreshOrderNumberDisplay();
 
-  switch (store.get("clothing_type").toLowerCase()){
+  switch (store.get("type").toLowerCase()){
     case "hoodie":
       index = 0;
-      document.getElementById("hood_option").style.display = "flex"
+      type = "hoodie"
       break;
     
     case "crewneck":
       index = 1;
-      document.getElementById("hood_option").style.display = "none"
+      type = "crewneck"
       break;
   }
     
@@ -253,20 +270,17 @@ function setLoadedValues(){
   setLoadedText("back");
   setLoadedText("hood");
   setLoadedText("other_comment")
+  
+  for (i = 1 ; i < customizationSections.length ; i++){
+    setTextAreaFromStore(customizationSections[i]);
+  }
+
 }
 
-function setLoadedText(name){
+function setTextAreaFromStore(name){
 
-  let textName;
-
-  if (name != "other_comment"){
-    textName = name + "_text";
-  }
-
-  else {
-    textName = "other_comment";
-  }
-
+  let textName = name + "_text";
+  
   if (store.get(textName) === "n/a" || store.get(textName) === "undefined"){
     document.getElementById(textName).value = "";
   }
@@ -288,10 +302,27 @@ document.getElementById("hood_disp").innerHTML = "Your customization for hood is
 document.getElementById("other_comment_disp").innerHTML = "Your other comment is: " + store.get("other_comment");
 
 function refreshStore(){
+function updateStoreFromTextArea(name){
+
+  let textName = name + "_text";
+  let textContent = document.getElementById(textName).value;
+  
+  //empty message box is the same as "n/a"
+  if (textContent != ''){
+    store.set(textName, textContent);
+  }
+  
+  else{
+    store.set(textName, "n/a");
+  }
+
+}
+
+function updateStore(){
   
   //type
   let type_init = document.getElementById("type_select");
-  store.set('clothing_type', type_init.options[type_init.selectedIndex].value);
+  store.set('type', type_init.options[type_init.selectedIndex].value);
 
   //color
   let color_init = document.getElementById("color_select");
@@ -307,4 +338,238 @@ function refreshStore(){
   setUpdateListener("back");
   setUpdateListener("hood");
   setUpdateListener("other_comment")
+}
+  for (i = 1 ; i < customizationSections.length ; i++){
+    updateStoreFromTextArea(customizationSections[i]);
+  }
+
+}
+
+/**
+ * Goes to the previous section based on what the current one is
+ * For now it is a switch case. Once I get it working I'll
+ * modify it into something simpler
+ * -Keegan
+ */
+function goToPrevSection(){
+  
+  let prevSection;
+
+  switch (currentSection){
+    
+    case "welcome_section":
+      break;
+
+    case "front_section":
+      prevSection = "type_section";
+      document.getElementById("prev_button").disabled = true;
+      break;
+
+    case "left_arm_section":
+      prevSection = "front_section";
+      break;
+      
+    case "right_arm_section":  
+      prevSection = "left_arm_section";
+      break;
+
+    case "back_section":  
+      prevSection = "right_arm_section";
+      break;  
+
+    case "hood_section":  
+      prevSection = "back_section";
+      break;  
+
+    case "comment_section":  
+      if (type == "hoodie"){
+        prevSection = "hood_section";
+      }
+
+      else {
+        prevSection = "back_section";
+      }
+
+      break;
+      
+  }
+
+  defaultCheck(prevSection);
+  document.getElementById(currentSection).style.display = "none";
+  document.getElementById(prevSection).style.display = "flex";
+  currentSection = prevSection;
+
+  checkIfWelcomeSection();
+
+}
+
+/**
+ * Goes to the next section based on what the current one is
+ * For now it is a switch case. Once I get it working I'll
+ * modify it into something simpler
+ * -Keegan
+ */
+function goToNextSection(){
+
+  let nextSection;
+
+  switch (currentSection){
+    
+    case "welcome_section":
+      nextSection = "type_section";
+      document.getElementById("prev_button").disabled = true;
+      document.getElementById("nav").style.display = "table";
+      break;
+
+    case "type_section":
+      nextSection = "front_section";
+      document.getElementById("prev_button").disabled = false;
+      document.getElementById("next_button").disabled = true;
+      break;
+
+    case "front_section":
+      nextSection = "left_arm_section";  
+      document.getElementById("prev_button").disabled = false;
+      break;
+
+    case "left_arm_section":
+      nextSection = "right_arm_section";  
+      document.getElementById("prev_button").disabled = false;  
+      break;
+
+    case "right_arm_section":
+      nextSection = "back_section";  
+      document.getElementById("prev_button").disabled = false;  
+      break;  
+
+    case "back_section": 
+      
+      if (type == "hoodie"){
+        nextSection = "hood_section";
+      }
+
+      else {
+        nextSection = "comment_section";
+      }
+      
+      document.getElementById("prev_button").disabled = false;  
+      break; 
+      
+    case "hood_section":
+      nextSection = "comment_section";  
+      document.getElementById("prev_button").disabled = false;  
+      break;
+
+    case "comment_section":
+      //set going to summary page here
+      break;  
+
+  }
+
+  defaultCheck(nextSection);
+
+  document.getElementById(currentSection).style.display = "none";
+  document.getElementById(nextSection).style.display = "flex";
+  currentSection = nextSection;
+
+  checkIfWelcomeSection();
+
+}
+
+/**
+ * Checks to see if the provided section has any default/unchanged values. If there are,
+ * can't progress to the next section.
+ * 
+ * @param {*} section - the section to be checking
+ * 
+ */
+function defaultCheck(section){
+
+  switch (section){
+    
+    case "type_section":
+      
+      if (document.getElementById("type_select").value !== "none" &&
+          document.getElementById("color_select").value !== "none" && 
+          document.getElementById("size_select").value !== "none"){
+        document.getElementById("next_button").disabled = false;
+      }
+
+      else {
+        document.getElementById("next_button").disabled = true;
+      } 
+
+      break;
+      
+    case "front_section":
+      nextButtonCheck("front");
+      break;
+
+    case "left_arm_section":
+      nextButtonCheck("left_arm");
+      break;
+
+    case "right_arm_section":
+      nextButtonCheck("right_arm");
+      break;
+
+    case "back_section":
+      nextButtonCheck("back");
+      break; 
+      
+    case "hood_section":
+      nextButtonCheck("hood");
+      break; 
+      
+    case "comment_section":
+      nextButtonCheck("comment");
+      break;   
+
+  }
+
+}
+
+function nextButtonCheck(name){
+  
+  if (document.getElementById(name + "_text").value !== "") {
+    document.getElementById("next_button").disabled = false;
+  }
+
+  else {
+    document.getElementById("next_button").disabled = true;
+  }
+
+}
+
+/**
+ * Sets all changeable areas to their default values.
+ * Inteneded to be used when a new order is started.
+ */
+function setDefaults(){
+  
+  document.getElementById("type_select").selectedIndex = 0;
+  document.getElementById("color_select").selectedIndex = 0;
+  document.getElementById("size_select").selectedIndex = 0;
+  
+  document.getElementById("front_text").value = "";
+  document.getElementById("left_arm_text").value = "";
+  document.getElementById("right_arm_text").value = "";
+  document.getElementById("back_text").value = "";
+  document.getElementById("hood_text").value = "";
+
+}
+
+/**
+ * Hides the prev and next buttons if on the welcome screen
+ */ 
+function checkIfWelcomeSection(){
+  
+  if (currentSection === "welcome_section"){
+    disableNavButtons();
+  }
+  
+  else {
+    enableNavButtons();
+  }
+
 }

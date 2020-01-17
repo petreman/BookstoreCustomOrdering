@@ -190,6 +190,11 @@ header li h2 {
   box-shadow: 0 0 0 .2rem rgba(248,249,250,.5);
 }
 
+.menu_btn:disabled{
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}
 
 div.sidediv{
   border:1px solid black;
@@ -199,7 +204,7 @@ div.sidediv{
 }
 
 .wrapper {
-  display: flex;
+  display: none;
 }
 
 #left {
@@ -215,3 +220,22 @@ img {
   margin-left: auto;
   margin-right: auto;
 }
+
+header#footer {
+  border-top:3px solid #ffdb05;
+  border-bottom: none;
+  bottom: 0;
+  top: auto;
+  display: flex;
+  
+}
+
+header#footer ul {
+  list-style: inside;
+  display: table;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+
+
