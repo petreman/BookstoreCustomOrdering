@@ -64,8 +64,11 @@ try {
   store = new Store();
 }
 
-if(store.get('img_location')) {
+if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
+  console.log("image location found");
   loadImages();
+} else {
+  console.log("image location not found");
 }
 
 //initialization
@@ -99,6 +102,7 @@ document.getElementById("prev_button").addEventListener("click", function(){
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
+    if (value.canceled) return;
     store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
     setFromStore();
   });
@@ -108,24 +112,31 @@ document.getElementById("load_btn").addEventListener("click", function(){
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
-    store.set('img_location', value.filePaths[0]);
-    loadImages();
+    if (value.canceled) return;
+    console.log(value);
+    fs.writeFile(app.getPath("userData") + "/img_location.txt", value.filePaths[0], 'utf-8', (err, res) => {
+      loadImages();
+    });
   });
 });
 
 function loadImages() {
-  const img_dir = store.get('img_location');
-  document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
-  document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
-  document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
-  document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
-  document.getElementById('back_img').setAttribute('src', img_dir + '/back_img.png');
-  document.getElementById('hood_img').setAttribute('src', img_dir + '/hood_img.png');
+  fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
+    const img_dir = res.toString();
+    console.log(img_dir);
+    document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
+    document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
+    document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
+    document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
+    document.getElementById('back_img').setAttribute('src', img_dir + '/back_img.png');
+    document.getElementById('hood_img').setAttribute('src', img_dir + '/hood_img.png');
+  });
 }
 
 document.getElementById("save_btn").addEventListener("click", function(){
   const save_promise = dialog.showSaveDialog({defaultPath: './clothing_order.json'});
   save_promise.then(function(value) {
+    if (value.canceled) return;
     fs.writeFileSync(value.filePath, JSON.stringify(store.store), 'utf-8');
   });
 });
@@ -139,6 +150,7 @@ document.getElementById("export_btn").addEventListener("click", function(){
     window_to_PDF.webContents.printToPDF(print_options).then(data => {
       const path_promise = dialog.showSaveDialog({defaultPath: './order.pdf'});
       path_promise.then(function(value){
+        if (value.canceled) return;
         fs.writeFile(value.filePath, data, (error) => {
           if (error) throw error
           console.log('Write PDF successfully.')
