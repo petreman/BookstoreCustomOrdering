@@ -126,9 +126,9 @@ document.getElementById("save_btn").addEventListener("click", function(){
 
 document.getElementById("export_btn").addEventListener("click", function(){
   updateStore();
-  window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
-  fs.writeFileSync("./temp.html", Mustache.to_html(export_template, store.store));
-  window_to_PDF.loadFile("./temp.html"); //give the file link you want to display
+  let window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
+  fs.writeFileSync(app.getPath('userData') + "/temp.html", Mustache.to_html(export_template, store.store), { "flag": "w" });
+  window_to_PDF.loadFile(app.getPath('userData') + "/temp.html"); //give the file link you want to display
   window_to_PDF.webContents.on('did-finish-load', () => {
     window_to_PDF.webContents.printToPDF(print_options).then(data => {
       const path_promise = dialog.showSaveDialog({defaultPath: './order.pdf'});
