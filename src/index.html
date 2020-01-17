@@ -33,12 +33,6 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
         <li><button id="welcome_load">Load Order</button></li>
       </ul>  
 
-<<<<<<< Updated upstream
-      <h2 id= "name">Name:</h2>
-      <input type="text" id="name" rows="2" name="name" cols="20"></input>
-      <h2 id= "email">Email:</h2>
-      <input type="text" id="email" rows="2" name="email" cols="20"></input>   
-=======
       <h2 id= "fullname">First Name:</h2>
       <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
       
@@ -51,8 +45,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
       <h2 id= "phone_number">Phone Number:</h2>
       <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
-    
->>>>>>> Stashed changes
+
     </div>
   
     <div class="wrapper" id="type_section">
@@ -97,9 +90,16 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper" id="front_section">
       <div class="sidediv">
         <div class="center">
-          <div id= front_option>
-            <p id= "front-text-input">What do you want on the front (if applicable)?</p>
-            <textarea id="front_text" rows="2" name="front" cols="20"></textarea>
+          <p>Do you want a custom front?</p>
+          <select id="front_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id= front_desc>
+            <p id= "front-text-input">What do you want on the front?</p>
+            <textarea id="front_text" rows="2" cols="20"></textarea>
           </div> 
         </div>
       </div>
@@ -111,74 +111,120 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper" id="left_arm_section">
       <div class="sidediv">
         <div class="center">
+
+          <p>Do you want a custom left arm?</p>
+          <select id="left_arm_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
           
-          <div id="left_arm_option">
-            <p>What do you want on the left arm (if applicable)?</p>
-            <textarea id= "left_arm_text" rows="2" name="leftArm" cols="20"></textarea>
+          <div id="left_arm_desc">
+            <p>What do you want on the left arm?</p>
+            <textarea id= "left_arm_text" rows="2" cols="20"></textarea>
           </div>
+        
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="left_arm_img" alt="This is left arm" width="100%" height="auto">
       </div>
+
     </div>
 
     <div class="wrapper" id="right_arm_section">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="right_arm_option">
-            <p>What do you want on the right arm (if applicable)?</p>
-            <textarea id="right_arm_text" rows="2" name="rightArm" cols="20"></textarea>
+
+          <p>Do you want a custom right arm?</p>
+          <select id="right_arm_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="right_arm_desc">
+            <p>What do you want on the right arm?</p>
+            <textarea id="right_arm_text" rows="2" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="right_arm_img" alt="This is right arm" width="100%" height="auto">
       </div>
+
     </div>
 
     <div class="wrapper" id="back_section">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="back_option">
-            <p>What do you want on the back (if applicable)?</p>
-            <textarea id="back_text" rows="2" name="back" cols="20"></textarea>
+
+          <p>Do you want a custom back?</p>
+          <select id="back_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="back_desc">
+            <p>What do you want on the back?</p>
+            <textarea id="back_text" rows="2" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="back_img" alt="This is back" width="100%" height="auto">
       </div>
+
     </div>
 
     <div id="hood_section" class="wrapper">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="hood_toggle">
+
+          <p>Do you want a custom hood?</p>
+          <select id="hood_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="hood_desc">
             <p>What do you want on the hood (if applicable)?</p>
-            <textarea id="hood_text" rows="2" name="hood" cols="20"></textarea>
+            <textarea id="hood_text" rows="2" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="hood_img" alt="This is hood" width="100%" height="auto">
       </div>
     </div>
 
     <div class="wrapper" id="comment_section">
+      
       <div class="sidediv">
         <div class="center">
-          <p>Other Comments</p>
-          <textarea id="comment_text" rows="2" name="remark" cols="20"></textarea>
+          <p>Additional Information</p>
+          <textarea id="comment_text" rows="2" cols="20"></textarea>
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
       </div>
+      
     </div> 
 
-<<<<<<< Updated upstream
-=======
     <div class="wrapper" id="summary_section">
       <h2>Summary</h2>
       <p id="first_name_disp"></p>
@@ -192,10 +238,8 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <p id="hood_disp"></p>
       <p id="comment_disp"></p>
       <button id="export_btn" class="menu_btn">Export PDF</button>
-      <button id="submit_btn" class="menu_btn">Submit</button>
     </div>
     
->>>>>>> Stashed changes
     <header id="footer">
       <ul id="nav">
         <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
@@ -204,7 +248,6 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     </header>
 
   <!--We are using node <script>document.write(process.versions.node)</script>,
->>>>>>> html_CSS_1.0
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.-->
   </body>

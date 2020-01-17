@@ -6,7 +6,7 @@ Majority of methods are used to pass data between input areas and the Store.
 
 Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
 */
-
+"use strict";
 const { app, dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
@@ -18,15 +18,19 @@ const export_template = `
   <!DOCTYPE html>
   <html>
   <body>
-  <h1>Order #{{order_num}}</h1>
-  <p>Clothing Type: {{type}}</p>
+  <h1>Order number {{order_num}}</h1>
+  <p>Name: {{first_name_text}}</p>
+  <p>Name: {{last_name_text}}</p>
+  <p>Email: {{email_text}}</p>
+  <p>Phone number: {{phone_number_text}}</p>
+  <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
   <p>Right Arm: {{right_arm_text}}</p>
   <p>Back: {{back_text}}</p>
   <p>Hood: {{hood_text}}</p>
-  <p>Other Comments: {"comment_text"}</p>
+  <p>Other Comments: {{comment_text}}</p>
   </body>
   </html>
 `
@@ -40,6 +44,13 @@ const print_options = {
 };
 
 let store;
+//variables
+let type; //will be used to check if hood option should be taken
+let currentSection = "welcome_section";
+let welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
+let typeSelects = ["type", "color", "size"];
+let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
+
 try {
   const store_path = app.getPath('userData') + '/config.json';
   console.log(store_path);
@@ -48,41 +59,32 @@ try {
   store = new Store();
   store.store = store_data;
   setFromStore();
-} catch {
-  console.log('failed to load data');
+} catch (error) {
+  console.log(error);
   store = new Store();
 }
 
-if(store.get('img_location')) {
+if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
+  console.log("image location found");
   loadImages();
+} else {
+  console.log("image location not found");
 }
 
-//variables
-let type; //will be used to check if hood option should be taken
-let currentSection = "welcome_section";
-let welcomeInputs = ["name", "email", "phone"];
-let selects = ["type", "color", "size"];
-let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
-
 //initialization
-<<<<<<< Updated upstream
-updateStore();
-=======
->>>>>>> Stashed changes
+store.clear();
 disableNavButtons();
+disableNewOrderButton();
+setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
+setCustomizationSelectListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function(){
   store.clear();
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
-<<<<<<< Updated upstream
-  store.clear();
   store.set('order_num', date_str.substring(0, date_str.length-3));
-=======
-  store.set("order_num", date_str.substring(0, date_str.length-3));
->>>>>>> Stashed changes
   refreshOrderNumberDisplay();
   document.getElementById("order_num_disp").style.display = "inline-block";
   setDefaults();
@@ -101,6 +103,7 @@ document.getElementById("prev_button").addEventListener("click", function(){
 document.getElementById("load_btn").addEventListener("click", function(){
   const file_promise = dialog.showOpenDialog({ properties: ['openFile'] });
   file_promise.then(function(value) {
+    if (value.canceled) return;
     store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
     setFromStore();
   });
@@ -110,38 +113,45 @@ document.getElementById("load_btn").addEventListener("click", function(){
 document.getElementById("img_btn").addEventListener("click", function(){
   const img_promise = dialog.showOpenDialog({ properties: ['openDirectory'] });
   img_promise.then(function(value) {
-    store.set('img_location', value.filePaths[0]);
-    loadImages();
+    if (value.canceled) return;
+    console.log(value);
+    fs.writeFile(app.getPath("userData") + "/img_location.txt", value.filePaths[0], 'utf-8', (err, res) => {
+      loadImages();
+    });
   });
 });
 
 function loadImages() {
-  const img_dir = store.get('img_location');
-  document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
-  document.getElementById('color_img').setAttribute('src', img_dir + '/color_img.png');
-  document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
-  document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
-  document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
-  document.getElementById('back_img').setAttribute('src', img_dir + '/back_img.png');
-  document.getElementById('hood_img').setAttribute('src', img_dir + '/hood_img.png');
+  fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
+    const img_dir = res.toString();
+    console.log(img_dir);
+    document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
+    document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
+    document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
+    document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
+    document.getElementById('back_img').setAttribute('src', img_dir + '/back_img.png');
+    document.getElementById('hood_img').setAttribute('src', img_dir + '/hood_img.png');
+  });
 }
 
 document.getElementById("save_btn").addEventListener("click", function(){
   const save_promise = dialog.showSaveDialog({defaultPath: './clothing_order.json'});
   save_promise.then(function(value) {
+    if (value.canceled) return;
     fs.writeFileSync(value.filePath, JSON.stringify(store.store), 'utf-8');
   });
 });
 
 document.getElementById("export_btn").addEventListener("click", function(){
   updateStore();
-  window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
-  fs.writeFileSync("./temp.html", Mustache.to_html(export_template, store.store));
-  window_to_PDF.loadFile("./temp.html"); //give the file link you want to display
+  let window_to_PDF = new BrowserWindow({show : false});//to just open the browser in background
+  fs.writeFileSync(app.getPath('userData') + "/temp.html", Mustache.to_html(export_template, store.store), { "flag": "w" });
+  window_to_PDF.loadFile(app.getPath('userData') + "/temp.html"); //give the file link you want to display
   window_to_PDF.webContents.on('did-finish-load', () => {
     window_to_PDF.webContents.printToPDF(print_options).then(data => {
       const path_promise = dialog.showSaveDialog({defaultPath: './order.pdf'});
       path_promise.then(function(value){
+        if (value.canceled) return;
         fs.writeFile(value.filePath, data, (error) => {
           if (error) throw error
           console.log('Write PDF successfully.')
@@ -155,17 +165,17 @@ document.getElementById("export_btn").addEventListener("click", function(){
 
 function setSelectListeners(){
   
-  for (let i = 0 ; i < selects.length ; i++){
+  for (let i = 0 ; i < typeSelects.length ; i++){
     
-    document.getElementById((selects[i] + "_select")).addEventListener("change", function(){
+    document.getElementById((typeSelects[i] + "_select")).addEventListener("change", function(){
       
-      store.set(selects[i], this.value);
+      store.set(typeSelects[i], this.value);
       
-      //even though the selects are all uniquely names, they are all placed
+      //even though the typeSelects are all uniquely names, they are all placed
       //in the "type" section
       defaultCheck("type_section");
 
-      if (selects[i] === "type"){
+      if (typeSelects[i] === "type"){
         type = this.value;
       }
 
@@ -173,7 +183,7 @@ function setSelectListeners(){
 
   }
 
-}
+}  
 
 /**
  * Sets all the listeners for text input areas
@@ -228,7 +238,7 @@ function setFromStore(){
       type = "crewneck"
       break;
   }
-    
+
   document.getElementById("type_select").selectedIndex = index;
 
   switch (store.get("color").toLowerCase()){
@@ -243,7 +253,7 @@ function setFromStore(){
 
   document.getElementById("color_select").selectedIndex = index;
 
-  for (i = 1 ; i < customizationSections.length ; i++){
+  for (let i = 1 ; i < customizationSections.length ; i++){
     setTextAreaFromStore(customizationSections[i]);
   }
 
@@ -289,9 +299,6 @@ function updateStore(){
   let color_init = document.getElementById("color_select");
   store.set('color', color_init.options[color_init.selectedIndex].value);
 
-<<<<<<< Updated upstream
-  for (i = 1 ; i < customizationSections.length ; i++){
-=======
   //welcome inputs
   for (let i = 0 ; i < welcomeInputs.length ; i++){
     updateStoreFromTextArea(welcomeInputs[i]);
@@ -299,7 +306,6 @@ function updateStore(){
 
   //customization section inputs
   for (let i = 1 ; i < customizationSections.length ; i++){
->>>>>>> Stashed changes
     updateStoreFromTextArea(customizationSections[i]);
   }
 
@@ -328,7 +334,6 @@ function goToPrevSection(){
 
     case "front_section":
       prevSection = "type_section";
-      document.getElementById("prev_button").disabled = true;
       break;
 
     case "left_arm_section":
@@ -348,6 +353,7 @@ function goToPrevSection(){
       break;  
 
     case "comment_section":  
+      
       if (type == "hoodie"){
         prevSection = "hood_section";
       }
@@ -357,15 +363,12 @@ function goToPrevSection(){
       }
 
       break;
-<<<<<<< Updated upstream
-      
-=======
 
     case "summary_section":
       prevSection = "comment_section";
       document.getElementById("next_button").disabled = false;   
       break;
->>>>>>> Stashed changes
+
   }
 
   defaultCheck(prevSection);
@@ -377,6 +380,7 @@ function goToPrevSection(){
 
   else {
     document.getElementById(prevSection).style.display = "initial";
+    document.getElementById("prev_button").disabled = true;
   }
   
   currentSection = prevSection;
@@ -441,8 +445,10 @@ function goToNextSection(){
       break;
 
     case "comment_section":
-      //set going to summary page here
-      break;  
+      nextSection = "summary_section";
+      document.getElementById("next_button").disabled = true; 
+      setSummaryFromStore();
+      break; 
 
   }
 
@@ -452,6 +458,7 @@ function goToNextSection(){
 
   else {
     document.getElementById(nextSection).style.display = "initial";
+    document.getElementById("next_button").disabled = true;
   }
 
   defaultCheck(nextSection);
@@ -489,29 +496,13 @@ function defaultCheck(section){
 
       break;
       
-    case "front_section":
-      nextButtonCheck("front");
-      break;
-
-    case "left_arm_section":
-      nextButtonCheck("left_arm");
-      break;
-
-    case "right_arm_section":
-      nextButtonCheck("right_arm");
-      break;
-
-    case "back_section":
-      nextButtonCheck("back");
-      break; 
-      
-    case "hood_section":
-      nextButtonCheck("hood");
-      break; 
-      
     case "comment_section":
-      nextButtonCheck("comment");
-      break;   
+    case "summary_section":
+      break;  
+
+    default:
+      customizationSelectCheck(section);
+      break;  
 
   }
 
@@ -530,7 +521,7 @@ function nextButtonCheck(name){
 }
 
 /**
- * Sets all changeable areas to their default values.
+ * Sets all changeable areas to their default values, and hides hidable sections.
  * Inteneded to be used when a new order is started.
  */
 function setDefaults(){
@@ -544,6 +535,9 @@ function setDefaults(){
   document.getElementById("right_arm_text").value = "";
   document.getElementById("back_text").value = "";
   document.getElementById("hood_text").value = "";
+  document.getElementById("comment_text").value = "";
+
+  hideTextAreas();
 
 }
 
@@ -558,6 +552,116 @@ function checkIfWelcomeSection(){
   
   else {
     enableNavButtons();
+  }
+
+}
+
+function setCustomizationSelectListeners(){
+
+  for (let i = 1 ; i < customizationSections.length - 1 ; i++){
+    
+    document.getElementById((customizationSections[i] + "_select")).addEventListener("change", function(){
+
+      if (this.value === "yes"){
+        
+        document.getElementById(customizationSections[i] + "_desc").style.display = "block";
+        
+        if (document.getElementById(customizationSections[i] + "_text").value.trim() !== ""){
+          store.set( (customizationSections[i] + "_text"), document.getElementById(customizationSections[i] + "_text").value.trim() );
+        }
+
+      }
+
+      else {
+        document.getElementById(customizationSections[i] + "_desc").style.display = "none";
+        store.set(customizationSections[i] + "_text", "n/a");
+      }
+
+      defaultCheck(customizationSections[i] + "_section");
+
+    });             
+  
+  }
+
+}
+
+function hideTextAreas(){
+  
+  for (let i = 1 ; i < customizationSections.length - 1 ; i++){
+    document.getElementById(customizationSections[i] + "_desc").style.display = "none";
+  }
+
+}
+
+function customizationSelectCheck(name){
+
+  let select = document.getElementById(name.replace("_section", "_select"));
+
+  switch (select.value){
+    
+    case "yes":
+      nextButtonCheck(name.replace("_section", ""));
+      break;
+
+    case "no":
+      document.getElementById("next_button").disabled = false;
+      break;
+
+    case "default":
+      document.getElementById("next_button").disabled = true;
+      break
+  }
+
+}
+
+function setWelcomeInputListeners(){
+
+  for(let i = 0 ; i < welcomeInputs.length ; i++){
+
+    document.getElementById( (welcomeInputs[i] + "_text") ).addEventListener("change", function(){
+     
+        updateStoreFromTextArea(welcomeInputs[i]);
+  
+        if (document.getElementById("first_name_text").value.trim() == "" || 
+            document.getElementById("last_name_text").value.trim() == "" ||
+            document.getElementById("email_text").value.trim() == "" ||
+            document.getElementById("phone_number_text").value.trim() == ""){
+          document.getElementById("welcome_new").disabled = true;
+        }
+  
+        else {
+          document.getElementById("welcome_new").disabled = false;
+        }
+  
+    });
+
+  }
+
+}
+
+function disableNewOrderButton(){
+  document.getElementById("welcome_new").disabled = true;
+}
+
+function setSummaryFromStore(){
+  
+  document.getElementById("first_name_disp").innerHTML = "First Name: " + store.get("first_name_text");
+  document.getElementById("last_name_disp").innerHTML = "Last Name: " + store.get("last_name_text");
+  document.getElementById("email_disp").innerHTML = "Email: " + store.get("email_text");
+  document.getElementById("phone_number_disp").innerHTML = "Phone Number: " + store.get("phone_number_text");
+  document.getElementById("front_disp").innerHTML = "Front: " + store.get("front_text");
+  document.getElementById("left_arm_disp").innerHTML = "Left Arm: " + store.get("left_arm_text");
+  document.getElementById("right_arm_disp").innerHTML = "Right Arm: " + store.get("right_arm_text");
+  document.getElementById("back_disp").innerHTML = "Back: " + store.get("back_text");
+  document.getElementById("comment_disp").innerHTML = "Additional Information: " + store.get("comment_text");
+
+  if ( type === "hoodie" ){
+    document.getElementById("hood_disp").innerHTML = "Hood: " + store.get("hood_text");
+    document.getElementById("hood_disp").style.display = "auto";
+  }
+
+  else{
+    document.getElementById("hood_disp").style.display = "none";
   }
 
 }
