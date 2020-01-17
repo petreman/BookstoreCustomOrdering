@@ -44,6 +44,14 @@ validate.schema = {
   "comment_text": {
     "type": "string",
     "default": ""
+  },
+  "name": {
+    "type": "string",
+    "default": ""
+  },
+  "email": {
+    "type": "string",
+    "default": ""
   }
 };
 validate.errors = null;

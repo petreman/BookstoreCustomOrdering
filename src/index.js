@@ -57,6 +57,7 @@ if(store.get('img_location')) {
 //variables
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
+let welcomeInputs = ["name", "email", "phone"];
 let selects = ["type", "color", "size"];
 let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 

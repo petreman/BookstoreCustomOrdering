@@ -13,5 +13,7 @@
   "right_arm_text": { "type": "string", "default": "" },
   "back_text":      { "type": "string", "default": "" },
   "hood_text":      { "type": "string", "default": "" },
-  "comment_text":  { "type": "string", "default": "" }
+  "comment_text":   { "type": "string", "default": "" },
+  "name":           { "type": "string", "default": "" },
+  "email":          { "type": "string", "default": "" }
 }
