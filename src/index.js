@@ -109,7 +109,6 @@ document.getElementById("img_btn").addEventListener("click", function(){
 function loadImages() {
   const img_dir = store.get('img_location');
   document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
-  document.getElementById('color_img').setAttribute('src', img_dir + '/color_img.png');
   document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
   document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
   document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
