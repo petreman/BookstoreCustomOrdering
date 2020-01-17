@@ -19,7 +19,6 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <li><button id="save_btn" class="menu_btn">Save Order</button></li>
       <li><button id="load_btn" class="menu_btn">Load Order</button></li>
       <li><button id="img_btn" class="menu_btn">Load Images</button></li>
-      <li><button id="export_btn" class="menu_btn">Export PDF</button></li>
       <li><h2 id="order_num_disp">Order #</h2></li>
     </ul></nav>
   </header>
@@ -29,25 +28,26 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       
       <div class="welcome_wrapper">
         <h1>Welcome</h1>
-        <ul>
-          <li><button id="welcome_new">New Order</button i></li>
-          <li><button id="welcome_load">Load Order</button></li>
-        </ul> 
+        <button id="welcome_new" class="menu_btn">New Order</button i>
+          <br />
+        <button id="welcome_load" class="menu_btn">Load Order</button>
+        </ul>
+        
       </div>
 
       <div class="welcome_wrapper">
         
-        <h2 id= "fullname">Please enter your first and last name</h2>
-        <ul>
-          <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input>
-          <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input>
-        </ul>  
+        <p id= "fullname">Please enter your first and last name</h2>
+        
+        <input type="text" id="first_name_text" rows="2" cols="20"></input>
+        <input type="text" id="last_name_text" rows="2" cols="20"></input>
+        
       
-        <h2 id= "email">Please enter your email address</h2>
-        <input type="text" id="email_text" rows="2" name="email" cols="20"></input>
+        <p id= "email">Please enter your email address</p>
+        <input type="text" id="email_text" rows="2" cols="20"></input>
 
-        <h2 id= "phone_number">Please enter your phone number</h2>
-        <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
+        <p id= "phone_number">Please enter your phone number</p>
+        <input type="text" id="phone_number_text" rows="2" cols="20"></input>
       </div>
 
     </div>
@@ -103,7 +103,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
           <div id= front_desc>
             <p id= "front-text-input">What do you want on the front?</p>
-            <textarea id="front_text" rows="2" name="front" cols="20"></textarea>
+            <textarea id="front_text" rows="2" cols="20"></textarea>
           </div> 
         </div>
       </div>
@@ -125,7 +125,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
           
           <div id="left_arm_desc">
             <p>What do you want on the left arm?</p>
-            <textarea id= "left_arm_text" rows="2" name="leftArm" cols="20"></textarea>
+            <textarea id= "left_arm_text" rows="2" cols="20"></textarea>
           </div>
         
         </div>
@@ -151,7 +151,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
           <div id="right_arm_desc">
             <p>What do you want on the right arm?</p>
-            <textarea id="right_arm_text" rows="2" name="rightArm" cols="20"></textarea>
+            <textarea id="right_arm_text" rows="2" cols="20"></textarea>
           </div>
 
         </div>
@@ -177,7 +177,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
           <div id="back_desc">
             <p>What do you want on the back?</p>
-            <textarea id="back_text" rows="2" name="back" cols="20"></textarea>
+            <textarea id="back_text" rows="2" cols="20"></textarea>
           </div>
 
         </div>
@@ -203,7 +203,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
           <div id="hood_desc">
             <p>What do you want on the hood (if applicable)?</p>
-            <textarea id="hood_text" rows="2" name="hood" cols="20"></textarea>
+            <textarea id="hood_text" rows="2" cols="20"></textarea>
           </div>
 
         </div>
@@ -219,7 +219,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <div class="sidediv">
         <div class="center">
           <p>Additional Information</p>
-          <textarea id="comment_text" rows="2" name="remark" cols="20"></textarea>
+          <textarea id="comment_text" rows="2" cols="20"></textarea>
         </div>
       </div>
 
@@ -231,6 +231,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
     <div class="wrapper" id="summary_section">
       <h2>Summary</h2>
+      <button id="export_btn" class="menu_btn">Export PDF</button>
       <p id="first_name_disp"></p>
       <p id="last_name_disp"></p></li>
       <p id="email_disp"></p>
