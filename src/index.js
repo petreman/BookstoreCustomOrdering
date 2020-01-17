@@ -72,6 +72,7 @@ if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 }
 
 //initialization
+store.clear();
 updateStore();
 disableNavButtons();
 disableNewOrderButton();
@@ -83,7 +84,6 @@ setCustomizationSelectListeners();
 document.getElementById("welcome_new").addEventListener("click", function(){
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
-  store.clear();
   store.set('order_num', date_str.substring(0, date_str.length-3));
   refreshOrderNumberDisplay();
   document.getElementById("order_num_disp").style.display = "inline-block";
@@ -272,16 +272,6 @@ function setTextAreaFromStore(name){
 
 }
 
-document.getElementById("first_name_disp").innerHTML = "Your first name is: " + store.get("first_name_text");
-document.getElementById("last_name_disp").innerHTML = "Your last name is: " + store.get("last_name_text");
-document.getElementById("email_disp").innerHTML = "Your email adress is: " + store.get("email_text");
-document.getElementById("phone_number_disp").innerHTML = "Your phone number is: " + store.get("phone_number_text");
-document.getElementById("left_arm_disp").innerHTML = "Your customization for left arm is: " + store.get("left_arm_text");
-document.getElementById("right_arm_disp").innerHTML = "Your customization for right arm is: " + store.get("right_arm_text");
-document.getElementById("back_disp").innerHTML = "Your customization for back is: " + store.get("back_text");
-document.getElementById("hood_disp").innerHTML = "Your customization for hood is: " + store.get("hood_text");
-document.getElementById("other_comment_disp").innerHTML = "Your other comment is: " + store.get("other_comment");
-
 function updateStoreFromTextArea(name){
 
   let textName = name + "_text";
@@ -360,6 +350,10 @@ function goToPrevSection(){
       }
 
       break;
+
+    case "summary_section":
+      prevSection = "comment_section";
+      document.getElementById("next_button").disabled = false;   
       
   }
 
@@ -430,8 +424,10 @@ function goToNextSection(){
       break;
 
     case "comment_section":
-      //set going to summary page here
-      return; 
+      nextSection = "summary_section";
+      document.getElementById("next_button").disabled = true; 
+      setSummaryFromStore();
+      break; 
 
   }
 
@@ -470,12 +466,12 @@ function defaultCheck(section){
 
       break;
       
+    case "comment_section":
+    case "summary_section":
+      break;  
+
     default:
-
-      if (section !== "comment_section"){
-        customizationSelectCheck(section);
-      }
-
+      customizationSelectCheck(section);
       break;  
 
   }
@@ -509,6 +505,7 @@ function setDefaults(){
   document.getElementById("right_arm_text").value = "";
   document.getElementById("back_text").value = "";
   document.getElementById("hood_text").value = "";
+  document.getElementById("comment_text").value = "";
 
   hideTextAreas();
 
@@ -614,4 +611,27 @@ function setWelcomeInputListeners(){
 
 function disableNewOrderButton(){
   document.getElementById("welcome_new").disabled = true;
+}
+
+function setSummaryFromStore(){
+  
+  document.getElementById("first_name_disp").innerHTML = "First Name: " + store.get("first_name_text");
+  document.getElementById("last_name_disp").innerHTML = "Last Name: " + store.get("last_name_text");
+  document.getElementById("email_disp").innerHTML = "Email: " + store.get("email_text");
+  document.getElementById("phone_number_disp").innerHTML = "Phone Number: " + store.get("phone_number_text");
+  document.getElementById("front_disp").innerHTML = "Front: " + store.get("front_text");
+  document.getElementById("left_arm_disp").innerHTML = "Left Arm: " + store.get("left_arm_text");
+  document.getElementById("right_arm_disp").innerHTML = "Right Arm: " + store.get("right_arm_text");
+  document.getElementById("back_disp").innerHTML = "Back: " + store.get("back_text");
+  document.getElementById("comment_disp").innerHTML = "Additional Information: " + store.get("comment_text");
+
+  if ( type === "hoodie" ){
+    document.getElementById("hood_disp").innerHTML = "Hood: " + store.get("hood_text");
+    document.getElementById("hood_disp").style.display = "auto";
+  }
+
+  else{
+    document.getElementById("hood_disp").style.display = "none";
+  }
+
 }
