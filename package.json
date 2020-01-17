@@ -5,6 +5,7 @@
   "description": "An app which allows a student to customize decals on a product before ordering",
   "main": "src/main.js",
   "scripts": {
+    "test:sheets": "node ./src/authenticate_sheets.js",
     "start": "electron-forge start",
     "compile-schema": "ajv compile -s ./src/schema_clothing.json -o ./src/schema_clothing_compiled.js",
     "package": "electron-forge package",
@@ -45,10 +46,11 @@
     }
   },
   "dependencies": {
-    "ajv-cli": "^3.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.1.0",
-    "mustache": "^3.2.1"
+    "googleapis": "^39.2.0",
+    "mustache": "^3.2.1",
+    "node-datetime": "^2.1.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.47",
