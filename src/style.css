@@ -207,6 +207,11 @@ div.sidediv{
   display: none;
 }
 
+.welcome_wrapper{
+  width:50%; 
+  height:auto; 
+  float:left;
+}
 #left {
   flex: 0 0 65%;
 }
