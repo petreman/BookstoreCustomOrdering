@@ -277,15 +277,15 @@ function setLoadedText(name){
 
 }
 
-document.getElementById("first_name_disp").innerHTML = store.get("first_name_text");
-document.getElementById("last_name_disp").innerHTML = store.get("last_name_text");
-document.getElementById("email_disp").innerHTML = store.get("email_text");
-document.getElementById("phone_number_disp").innerHTML = store.get("phone_number_text");
-document.getElementById("left_arm_disp").innerHTML = store.get("left_arm_text");
-document.getElementById("right_arm_disp").innerHTML = store.get("right_arm_text");
-document.getElementById("back_disp").innerHTML = store.get("back_text");
-document.getElementById("hood_disp").innerHTML = store.get("hood_text");
-document.getElementById("other_comment_disp").innerHTML = store.get("other_comment");
+document.getElementById("first_name_disp").innerHTML = "Your first name is: " + store.get("first_name_text");
+document.getElementById("last_name_disp").innerHTML = "Your last name is: " + store.get("last_name_text");
+document.getElementById("email_disp").innerHTML = "Your email adress is: " + store.get("email_text");
+document.getElementById("phone_number_disp").innerHTML = "Your phone number is: " + store.get("phone_number_text");
+document.getElementById("left_arm_disp").innerHTML = "Your customization for left arm is: " + store.get("left_arm_text");
+document.getElementById("right_arm_disp").innerHTML = "Your customization for right arm is: " + store.get("right_arm_text");
+document.getElementById("back_disp").innerHTML = "Your customization for back is: " + store.get("back_text");
+document.getElementById("hood_disp").innerHTML = "Your customization for hood is: " + store.get("hood_text");
+document.getElementById("other_comment_disp").innerHTML = "Your other comment is: " + store.get("other_comment");
 
 function refreshStore(){
   
