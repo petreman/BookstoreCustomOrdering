@@ -81,8 +81,15 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper" id="front_section">
       <div class="sidediv">
         <div class="center">
-          <div id= front_option>
-            <p id= "front-text-input">What do you want on the front (if applicable)?</p>
+          <p>Do you want a custom front?</p>
+          <select id="front_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id= front_desc>
+            <p id= "front-text-input">What do you want on the front?</p>
             <textarea id="front_text" rows="2" name="front" cols="20"></textarea>
           </div> 
         </div>
@@ -95,70 +102,118 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper" id="left_arm_section">
       <div class="sidediv">
         <div class="center">
+
+          <p>Do you want a custom left arm?</p>
+          <select id="left_arm_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
           
-          <div id="left_arm_option">
-            <p>What do you want on the left arm (if applicable)?</p>
+          <div id="left_arm_desc">
+            <p>What do you want on the left arm?</p>
             <textarea id= "left_arm_text" rows="2" name="leftArm" cols="20"></textarea>
           </div>
+        
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="left_arm_img" alt="This is left arm" width="100%" height="auto">
       </div>
+
     </div>
 
     <div class="wrapper" id="right_arm_section">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="right_arm_option">
-            <p>What do you want on the right arm (if applicable)?</p>
+
+          <p>Do you want a custom right arm?</p>
+          <select id="right_arm_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="right_arm_desc">
+            <p>What do you want on the right arm?</p>
             <textarea id="right_arm_text" rows="2" name="rightArm" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="right_arm_img" alt="This is right arm" width="100%" height="auto">
       </div>
+
     </div>
 
     <div class="wrapper" id="back_section">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="back_option">
-            <p>What do you want on the back (if applicable)?</p>
+
+          <p>Do you want a custom back?</p>
+          <select id="back_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="back_desc">
+            <p>What do you want on the back?</p>
             <textarea id="back_text" rows="2" name="back" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="back_img" alt="This is back" width="100%" height="auto">
       </div>
+
     </div>
 
     <div id="hood_section" class="wrapper">
+      
       <div class="sidediv">
         <div class="center">
-          <div id="hood_toggle">
+
+          <p>Do you want a custom hood?</p>
+          <select id="hood_select">
+            <option value="default">--</option>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+          </select>
+
+          <div id="hood_desc">
             <p>What do you want on the hood (if applicable)?</p>
             <textarea id="hood_text" rows="2" name="hood" cols="20"></textarea>
           </div>
+
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" id="hood_img" alt="This is hood" width="100%" height="auto">
       </div>
     </div>
 
     <div class="wrapper" id="comment_section">
+      
       <div class="sidediv">
         <div class="center">
           <p>Other Comments</p>
           <textarea id="comment_text" rows="2" name="remark" cols="20"></textarea>
         </div>
       </div>
+
       <div class="sidediv">
         <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
       </div>
+      
     </div> 
 
     <header id="footer">
