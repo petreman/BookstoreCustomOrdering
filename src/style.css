@@ -33,6 +33,13 @@ textarea{
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+input{
+  margin:10px 5%; 
+  width:auto; 
+  font-size: 30px;
+  font-family: sans-serif, "Open Sans", Arial;
+}
+
 select{
   margin:10px 5%; 
   width:90%; 
@@ -78,6 +85,12 @@ header{
     background-origin: padding-box;
     background-clip: border-box;
 
+}
+
+.welcome {
+  padding: 0 20px;
+  margin: 0;
+  padding: 0;
 }
 
 header ul {
@@ -169,7 +182,7 @@ header li h2 {
   outline: none;
 }
 
-.menu_btn:hover{
+.button:hover{
   box-shadow: rgba(75,75,75,.3) 2px 2px 3px 0; 
   color:#212529;
   background-color:#e2e6ea;
@@ -177,7 +190,7 @@ header li h2 {
   text-decoration: none;
 }
 
-.menu_btn:not(:disabled):active {
+.button:not(:disabled):active {
   cursor: pointer;
   color:#212529;
   background-color:#dae0e5;
@@ -186,11 +199,11 @@ header li h2 {
   box-shadow: 2px 2px 3px 0 rgba(75,75,75,.3);
 }
 
-.menu_btn:not(:disabled):active:focus{
+.button:not(:disabled):active:focus{
   box-shadow: 0 0 0 .2rem rgba(248,249,250,.5);
 }
 
-.menu_btn:disabled{
+.button:disabled{
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
