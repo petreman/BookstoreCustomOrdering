@@ -182,7 +182,7 @@ header li h2 {
   outline: none;
 }
 
-.button:hover{
+.menu_btn:hover{
   box-shadow: rgba(75,75,75,.3) 2px 2px 3px 0; 
   color:#212529;
   background-color:#e2e6ea;
@@ -190,7 +190,7 @@ header li h2 {
   text-decoration: none;
 }
 
-.button:not(:disabled):active {
+.menu_btn:not(:disabled):active {
   cursor: pointer;
   color:#212529;
   background-color:#dae0e5;
@@ -199,11 +199,11 @@ header li h2 {
   box-shadow: 2px 2px 3px 0 rgba(75,75,75,.3);
 }
 
-.button:not(:disabled):active:focus{
+.menu_btn:not(:disabled):active:focus{
   box-shadow: 0 0 0 .2rem rgba(248,249,250,.5);
 }
 
-.button:disabled{
+.menu_btn:disabled{
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
