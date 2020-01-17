@@ -6,7 +6,7 @@ Majority of methods are used to pass data between input areas and the Store.
 
 Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
 */
-
+"use strict";
 const { app, dialog, BrowserWindow } = require('electron').remote;
 const Store = require('electron-store');
 const Mustache = require('mustache');
@@ -26,7 +26,7 @@ const export_template = `
   <p>Right Arm: {{right_arm_text}}</p>
   <p>Back: {{back_text}}</p>
   <p>Hood: {{hood_text}}</p>
-  <p>Other Comments: {"comment_text"}</p>
+  <p>Other Comments: {{comment_text}}</p>
   </body>
   </html>
 `
@@ -40,6 +40,13 @@ const print_options = {
 };
 
 let store;
+//variables
+let type; //will be used to check if hood option should be taken
+let currentSection = "welcome_section";
+let welcomeInputs = ["name", "email", "phone"];
+let typeSelects = ["type", "color", "size"];
+let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
+
 try {
   const store_path = app.getPath('userData') + '/config.json';
   console.log(store_path);
@@ -48,21 +55,14 @@ try {
   store = new Store();
   store.store = store_data;
   setFromStore();
-} catch {
-  console.log('failed to load data');
+} catch (error) {
+  console.log(error);
   store = new Store();
 }
 
 if(store.get('img_location')) {
   loadImages();
 }
-
-//variables
-let type; //will be used to check if hood option should be taken
-let currentSection = "welcome_section";
-let welcomeInputs = ["name", "email", "phone"];
-let typeSelects = ["type", "color", "size"];
-let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
 //initialization
 updateStore();
@@ -234,7 +234,7 @@ function setFromStore(){
 
   document.getElementById("color_select").selectedIndex = index;
 
-  for (i = 1 ; i < customizationSections.length ; i++){
+  for (let i = 1 ; i < customizationSections.length ; i++){
     setTextAreaFromStore(customizationSections[i]);
   }
 
@@ -280,7 +280,7 @@ function updateStore(){
   let color_init = document.getElementById("color_select");
   store.set('color', color_init.options[color_init.selectedIndex].value);
 
-  for (i = 1 ; i < customizationSections.length ; i++){
+  for (let i = 1 ; i < customizationSections.length ; i++){
     updateStoreFromTextArea(customizationSections[i]);
   }
 
