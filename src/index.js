@@ -61,7 +61,7 @@ if(store.get('img_location')) {
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
 let welcomeInputs = ["name", "email", "phone"];
-let selects = ["type", "color", "size"];
+let typeSelects = ["type", "color", "size"];
 let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
 //initialization
@@ -69,6 +69,7 @@ updateStore();
 disableNavButtons();
 setSelectListeners();
 setTextListeners();
+setCustomizationSelectListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function(){
   const new_date = new Date();
@@ -145,17 +146,17 @@ document.getElementById("export_btn").addEventListener("click", function(){
 
 function setSelectListeners(){
   
-  for (let i = 0 ; i < selects.length ; i++){
+  for (let i = 0 ; i < typeSelects.length ; i++){
     
-    document.getElementById((selects[i] + "_select")).addEventListener("change", function(){
+    document.getElementById((typeSelects[i] + "_select")).addEventListener("change", function(){
       
-      store.set(selects[i], this.value);
+      store.set(typeSelects[i], this.value);
       
-      //even though the selects are all uniquely names, they are all placed
+      //even though the typeSelects are all uniquely names, they are all placed
       //in the "type" section
       defaultCheck("type_section");
 
-      if (selects[i] === "type"){
+      if (typeSelects[i] === "type"){
         type = this.value;
       }
 
@@ -402,7 +403,7 @@ function goToNextSection(){
 
     case "comment_section":
       //set going to summary page here
-      break;  
+      return; 
 
   }
 
@@ -441,29 +442,13 @@ function defaultCheck(section){
 
       break;
       
-    case "front_section":
-      nextButtonCheck("front");
-      break;
+    default:
 
-    case "left_arm_section":
-      nextButtonCheck("left_arm");
-      break;
+      if (section !== "comment_section"){
+        customizationSelectCheck(section);
+      }
 
-    case "right_arm_section":
-      nextButtonCheck("right_arm");
-      break;
-
-    case "back_section":
-      nextButtonCheck("back");
-      break; 
-      
-    case "hood_section":
-      nextButtonCheck("hood");
-      break; 
-      
-    case "comment_section":
-      nextButtonCheck("comment");
-      break;   
+      break;  
 
   }
 
@@ -482,7 +467,7 @@ function nextButtonCheck(name){
 }
 
 /**
- * Sets all changeable areas to their default values.
+ * Sets all changeable areas to their default values, and hides hidable sections.
  * Inteneded to be used when a new order is started.
  */
 function setDefaults(){
@@ -497,6 +482,8 @@ function setDefaults(){
   document.getElementById("back_text").value = "";
   document.getElementById("hood_text").value = "";
 
+  hideTextAreas();
+
 }
 
 /**
@@ -510,6 +497,64 @@ function checkIfWelcomeSection(){
   
   else {
     enableNavButtons();
+  }
+
+}
+
+function setCustomizationSelectListeners(){
+
+  for (let i = 1 ; i < customizationSections.length - 1 ; i++){
+    
+    document.getElementById((customizationSections[i] + "_select")).addEventListener("change", function(){
+
+      if (this.value === "yes"){
+        
+        document.getElementById(customizationSections[i] + "_desc").style.display = "block";
+        
+        if (document.getElementById(customizationSections[i] + "_text").value.trim() !== ""){
+          store.set( (customizationSections[i] + "_text"), document.getElementById(customizationSections[i] + "_text").value.trim() );
+        }
+
+      }
+
+      else {
+        document.getElementById(customizationSections[i] + "_desc").style.display = "none";
+        store.set(customizationSections[i] + "_text", "n/a");
+      }
+
+      defaultCheck(customizationSections[i] + "_section");
+
+    });             
+  
+  }
+
+}
+
+function hideTextAreas(){
+  
+  for (let i = 1 ; i < customizationSections.length - 1 ; i++){
+    document.getElementById(customizationSections[i] + "_desc").style.display = "none";
+  }
+
+}
+
+function customizationSelectCheck(name){
+
+  let select = document.getElementById(name.replace("_section", "_select"));
+
+  switch (select.value){
+    
+    case "yes":
+      nextButtonCheck(name.replace("_section", ""));
+      break;
+
+    case "no":
+      document.getElementById("next_button").disabled = false;
+      break;
+
+    case "default":
+      document.getElementById("next_button").disabled = true;
+      break
   }
 
 }
