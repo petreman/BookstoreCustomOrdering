@@ -9,12 +9,25 @@ function getCurrentDate() {
 
 const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
 // getNewToken();
-// newOrder({
-//     "spreadsheetId": "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc",
-//     "values": [
-//       "New Order using Adam's token", "New Order 2"
-//     ]
-//   });
+newOrder({
+    "spreadsheetId": "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc",
+    "values": [
+      "New Order using Adam's token", "New Order 2"
+    ]
+  }, (err, resp) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const updatedRange = resp.data.updates.updatedRange;
+      const first_row = updatedRange.slice(updatedRange.indexOf("!"), updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
+      const second_row = updatedRange.slice(updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
+      if (first_row === second_row) {
+        console.log(first_row);
+      } else {
+        console.error("ORDERS DONT MATCH!!\n".concat(first_row, "\n", second_row));
+      }
+    }
+  });
 // updateOrder({
 //   "spreadsheetId": spreadsheetId,
 //   "row": "3",
