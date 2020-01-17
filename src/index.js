@@ -18,8 +18,12 @@ const export_template = `
   <!DOCTYPE html>
   <html>
   <body>
-  <h1>Order #{{order_num}}</h1>
-  <p>Clothing Type: {{type}}</p>
+  <h1>Order number {{order_num}}</h1>
+  <p>Name: {{first_name_text}}</p>
+  <p>Name: {{last_name_text}}</p>
+  <p>Email: {{email_text}}</p>
+  <p>Phone number: {{phone_number_text}}</p>
+  <p>Clothing Type: {{clothing_type}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
@@ -43,7 +47,7 @@ let store;
 //variables
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
-let welcomeInputs = ["name", "email", "phone"];
+let welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
 let typeSelects = ["type", "color", "size"];
 let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
@@ -67,6 +71,8 @@ if(store.get('img_location')) {
 //initialization
 updateStore();
 disableNavButtons();
+disableNewOrderButton();
+setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
 setCustomizationSelectListeners();
@@ -164,7 +170,7 @@ function setSelectListeners(){
 
   }
 
-}
+}  
 
 /**
  * Sets all the listeners for text input areas
@@ -219,7 +225,7 @@ function setFromStore(){
       type = "crewneck"
       break;
   }
-    
+
   document.getElementById("type_select").selectedIndex = index;
 
   switch (store.get("color").toLowerCase()){
@@ -253,6 +259,16 @@ function setTextAreaFromStore(name){
   }
 
 }
+
+document.getElementById("first_name_disp").innerHTML = "Your first name is: " + store.get("first_name_text");
+document.getElementById("last_name_disp").innerHTML = "Your last name is: " + store.get("last_name_text");
+document.getElementById("email_disp").innerHTML = "Your email adress is: " + store.get("email_text");
+document.getElementById("phone_number_disp").innerHTML = "Your phone number is: " + store.get("phone_number_text");
+document.getElementById("left_arm_disp").innerHTML = "Your customization for left arm is: " + store.get("left_arm_text");
+document.getElementById("right_arm_disp").innerHTML = "Your customization for right arm is: " + store.get("right_arm_text");
+document.getElementById("back_disp").innerHTML = "Your customization for back is: " + store.get("back_text");
+document.getElementById("hood_disp").innerHTML = "Your customization for hood is: " + store.get("hood_text");
+document.getElementById("other_comment_disp").innerHTML = "Your other comment is: " + store.get("other_comment");
 
 function updateStoreFromTextArea(name){
 
@@ -557,4 +573,33 @@ function customizationSelectCheck(name){
       break
   }
 
+}
+
+function setWelcomeInputListeners(){
+
+  for(let i = 0 ; i < welcomeInputs.length ; i++){
+
+    document.getElementById( (welcomeInputs[i] + "_text") ).addEventListener("change", function(){
+     
+        updateStoreFromTextArea(welcomeInputs[i]);
+  
+        if (document.getElementById("first_name_text").value.trim() == "" || 
+            document.getElementById("last_name_text").value.trim() == "" ||
+            document.getElementById("email_text").value.trim() == "" ||
+            document.getElementById("phone_number_text").value.trim() == ""){
+          document.getElementById("welcome_new").disabled = true;
+        }
+  
+        else {
+          document.getElementById("welcome_new").disabled = false;
+        }
+  
+    });
+
+  }
+
+}
+
+function disableNewOrderButton(){
+  document.getElementById("welcome_new").disabled = true;
 }
