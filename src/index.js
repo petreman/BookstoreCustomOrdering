@@ -23,7 +23,7 @@ const export_template = `
   <p>Name: {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
   <p>Phone number: {{phone_number_text}}</p>
-  <p>Clothing Type: {{clothing_type}}</p>
+  <p>Clothing Type: {{type}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
@@ -64,20 +64,6 @@ try {
   store = new Store();
 }
 
-getSettings({
-  "spreadsheetId": spreadsheetId,
-  "range": ["2", ""]
-}, (err, resp) => {
-  if (err) {
-    console.log(err);
-  } else {
-    store.set('settings', resp.data.values);
-    console.log(store.get('settings'));
-  }
-});
-
-store.set('price_display', 0);
-
 if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
   console.log("image location found");
   loadImages();
@@ -86,7 +72,7 @@ if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 }
 
 //initialization
-store.clear();
+store.clear(); // you want to clear everything? no resume?
 disableNavButtons();
 disableNewOrderButton();
 setWelcomeInputListeners();
@@ -95,7 +81,7 @@ setTextListeners();
 setCustomizationSelectListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function(){
-  store.clear();
+  // store.clear();
   const new_date = new Date();
   const date_str = new_date.getTime().toString();
   store.set('order_num', date_str.substring(0, date_str.length-3));
@@ -410,6 +396,7 @@ function goToPrevSection(){
 function goToNextSection(){
 
   let nextSection;
+  calculateCurrentPrice();
 
   switch (currentSection){
     
@@ -678,4 +665,76 @@ function setSummaryFromStore(){
     document.getElementById("hood_disp").style.display = "none";
   }
 
+}
+
+getSettings({
+  "spreadsheetId": spreadsheetId,
+  "range": ["2", ""]
+}, (err, resp) => {
+  if (err) {
+    console.log(err);
+  } else {
+    store.set('settings', resp.data.values);
+    console.log(store.get('settings'));
+  }
+});
+
+function calculateCurrentPrice() {
+  console.log(store.store);
+  let currPrice = 0;
+  if (store.get('type') === "hoodie") {
+    currPrice += parseFloat(store.get("settings")[0][1]);
+  } else if (store.get('type') && store.get("type") === "crewneck") {
+    currPrice += parseFloat(store.get("settings")[1][1]);
+  }
+  if (store.get('color') === "green") {
+    currPrice += parseFloat(store.get("settings")[2][1]);
+  } else if (store.get("color") && store.get("color") === "grey") {
+    currPrice += parseFloat(store.get("settings")[3][1]);
+  }
+  if (store.get("front_text") && store.get('front_text') !== "n/a") {
+    currPrice += parseFloat(store.get("settings")[4][1]);
+  }
+  if (store.get('left_arm_text') && store.get('left_arm_text') !== "n/a") {
+    currPrice += parseFloat(store.get("settings")[5][1]);
+  }
+  if (store.get('right_arm_text') && store.get('right_arm_text') !== "n/a") {
+    currPrice += parseFloat(store.get("settings")[6][1]);
+  }
+  if (store.get('back_text') && store.get('back_text') !== "n/a") {
+    currPrice += parseFloat(store.get("settings")[7][1]);
+  }
+  if (store.get('hood_text') && store.get('hood_text') !== "n/a") {
+    currPrice += parseFloat(store.get("settings")[8][1]);
+  }
+  document.getElementById("price_display").innerHTML = "Total: " + currPrice;
+}
+
+function loadOrderInfoFromRow() {
+  const order_num = store.get('order_num');
+  getOrder({
+      "spreadsheetId": spreadsheetId,
+      "row": order_num,
+    }, (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(res.data.values[0]);
+        const order_data = res.data.values[0];
+        store.set("first_name_text", order_data[2]);
+        store.set("last_name_text", order_data[3]);
+        store.set("email_text", order_data[4]);
+        store.set("phone_number_text", order_data[5]);
+        store.set("type", order_data[6]);
+        store.set("color", order_data[7]);
+        store.set("size", order_data[8]);
+        store.set("front_text", order_data[9]);
+        store.set("left_arm_text", order_data[10]);
+        store.set("right_arm_text", order_data[11]);
+        store.set("back_text", order_data[12]);
+        store.set("hood_text", order_data[13]);
+        store.set("comment_text", order_data[14]);
+      }
+  });
+  setFromStore();
 }
