@@ -13,6 +13,13 @@ p {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+html{
+  height:100%;
+}
+body{
+  height:70%;
+}
+
 .center {
   position: absolute;
   top: 50%;
@@ -207,25 +214,29 @@ header li h2 {
 }
 
 div.sidediv {
-  border: 1px solid black;
   width: 50%;
-  height: auto;
+  height: 100%;
   position: relative;
 }
 
 .wrapper {
   display: none;
+  margin-bottom: 110px;
 }
 
 .welcome_wrapper {
   display: -webkit-box;
+  margin-bottom: 110px;
 }
 
-.left,
-.right {
-  border: 1px solid #000;
+.left {
   width: 50%;
   height: auto;
+  position: relative;
+}
+.right {
+  width: 50%;
+  height: 100%;
   position: relative;
 }
 
