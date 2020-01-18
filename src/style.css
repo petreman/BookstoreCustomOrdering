@@ -34,8 +34,8 @@ textarea{
 }
 
 input{
-  margin:10px 5%; 
-  width:auto; 
+  margin:5%; 
+  width:80%; 
   font-size: 30px;
   font-family: sans-serif, "Open Sans", Arial;
 }
@@ -221,16 +221,15 @@ div.sidediv{
 }
 
 .welcome_wrapper{
-  width:50%; 
-  height:auto; 
-  float:left;
-}
-#left {
-  flex: 0 0 65%;
+    display: -webkit-box;
 }
 
-#right {
-  flex: 1;
+.left,
+.right {
+    border: 1px solid #000;
+    width: 50%;
+    height:auto; 
+    position: relative;
 }
 
 img {
