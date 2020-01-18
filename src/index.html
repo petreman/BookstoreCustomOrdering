@@ -27,26 +27,37 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
     <div id= welcome_section>
 
-      <h1>Welcome</h1>
-      <ul>
-        <li><button id="welcome_new">New Order</button i></li>
-        <li><button id="welcome_load">Load Order</button></li>
-      </ul>  
+      <div class="welcome_wrapper">
 
-      <h2 id= "fullname">First Name:</h2>
-      <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
-      
-      <h2>Last Name:</h2>
-      <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input><br>
+        <div id="welcome_box" class="left">
+          <div id="welcome_child">
+            <p>Welcome</p>
+            <button id="welcome_new" class="menu_btn">New  Order</button i>
+            </br></br>
+            <button id="welcome_load" class="menu_btn">Load Order</button>
+          </div>
+          
+        </div>
+
+        <div class="right">
+          <p id= "first_name">First Name:</p>
+          <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
         
-      
-      <h2 id= "email">Email:</h2>
-      <input type="text" id="email_text" rows="2" name="email" cols="20"></input><br>
+          <p id= "last_name">Last Name:</p>
+          <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input><br>
+          
+        
+          <p id= "email">Email:</p>
+          <input type="text" id="email_text" rows="2" name="email" cols="20"></input><br>
 
-      <h2 id= "phone_number">Phone Number:</h2>
-      <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
+          <p id= "phone_number">Phone Number:</p>
+          <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
+        </div>
+
+      </div>
 
     </div>
+    
   
     <div class="wrapper" id="type_section">
       
@@ -213,7 +224,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="wrapper" id="comment_section">
       
       <div class="sidediv">
-        <div class="center">
+        <div class="welcome_center">
           <p>Additional Information</p>
           <textarea id="comment_text" rows="2" cols="20"></textarea>
         </div>
