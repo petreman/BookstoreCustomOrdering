@@ -652,6 +652,12 @@ function setSummaryFromStore(){
   document.getElementById("last_name_disp").innerHTML = "Last Name: " + store.get("last_name_text");
   document.getElementById("email_disp").innerHTML = "Email: " + store.get("email_text");
   document.getElementById("phone_number_disp").innerHTML = "Phone Number: " + store.get("phone_number_text");
+
+
+  document.getElementById("type_disp").innerHTML = "Clothing type: " + store.get("type");
+  document.getElementById("color_disp").innerHTML = "Clothing color: " + store.get("color");
+  document.getElementById("size_disp").innerHTML = "Clothing size: " + store.get("size");
+  
   document.getElementById("front_disp").innerHTML = "Front: " + store.get("front_text");
   document.getElementById("left_arm_disp").innerHTML = "Left Arm: " + store.get("left_arm_text");
   document.getElementById("right_arm_disp").innerHTML = "Right Arm: " + store.get("right_arm_text");
