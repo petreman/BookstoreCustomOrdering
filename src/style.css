@@ -34,8 +34,8 @@ textarea{
 }
 
 input{
-  margin:10px 5%; 
-  width:auto; 
+  margin:5%; 
+  width:80%; 
   font-size: 30px;
   font-family: sans-serif, "Open Sans", Arial;
 }
@@ -49,7 +49,7 @@ select{
 }
 
 body{
-  margin-top: 110px;
+  margin: 110px 0;
   background-color: white;
 }
 
@@ -221,16 +221,25 @@ div.sidediv{
 }
 
 .welcome_wrapper{
-  width:50%; 
-  height:auto; 
-  float:left;
-}
-#left {
-  flex: 0 0 65%;
+    display: -webkit-box;
 }
 
-#right {
-  flex: 1;
+.left,
+.right {
+    border: 1px solid #000;
+    width: 50%;
+    height:auto; 
+    position: relative;
+}
+
+#welcome_box {
+  position: relative;
+}
+#welcome_child {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  transform: translate(-50%, -50%);
 }
 
 img {
