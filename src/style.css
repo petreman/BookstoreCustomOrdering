@@ -255,5 +255,10 @@ header#footer ul {
   margin: 0 auto;
 }
 
+textarea:hover{
+  cursor:text;
+}
 
-
+text:hover{
+  cursor:text;
+}
