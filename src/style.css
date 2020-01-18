@@ -49,7 +49,7 @@ select{
 }
 
 body{
-  margin-top: 110px;
+  margin: 110px 0;
   background-color: white;
 }
 
@@ -230,6 +230,16 @@ div.sidediv{
     width: 50%;
     height:auto; 
     position: relative;
+}
+
+#welcome_box {
+  position: relative;
+}
+#welcome_child {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  transform: translate(-50%, -50%);
 }
 
 img {
