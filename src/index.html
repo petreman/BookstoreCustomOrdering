@@ -6,266 +6,275 @@ and the preview images.
 Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Bookstore Custom Ordering</title>
-    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" type="text/css" href="style.css">
-  </head>
 
-  <header>
-    <nav><ul>
+<head>
+  <meta charset="UTF-8">
+  <title>Bookstore Custom Ordering</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<header>
+  <nav>
+    <ul>
       <li><button id="save_btn" class="menu_btn">Save Order</button></li>
       <li><button id="load_btn" class="menu_btn">Load Order</button></li>
       <li><button id="img_btn" class="menu_btn">Load Images</button></li>
-      <li><h2 id="order_num_disp">Order #</h2></li>
-    </ul></nav>
-  </header>
+      <li>
+        <h2 id="order_num_disp">Order #</h2>
+      </li>
+    </ul>
+  </nav>
+</header>
 
-  <body>
+<body>
 
-    <div id= welcome_section>
+  <div id=welcome_section>
 
-      <div class="welcome_wrapper">
+    <div class="welcome_wrapper">
 
-        <div id="welcome_box" class="left">
-          <div id="welcome_child">
-            <p>Welcome</p>
-            <button id="welcome_new" class="menu_btn">New  Order</button i>
-            </br></br>
-            <button id="welcome_load" class="menu_btn">Load Order</button>
-          </div>
-          
+      <div id="welcome_box" class="left">
+        <div id="welcome_child">
+          <p>Welcome</p>
+          <button id="welcome_new" class="menu_btn">New Order</button i>
+          </br></br>
+          <button id="welcome_load" class="menu_btn">Load Order</button>
         </div>
 
-        <div class="right">
-          <p id= "first_name">First Name:</p>
-          <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
-        
-          <p id= "last_name">Last Name:</p>
-          <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input><br>
-          
-        
-          <p id= "email">Email:</p>
-          <input type="text" id="email_text" rows="2" name="email" cols="20"></input><br>
+      </div>
 
-          <p id= "phone_number">Phone Number:</p>
-          <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
-        </div>
+      <div class="right">
+        <p id="first_name">First Name:</p>
+        <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
 
+        <p id="last_name">Last Name:</p>
+        <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input><br>
+
+
+        <p id="email">Email:</p>
+        <input type="text" id="email_text" rows="2" name="email" cols="20"></input><br>
+
+        <p id="phone_number">Phone Number:</p>
+        <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
       </div>
 
     </div>
-    
-  
-    <div class="wrapper" id="type_section">
-      
-      <div class="sidediv">
-        
-          <p>Clothing Type</p>
-          <select id="type_select">
-            <option value="none">--</option>
-            <option value="hoodie">Hoodie</option>
-            <option value="crewneck">Crewneck</option>
-          </select>
-        
-          <p>Color</p>
-          <select id="color_select">
-            <option value="none">--</option>
-            <option value="green">Green</option>
-            <option value="gray">Gray</option>
-          </select>
 
-          <p>Size</p>
-          <select id="size_select">
-            <option value="none">--</option>
-            <option value="2XS">2XS</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="2XL">2XL</option>
-          </select>
+  </div>
 
+
+  <div class="wrapper" id="type_section">
+
+    <div class="sidediv">
+
+      <p>Clothing Type</p>
+      <select id="type_select">
+        <option value="none">--</option>
+        <option value="hoodie">Hoodie</option>
+        <option value="crewneck">Crewneck</option>
+      </select>
+
+      <p>Color</p>
+      <select id="color_select">
+        <option value="none">--</option>
+        <option value="green">Green</option>
+        <option value="gray">Gray</option>
+      </select>
+
+      <p>Size</p>
+      <select id="size_select">
+        <option value="none">--</option>
+        <option value="2XS">2XS</option>
+        <option value="XS">XS</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="2XL">2XL</option>
+      </select>
+
+    </div>
+
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="type_img" alt="This is hoodie" width="100%" height="auto">
+    </div>
+
+  </div>
+  </div>
+
+  <div class="wrapper" id="front_section">
+    <div class="sidediv">
+      <div class="center">
+        <p>Do you want a custom front?</p>
+        <select id="front_select">
+          <option value="default">--</option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id=front_desc>
+          <p id="front-text-input">What do you want on the front?</p>
+          <textarea id="front_text" rows="2" cols="20"></textarea>
+        </div>
       </div>
-
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="type_img" alt="This is hoodie" width="100%" height="auto">
-      </div>
-
+    </div>
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="front_img" alt="This is front" width="100%" height="auto">
     </div>
   </div>
 
-    <div class="wrapper" id="front_section">
-      <div class="sidediv">
-        <div class="center">
-          <p>Do you want a custom front?</p>
-          <select id="front_select">
-            <option value="default">--</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+  <div class="wrapper" id="left_arm_section">
+    <div class="sidediv">
+      <div class="center">
 
-          <div id= front_desc>
-            <p id= "front-text-input">What do you want on the front?</p>
-            <textarea id="front_text" rows="2" cols="20"></textarea>
-          </div> 
+        <p>Do you want a custom left arm?</p>
+        <select id="left_arm_select">
+          <option value="default">--</option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id="left_arm_desc">
+          <p>What do you want on the left arm?</p>
+          <textarea id="left_arm_text" rows="2" cols="20"></textarea>
         </div>
-      </div>
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="front_img" alt="This is front" width="100%" height="auto">
+
       </div>
     </div>
 
-    <div class="wrapper" id="left_arm_section">
-      <div class="sidediv">
-        <div class="center">
-
-          <p>Do you want a custom left arm?</p>
-          <select id="left_arm_select">
-            <option value="default">--</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
-          
-          <div id="left_arm_desc">
-            <p>What do you want on the left arm?</p>
-            <textarea id= "left_arm_text" rows="2" cols="20"></textarea>
-          </div>
-        
-        </div>
-      </div>
-
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="left_arm_img" alt="This is left arm" width="100%" height="auto">
-      </div>
-
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="left_arm_img" alt="This is left arm" width="100%"
+        height="auto">
     </div>
 
-    <div class="wrapper" id="right_arm_section">
-      
-      <div class="sidediv">
-        <div class="center">
+  </div>
 
-          <p>Do you want a custom right arm?</p>
-          <select id="right_arm_select">
-            <option value="default">--</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
+  <div class="wrapper" id="right_arm_section">
 
-          <div id="right_arm_desc">
-            <p>What do you want on the right arm?</p>
-            <textarea id="right_arm_text" rows="2" cols="20"></textarea>
-          </div>
+    <div class="sidediv">
+      <div class="center">
 
+        <p>Do you want a custom right arm?</p>
+        <select id="right_arm_select">
+          <option value="default">--</option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id="right_arm_desc">
+          <p>What do you want on the right arm?</p>
+          <textarea id="right_arm_text" rows="2" cols="20"></textarea>
         </div>
-      </div>
 
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="right_arm_img" alt="This is right arm" width="100%" height="auto">
-      </div>
-
-    </div>
-
-    <div class="wrapper" id="back_section">
-      
-      <div class="sidediv">
-        <div class="center">
-
-          <p>Do you want a custom back?</p>
-          <select id="back_select">
-            <option value="default">--</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
-
-          <div id="back_desc">
-            <p>What do you want on the back?</p>
-            <textarea id="back_text" rows="2" cols="20"></textarea>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="back_img" alt="This is back" width="100%" height="auto">
-      </div>
-
-    </div>
-
-    <div id="hood_section" class="wrapper">
-      
-      <div class="sidediv">
-        <div class="center">
-
-          <p>Do you want a custom hood?</p>
-          <select id="hood_select">
-            <option value="default">--</option>
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
-
-          <div id="hood_desc">
-            <p>What do you want on the hood (if applicable)?</p>
-            <textarea id="hood_text" rows="2" cols="20"></textarea>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" id="hood_img" alt="This is hood" width="100%" height="auto">
       </div>
     </div>
 
-    <div class="wrapper" id="comment_section">
-      
-      <div class="sidediv">
-        <div class="welcome_center">
-          <p>Additional Information</p>
-          <textarea id="comment_text" rows="2" cols="20"></textarea>
-        </div>
-      </div>
-
-      <div class="sidediv">
-        <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
-      </div>
-      
-    </div> 
-
-    <div class="wrapper" id="summary_section">
-      <p>Summary of your order: </p>
-      <p id="first_name_disp"></p>
-      <p id="last_name_disp"></p></li>
-      <p id="email_disp"></p>
-      <p id="phone_number_disp"></p>
-      <p id="type_disp"></p>
-      <p id="color_disp"></p>
-      <p id="size_disp"></p>
-      <p id="front_disp"></p>
-      <p id="left_arm_disp"></p>
-      <p id="right_arm_disp"></p>
-      <p id="back_disp"></p>
-      <p id="hood_disp"></p>
-      <p id="comment_disp"></p>
-      <button id="export_btn" class="menu_btn">Export PDF</button>
-      <button id="reload_page">Make Another Order</button>
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="right_arm_img" alt="This is right arm" width="100%"
+        height="auto">
     </div>
-    
-    <header id="footer">
-      <ul id="nav">
-        <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
-        <li id="next_section"><button id="next_button" class="menu_btn">Next</button></li>
-        <li id="price_display">Price: </li>
-      </ul>
-    </header>
+
+  </div>
+
+  <div class="wrapper" id="back_section">
+
+    <div class="sidediv">
+      <div class="center">
+
+        <p>Do you want a custom back?</p>
+        <select id="back_select">
+          <option value="default">--</option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id="back_desc">
+          <p>What do you want on the back?</p>
+          <textarea id="back_text" rows="2" cols="20"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="back_img" alt="This is back" width="100%" height="auto">
+    </div>
+
+  </div>
+
+  <div id="hood_section" class="wrapper">
+
+    <div class="sidediv">
+      <div class="center">
+
+        <p>Do you want a custom hood?</p>
+        <select id="hood_select">
+          <option value="default">--</option>
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+
+        <div id="hood_desc">
+          <p>What do you want on the hood (if applicable)?</p>
+          <textarea id="hood_text" rows="2" cols="20"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" id="hood_img" alt="This is hood" width="100%" height="auto">
+    </div>
+  </div>
+
+  <div class="wrapper" id="comment_section">
+
+    <div class="sidediv">
+      <div class="welcome_center">
+        <p>Additional Information</p>
+        <textarea id="comment_text" rows="2" cols="20"></textarea>
+      </div>
+    </div>
+
+    <div class="sidediv">
+      <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
+    </div>
+
+  </div>
+
+  <div class="wrapper" id="summary_section">
+    <p>Summary of your order: </p>
+    <p id="first_name_disp"></p>
+    <p id="last_name_disp"></p>
+    </li>
+    <p id="email_disp"></p>
+    <p id="phone_number_disp"></p>
+    <p id="type_disp"></p>
+    <p id="color_disp"></p>
+    <p id="size_disp"></p>
+    <p id="front_disp"></p>
+    <p id="left_arm_disp"></p>
+    <p id="right_arm_disp"></p>
+    <p id="back_disp"></p>
+    <p id="hood_disp"></p>
+    <p id="comment_disp"></p>
+    <button id="export_btn" class="menu_btn">Export PDF</button>
+    <button id="reload_page">Make Another Order</button>
+  </div>
+
+  <header id="footer">
+    <ul id="nav">
+      <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
+      <li id="next_section"><button id="next_button" class="menu_btn">Next</button></li>
+      <li id="price_display">Price: </li>
+    </ul>
+  </header>
 
   <!--We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.-->
-  </body>
-  <script src="index.js"></script>
+</body>
+<script src="index.js"></script>
+
 </html>

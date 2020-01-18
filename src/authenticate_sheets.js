@@ -1,10 +1,20 @@
-const { getNewToken, getTokenGeneratorURL, generateTokenFromURLCode, newOrder, updateOrder, getOrder, setSettings, getSettings, finalizeOrder } = require('./sheets.js');
+const {
+  getNewToken,
+  getTokenGeneratorURL,
+  generateTokenFromURLCode,
+  newOrder,
+  updateOrder,
+  getOrder,
+  setSettings,
+  getSettings,
+  finalizeOrder
+} = require("./sheets.js");
 
 // getNewToken();
 function getCurrentDate() {
-  const dateTime = require('node-datetime');
+  const dateTime = require("node-datetime");
   const dt = dateTime.create();
-  return dt.format('Y-m-d H:M:S');
+  return dt.format("Y-m-d H:M:S");
 }
 
 const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
