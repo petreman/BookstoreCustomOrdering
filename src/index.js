@@ -175,6 +175,8 @@ function setSelectListeners(){
       //in the "type" section
       defaultCheck("type_section");
 
+      loadTypeImage();
+
       if (typeSelects[i] === "type"){
         type = this.value;
       }
@@ -663,5 +665,37 @@ function setSummaryFromStore(){
   else{
     document.getElementById("hood_disp").style.display = "none";
   }
+
+}
+
+function loadTypeImage(){
+  
+  fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
+    const img_dir = res.toString();
+    console.log(img_dir);
+    let typeSelected = document.getElementById("type_select").value;
+    let colorSelected = document.getElementById("color_select").value;
+
+    if (typeSelected === "hoodie" && colorSelected === "green"){
+      document.getElementById('type_img').setAttribute('src', img_dir + '/hoodie_green_img.png');
+    }
+
+    else if (typeSelected === "hoodie" && colorSelected === "gray") {
+      document.getElementById('type_img').setAttribute('src', img_dir + '/hoodie_gray_img.png');
+    }
+
+    else if (typeSelected === "crewneck" && colorSelected === "green") {
+      document.getElementById('type_img').setAttribute('src', img_dir + '/crewneck_green_img.png');
+    }
+
+    else if (typeSelected === "crewneck" && colorSelected === "gray") {
+      document.getElementById('type_img').setAttribute('src', img_dir + '/crewneck_gray_img.png');
+    }
+
+    else {
+      document.getElementById('type_img').setAttribute('src', img_dir + '/img_not_loaded.png');
+    }
+
+  });
 
 }
