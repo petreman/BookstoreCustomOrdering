@@ -250,6 +250,16 @@ div.sidediv {
   transform: translate(-50%, -50%);
 }
 
+#summary_box {
+  position: relative;
+}
+#summary_child {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-bottom: 110px;
+}
+
 img {
   display: flex;
   margin-left: auto;
