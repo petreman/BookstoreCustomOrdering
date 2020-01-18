@@ -8,6 +8,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
 */
 "use strict";
 const { app, dialog, BrowserWindow } = require('electron').remote;
+const ipc = require("electron").ipcRenderer;
 const Store = require('electron-store');
 const Mustache = require('mustache');
 const fs = require('fs');
@@ -47,9 +48,9 @@ let store;
 //variables
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
-let welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
-let typeSelects = ["type", "color", "size"];
-let customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
+const welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
+const typeSelects = ["type", "color", "size"];
+const customizationSections = ["type", "front", "left_arm", "right_arm", "back", "hood", "comment"]
 
 try {
   const store_path = app.getPath('userData') + '/config.json';
@@ -770,5 +771,12 @@ function loadTypeImage(){
     }
 
   });
-
 }
+
+function reloadPage() {
+  ipc.send("load-page");
+}
+
+document.getElementById("reload_page").addEventListener('click', () => {
+  reloadPage();
+});
