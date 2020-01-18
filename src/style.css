@@ -7,54 +7,54 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
 */
 p {
   font-size: 30px;
-  margin:10px 5%; 
-  width:90%; 
-  height:auto;
+  margin: 10px 5%;
+  width: 90%;
+  height: auto;
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-.center{
+.center {
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
-  width:100%;
+  width: 100%;
 }
 
-p.pos_fixed{
-  position:fixed;
-  top:50px;
-  right:50px;
+p.pos_fixed {
+  position: fixed;
+  top: 50px;
+  right: 50px;
 }
-textarea{
-  margin:10px 5%; 
-  width:90%; 
-  height:100px;
+textarea {
+  margin: 10px 5%;
+  width: 90%;
+  height: 100px;
   font-size: 30px;
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-input{
-  margin:5%; 
-  width:80%; 
+input {
+  margin: 5%;
+  width: 80%;
   font-size: 30px;
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-select{
-  margin:10px 5%; 
-  width:90%; 
-  height:50px;
+select {
+  margin: 10px 5%;
+  width: 90%;
+  height: 50px;
   font-size: 30px;
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-body{
+body {
   margin: 110px 0;
   background-color: white;
 }
 
-header{
-  border-bottom:3px solid #ffdb05;
+header {
+  border-bottom: 3px solid #ffdb05;
   position: fixed;
   width: 100%;
   z-index: 9999;
@@ -70,21 +70,19 @@ header{
   min-height: 100px;
   display: flex;
   align-items: center;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   box-sizing: border-box;
 
-  background:
-    transparent url("./images/banner-bg.svg") center center;
-    background-color: transparent;
-    background-position-x: center;
-    background-position-y: center;
-    background-repeat: repeat;
-    background-attachment: scroll;
-    background-image: url("./images/banner-bg.svg");
-    background-size: auto;
-    background-origin: padding-box;
-    background-clip: border-box;
-
+  background: transparent url("./images/banner-bg.svg") center center;
+  background-color: transparent;
+  background-position-x: center;
+  background-position-y: center;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  background-image: url("./images/banner-bg.svg");
+  background-size: auto;
+  background-origin: padding-box;
+  background-clip: border-box;
 }
 
 .welcome {
@@ -101,15 +99,15 @@ header ul {
   padding: 0;
 }
 
-header li{
+header li {
   display: inline-block;
   font-weight: 400;
-  line-height: 1.25; 
+  line-height: 1.25;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   font-size: 1rem;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   font-family: sans-serif, "Open Sans", Arial;
 }
 
@@ -121,7 +119,6 @@ header li h2 {
   text-align: left;
   box-sizing: border-box;
   margin-left: 10px;
-
 }
 
 /* Adapted from eClass */
@@ -182,37 +179,37 @@ header li h2 {
   outline: none;
 }
 
-.menu_btn:hover{
-  box-shadow: rgba(75,75,75,.3) 2px 2px 3px 0; 
-  color:#212529;
-  background-color:#e2e6ea;
-  border-color:#dae0e5;
+.menu_btn:hover {
+  box-shadow: rgba(75, 75, 75, 0.3) 2px 2px 3px 0;
+  color: #212529;
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
   text-decoration: none;
 }
 
 .menu_btn:not(:disabled):active {
   cursor: pointer;
-  color:#212529;
-  background-color:#dae0e5;
-  border-color:#d3d9df;
+  color: #212529;
+  background-color: #dae0e5;
+  border-color: #d3d9df;
   background-image: none;
-  box-shadow: 2px 2px 3px 0 rgba(75,75,75,.3);
+  box-shadow: 2px 2px 3px 0 rgba(75, 75, 75, 0.3);
 }
 
-.menu_btn:not(:disabled):active:focus{
-  box-shadow: 0 0 0 .2rem rgba(248,249,250,.5);
+.menu_btn:not(:disabled):active:focus {
+  box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
 }
 
-.menu_btn:disabled{
+.menu_btn:disabled {
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
 }
 
-div.sidediv{
-  border:1px solid black;
-  width:50%; 
-  height:auto; 
+div.sidediv {
+  border: 1px solid black;
+  width: 50%;
+  height: auto;
   position: relative;
 }
 
@@ -220,16 +217,16 @@ div.sidediv{
   display: none;
 }
 
-.welcome_wrapper{
-    display: -webkit-box;
+.welcome_wrapper {
+  display: -webkit-box;
 }
 
 .left,
 .right {
-    border: 1px solid #000;
-    width: 50%;
-    height:auto; 
-    position: relative;
+  border: 1px solid #000;
+  width: 50%;
+  height: auto;
+  position: relative;
 }
 
 #welcome_box {
@@ -249,12 +246,11 @@ img {
 }
 
 header#footer {
-  border-top:3px solid #ffdb05;
+  border-top: 3px solid #ffdb05;
   border-bottom: none;
   bottom: 0;
   top: auto;
   display: flex;
-  
 }
 
 header#footer ul {
@@ -264,10 +260,10 @@ header#footer ul {
   margin: 0 auto;
 }
 
-textarea:hover{
-  cursor:text;
+textarea:hover {
+  cursor: text;
 }
 
-text:hover{
-  cursor:text;
+text:hover {
+  cursor: text;
 }
