@@ -436,6 +436,20 @@ function goToPrevSection() {
       break;
   }
 
+  updateOrder({
+    "spreadsheetId": spreadsheetId,
+    "row": store.get("order_num"),
+    "column_range": colRange,
+    "values": vals
+  }), (err, resp) => {
+    if (err) {
+      console.log(err);
+      displayErrorPopUp(err);
+      return;
+    } else {
+      console.log(resp);
+    }};
+
   defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
 
@@ -448,13 +462,6 @@ function goToPrevSection() {
 
   currentSection = prevSection;
 
-  updateOrder({
-    "spreadsheetId": spreadsheetId,
-    "row": store.get("order_num"),
-    "column_range": colRange,
-    "values": vals
-  });
-
 }
 
 /**
@@ -464,9 +471,10 @@ function goToPrevSection() {
  * -Keegan
  */
 function goToNextSection() {
-  let nextSection;
+  
   calculateCurrentPrice();
-
+  
+  let nextSection;
   let colRange;
   let vals;
 
@@ -495,26 +503,20 @@ function goToNextSection() {
 
     case "front_section":
       nextSection = "left_arm_section";
-
       colRange = ["J", "J"];
       vals = [store.get("front_text")];
-
       break;
 
     case "left_arm_section":
       nextSection = "right_arm_section";
-
       colRange = ["K", "K"];
       vals = [store.get("left_arm_text")];
-
       break;
 
     case "right_arm_section":
       nextSection = "back_section";
-
       colRange = ["L", "L"];
       vals = [store.get("right_arm_text")];
-
       break;
 
     case "back_section":
@@ -565,7 +567,14 @@ function goToNextSection() {
     "row": store.get("order_num"),
     "column_range": colRange,
     "values": vals
-  });
+  }), (err, resp) => {
+    if (err) {
+      console.log(err);
+      displayErrorPopUp(err);
+      return;
+    } else {
+      console.log(resp);
+    }};
 
 }
 
@@ -880,3 +889,24 @@ function reloadPage() {
 document.getElementById("reload_page").addEventListener("click", () => {
   reloadPage();
 });
+
+function displayErrorPopUp(err){
+  
+  //Get the modal
+  var modal = document.getElementById("error_modal");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  //display modal
+  modal.style.display = "block";
+
+  document.getElementById("error").innerHTML = "Error Recieved: " + err.toString();
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+
+}
