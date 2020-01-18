@@ -366,7 +366,12 @@ function updateStore() {
  * -Keegan
  */
 function goToPrevSection() {
+  
+  calculateCurrentPrice();
+
   let prevSection;
+  let colRange;
+  let vals;
 
   switch (currentSection) {
     case "welcome_section":
@@ -376,26 +381,41 @@ function goToPrevSection() {
       prevSection = "welcome_section";
       document.getElementById("prev_button").disabled = true;
       document.getElementById("next_button").disabled = false;
+
+      colRange = ["G", "I"];
+      vals = [store.get("type"), 
+        store.get("color"), store.get("size")];
+
       break;
 
     case "front_section":
       prevSection = "type_section";
+      colRange = ["J", "J"];
+      vals = [store.get("front_text")];
       break;
 
     case "left_arm_section":
       prevSection = "front_section";
+      colRange = ["K", "K"];
+      vals = [store.get("left_arm_text")];
       break;
 
     case "right_arm_section":
       prevSection = "left_arm_section";
+      colRange = ["L", "L"];
+      vals = [store.get("right_arm_text")];
       break;
 
     case "back_section":
       prevSection = "right_arm_section";
+      colRange = ["M", "M"];
+      vals = [store.get("back_text")];
       break;
 
     case "hood_section":
       prevSection = "back_section";
+      colRange = ["N", "N"];
+      vals = [store.get("hood_text")];
       break;
 
     case "comment_section":
@@ -404,6 +424,9 @@ function goToPrevSection() {
       } else {
         prevSection = "back_section";
       }
+
+      colRange = ["O", "O"];
+      vals = [store.get("comment_text")];
 
       break;
 
@@ -424,6 +447,14 @@ function goToPrevSection() {
   }
 
   currentSection = prevSection;
+
+  updateOrder({
+    "spreadsheetId": spreadsheetId,
+    "row": store.get("order_num"),
+    "column_range": colRange,
+    "values": vals
+  });
+
 }
 
 /**
@@ -436,32 +467,54 @@ function goToNextSection() {
   let nextSection;
   calculateCurrentPrice();
 
+  let colRange;
+  let vals;
+
   switch (currentSection) {
     case "welcome_section":
       nextSection = "type_section";
-      document.getElementById("prev_button").disabled = false;
       document.getElementById("nav").style.display = "table";
+
+      colRange = ["C", "F"];
+      vals = [
+        store.get("first_name_text"), store.get("last_name_text"),
+        store.get("email_text"), store.get("phone_number_text")
+        ];
+      
       break;
 
     case "type_section":
       nextSection = "front_section";
-      document.getElementById("prev_button").disabled = false;
       document.getElementById("next_button").disabled = true;
+
+      colRange = ["G", "I"];
+      vals = [store.get("type"), 
+        store.get("color"), store.get("size")];
+
       break;
 
     case "front_section":
       nextSection = "left_arm_section";
-      document.getElementById("prev_button").disabled = false;
+
+      colRange = ["J", "J"];
+      vals = [store.get("front_text")];
+
       break;
 
     case "left_arm_section":
       nextSection = "right_arm_section";
-      document.getElementById("prev_button").disabled = false;
+
+      colRange = ["K", "K"];
+      vals = [store.get("left_arm_text")];
+
       break;
 
     case "right_arm_section":
       nextSection = "back_section";
-      document.getElementById("prev_button").disabled = false;
+
+      colRange = ["L", "L"];
+      vals = [store.get("right_arm_text")];
+
       break;
 
     case "back_section":
@@ -471,18 +524,27 @@ function goToNextSection() {
         nextSection = "comment_section";
       }
 
-      document.getElementById("prev_button").disabled = false;
+      colRange = ["M", "M"];
+      vals = [store.get("back_text")];
+
       break;
 
     case "hood_section":
       nextSection = "comment_section";
-      document.getElementById("prev_button").disabled = false;
+
+      colRange = ["N", "N"];
+      vals = [store.get("hood_text")];
+
       break;
 
     case "comment_section":
       nextSection = "summary_section";
       document.getElementById("next_button").disabled = true;
       setSummaryFromStore();
+
+      colRange = ["O", "O"];
+      vals = [store.get("comment_text")];
+
       break;
   }
 
@@ -494,9 +556,17 @@ function goToNextSection() {
   }
 
   defaultCheck(nextSection);
-
+  document.getElementById("prev_button").disabled = false;
   document.getElementById(currentSection).style.display = "none";
   currentSection = nextSection;
+
+  updateOrder({
+    "spreadsheetId": spreadsheetId,
+    "row": store.get("order_num"),
+    "column_range": colRange,
+    "values": vals
+  });
+
 }
 
 /**
