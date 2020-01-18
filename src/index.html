@@ -15,6 +15,18 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
+<!-- The Modal -->
+<div id="error_modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Error connecting to Google Sheets. Please check your connection and try again.</p>
+    <p id="error"></p>
+  </div>
+
+</div>
+
 <header>
   <nav>
     <ul>
@@ -281,6 +293,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.-->
 </body>
+
 <script src="index.js"></script>
 
 </html>
