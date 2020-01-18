@@ -50,8 +50,8 @@ const print_options = {
   pageSize: "A4"
 };
 
-let store;
 //variables
+let store;
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
 const welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
@@ -97,14 +97,35 @@ setCustomizationSelectListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function() {
   // store.clear();
-  const new_date = new Date();
-  const date_str = new_date.getTime().toString();
-  store.set("order_num", date_str.substring(0, date_str.length - 3));
-  refreshOrderNumberDisplay();
-  document.getElementById("order_num_disp").style.display = "inline-block";
+
+  newOrder({
+      "spreadsheetId": spreadsheetId,
+      "values": [
+        store.get("first_name_text"), store.get("last_name_text"),
+        store.get("email_text"), store.get("phone_number_text")
+      ]
+    }, (err, resp) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const updatedRange = resp.data.updates.updatedRange;
+        const first_row = updatedRange.slice(updatedRange.indexOf("!"), updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
+        const second_row = updatedRange.slice(updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
+        if (first_row === second_row) {
+          console.log(first_row);
+          store.set("order_num", first_row);
+          refreshOrderNumberDisplay();
+          document.getElementById("order_num_disp").style.display = "inline-block";
+        } else {
+          console.error("ORDERS DONT MATCH!!\n".concat(first_row, "\n", second_row));
+        }
+      }
+    });
+
   setDefaults();
   updateStore();
-  goToNextSection();
+  goToNextSection();  
+
 });
 
 document.getElementById("next_button").addEventListener("click", function() {
