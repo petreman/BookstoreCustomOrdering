@@ -139,7 +139,7 @@ function loadImages() {
   fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
     const img_dir = res.toString();
     console.log(img_dir);
-    document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
+    //document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
     document.getElementById('front_img').setAttribute('src', img_dir + '/front_img.png');
     document.getElementById('left_arm_img').setAttribute('src', img_dir + '/left_arm_img.png');
     document.getElementById('right_arm_img').setAttribute('src', img_dir + '/right_arm_img.png');
@@ -707,7 +707,7 @@ function loadTypeImage(){
     }
 
     else {
-      document.getElementById('type_img').setAttribute('src', img_dir + '/img_not_loaded.png');
+      document.getElementById('type_img').setAttribute('src', "./images/img_not_loaded.png");
     }
 
   });
