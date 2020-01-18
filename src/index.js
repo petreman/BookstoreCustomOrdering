@@ -12,7 +12,7 @@ const Store = require('electron-store');
 const Mustache = require('mustache');
 const fs = require('fs');
 // See sheets.js for example usage
-const { newOrder, updateOrder, getOrders, setSettings, getSetting } = require('./sheets.js');
+const { newOrder, updateOrder, getOrder, setSettings, getSettings } = require('./sheets.js');
 const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
 const export_template = `
   <!DOCTYPE html>
@@ -63,6 +63,20 @@ try {
   console.log(error);
   store = new Store();
 }
+
+getSettings({
+  "spreadsheetId": spreadsheetId,
+  "range": ["2", ""]
+}, (err, resp) => {
+  if (err) {
+    console.log(err);
+  } else {
+    store.set('settings', resp.data.values);
+    console.log(store.get('settings'));
+  }
+});
+
+store.set('price_display', 0);
 
 if(fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
   console.log("image location found");
