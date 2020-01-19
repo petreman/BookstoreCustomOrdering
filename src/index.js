@@ -18,7 +18,8 @@ const {
   updateOrder,
   getOrder,
   setSettings,
-  getSettings
+  getSettings,
+  finalizeOrder
 } = require("./sheets.js");
 const spreadsheetId = "1aixHLxNdPxsiiW-ohgGl70US3NMg8RnyXaGkti3Xzsc";
 const export_template = `
@@ -107,6 +108,9 @@ document.getElementById("welcome_new").addEventListener("click", function() {
     }, (err, resp) => {
       if (err) {
         console.log(err);
+        displayErrorPopUp(err);
+        return;
+
       } else {
         const updatedRange = resp.data.updates.updatedRange;
         const first_row = updatedRange.slice(updatedRange.indexOf("!"), updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
@@ -116,15 +120,16 @@ document.getElementById("welcome_new").addEventListener("click", function() {
           store.set("order_num", first_row);
           refreshOrderNumberDisplay();
           document.getElementById("order_num_disp").style.display = "inline-block";
+          setDefaults();
+          updateStore();
+          goToNextSection();
         } else {
           console.error("ORDERS DONT MATCH!!\n".concat(first_row, "\n", second_row));
         }
+        
       }
-    });
+    });  
 
-  setDefaults();
-  updateStore();
-  goToNextSection();  
 
 });
 
@@ -460,7 +465,7 @@ function goToPrevSection() {
     document.getElementById("prev_button").disabled = true;
   }
 
-  currentSection = prevSection;
+  currentSection = prevSection;  
 
 }
 
@@ -548,19 +553,16 @@ function goToNextSection() {
       vals = [store.get("comment_text")];
 
       break;
-  }
 
-  if (nextSection !== "summary_section") {
-    document.getElementById(nextSection).style.display = "flex";
-  } else {
-    document.getElementById(nextSection).style.display = "initial";
-    document.getElementById("next_button").disabled = true;
-  }
+    case "summary_section":
+      nextSection = "thanks_section";  
+      document.getElementById("nav").style.display = "none";
+      document.getElementById(currentSection).style.display = "none";
+      document.getElementById(nextSection).style.display = "initial";
+      currentSection = nextSection;
+      return;
 
-  defaultCheck(nextSection);
-  document.getElementById("prev_button").disabled = false;
-  document.getElementById(currentSection).style.display = "none";
-  currentSection = nextSection;
+  }
 
   updateOrder({
     "spreadsheetId": spreadsheetId,
@@ -574,7 +576,20 @@ function goToNextSection() {
       return;
     } else {
       console.log(resp);
+      
     }};
+
+  if (nextSection !== "summary_section") {
+   document.getElementById(nextSection).style.display = "flex";
+  } else {
+    document.getElementById(nextSection).style.display = "initial";
+    document.getElementById("next_button").disabled = true;
+  }
+  
+  defaultCheck(nextSection);
+  document.getElementById("prev_button").disabled = false;
+  document.getElementById(currentSection).style.display = "none";
+  currentSection = nextSection;
 
 }
 
@@ -901,7 +916,7 @@ function displayErrorPopUp(err){
   //display modal
   modal.style.display = "block";
 
-  document.getElementById("error").innerHTML = "Error Recieved: " + err.toString();
+  document.getElementById("error").innerHTML = err.toString();
 
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
@@ -910,3 +925,22 @@ function displayErrorPopUp(err){
 
 
 }
+
+document.getElementById("submit_btn").addEventListener("click", function(){
+  
+  finalizeOrder({
+    "spreadsheetId": spreadsheetId,
+    "row": store.get("order_num")
+  }, (err, resp) => {
+    if (err) {
+      console.log(err);
+      displayErrorPopUp(err);
+      return;
+    } else {
+      console.log(resp);
+      goToNextSection();
+    }
+
+  })
+
+});
