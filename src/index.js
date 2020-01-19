@@ -95,7 +95,6 @@ setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
 setCustomizationSelectListeners();
-setOrderListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function() {
   // store.clear();
@@ -271,22 +270,6 @@ function setTextListeners() {
       });
   }
 }
-
-// function setOrderListeners(){
-//   document.getElementById("input_order_text").addEventListener("change", function() {
-//     let orderContent = document.getElementById("input_order_text");
-//     store.set('input_order', orderContent);
-//     // console.log(store.get('input_order'))
-//     updateStoreOfOrderNum("input_order");
-//   });
-// }
-
-// function updateStoreOfOrderNum() {
-//   document.getElementById("welcome_load").addEventListener("click", function(){
-//     store.set("input_order_text", document.getElementById("input_order"));
-//     loadOrderInfoFromRow("input_order");
-//   });
-// }
 
 function refreshOrderNumberDisplay() {
   document.getElementById("order_num_disp").innerHTML =
@@ -862,7 +845,6 @@ function loadOrderInfoFromRow() {
       if (err) {
         console.log(err);
       } else {
-        console.log(res.data.values[0]);
         const order_data = res.data.values[0];
         store.set("first_name_text", order_data[2]);
         store.set("last_name_text", order_data[3]);
@@ -877,11 +859,21 @@ function loadOrderInfoFromRow() {
         store.set("back_text", order_data[12]);
         store.set("hood_text", order_data[13]);
         store.set("comment_text", order_data[14]);
+        console.log("set store:");
+        console.log(store.store);
+        setFromStore();
+        goToNextSection();
       }
     }
   );
-  setFromStore();
 }
+
+document.getElementById("input_order_text").addEventListener("change", function() {
+    store.set('order_num', this.value);
+    console.log(store.get('order_num'));
+});
+
+document.getElementById("welcome_load").addEventListener("click", loadOrderInfoFromRow);
 
 function loadTypeImage() {
   fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
