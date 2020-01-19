@@ -95,6 +95,7 @@ setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
 setCustomizationSelectListeners();
+setOrderListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function() {
   // store.clear();
@@ -270,6 +271,22 @@ function setTextListeners() {
       });
   }
 }
+
+// function setOrderListeners(){
+//   document.getElementById("input_order_text").addEventListener("change", function() {
+//     let orderContent = document.getElementById("input_order_text");
+//     store.set('input_order', orderContent);
+//     // console.log(store.get('input_order'))
+//     updateStoreOfOrderNum("input_order");
+//   });
+// }
+
+// function updateStoreOfOrderNum() {
+//   document.getElementById("welcome_load").addEventListener("click", function(){
+//     store.set("input_order_text", document.getElementById("input_order"));
+//     loadOrderInfoFromRow("input_order");
+//   });
+// }
 
 function refreshOrderNumberDisplay() {
   document.getElementById("order_num_disp").innerHTML =
