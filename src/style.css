@@ -21,6 +21,16 @@ h1{
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+header h2 {
+  margin: 0;
+  color: #eee;
+  font-size: 30px;
+  white-space: nowrap;
+  text-align: left;
+  box-sizing: border-box;
+  margin-left: 10px;
+}
+
 .grid-container {
   display: grid;
   width:50%;

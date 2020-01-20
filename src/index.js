@@ -264,6 +264,7 @@ function enableNavButtons() {
 function disableNavButtons() {
   document.getElementById("nav").style.display = "none";
   document.getElementById("order_num_disp").style.display = "none";
+  document.getElementById("price_display").style.display = "none";
 }
 
 function setFromStore() {
@@ -552,6 +553,7 @@ function goToNextSection() {
     case "welcome_section":
       nextSection = "type_section";
       document.getElementById("nav").style.display = "table";
+      document.getElementById("price_display").style.display = "flex";
 
       colRange = ["C", "F"];
       vals = [
