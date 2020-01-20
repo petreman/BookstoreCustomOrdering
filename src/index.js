@@ -850,32 +850,67 @@ function setSummaryFromStore() {
   document.getElementById("phone_number_disp").innerHTML =
     "Phone Number: " + store.get("phone_number_text");
 
-  document.getElementById("type_disp").innerHTML =
-    "Clothing type: " + store.get("type");
-  document.getElementById("color_disp").innerHTML =
-    "Clothing color: " + store.get("color");
+  document.getElementById("hoodie_disp").innerHTML =
+    "Clothing type (SKU: " + store.get("settings")[9][1] + 
+    "): " + store.get("type");
+  document.getElementById("crewneck_disp").innerHTML =
+  "Clothing type (SKU: " + store.get("settings")[10][1] + 
+  "): " + store.get("type");
+  document.getElementById("green_disp").innerHTML =
+    "Clothing color (SKU: " + store.get("settings")[11][1] + 
+    "): " + store.get("color");
+  document.getElementById("gray_disp").innerHTML =
+  "Clothing color (SKU: " + store.get("settings")[12][1] + 
+  "): " + store.get("color");
+
   document.getElementById("size_disp").innerHTML =
     "Clothing size: " + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
-    "Front: " + store.get("front_text");
+    "Front (SKU: " + store.get("settings")[13][1] + 
+    "): " + store.get("front_text");
   document.getElementById("left_arm_disp").innerHTML =
-    "Left Arm: " + store.get("left_arm_text");
+    "Left Arm (SKU: " + store.get("settings")[14][1] + 
+    "): " + store.get("left_arm_text");
   document.getElementById("right_arm_disp").innerHTML =
-    "Right Arm: " + store.get("right_arm_text");
+    "Right Arm (SKU: " + store.get("settings")[15][1] + 
+    "): " + store.get("right_arm_text");
   document.getElementById("back_disp").innerHTML =
-    "Back: " + store.get("back_text");
+    "Back (SKU: " + store.get("settings")[16][1] + 
+    "): " + store.get("back_text");
   document.getElementById("comment_disp").innerHTML =
     "Additional Information: " + store.get("comment_text");
 
-  if (type === "hoodie") {
+  if (store.get("type") === "hoodie") {
+
     document.getElementById("hood_disp").innerHTML =
-      "Hood: " + store.get("hood_text");
+    "Hood (SKU: " + store.get("settings")[17][1] + 
+    "): " + store.get("hood_text");
+    
+    document.getElementById("hoodie_disp").style.display = "auto";
     document.getElementById("hood_disp").style.display = "auto";
+    document.getElementById("crewneck_disp").style.display = "none";
+
   } else {
+    document.getElementById("crewneck_disp").style.display = "auto";
+    document.getElementById("hoodie_disp").style.display = "none";
     document.getElementById("hood_disp").style.display = "none";
+
+  }
+
+  if (store.get("color") === "green") {
+
+    document.getElementById("green_disp").style.display = "auto";
+    document.getElementById("gray_disp").style.display = "none";
+
+  } else {
+
+    document.getElementById("gray_disp").style.display = "auto";
+    document.getElementById("green_disp").style.display = "none";
+    
   }
 }
+
 
 function getAndApplySettings() {
   getSettings(
