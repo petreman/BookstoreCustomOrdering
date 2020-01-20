@@ -53,7 +53,6 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
           <br />
           <button id="welcome_load" class="menu_btn">Load Order</button>
           <input type="number" id="input_order_text"></input>
-          <!-- <p id="input_order_text"></p> -->
         </div>
 
       </div>
@@ -85,9 +84,10 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <p>Clothing Type</p>
       <select id="type_select">
         <option value="none">--</option>
-        <option value="hoodie">Hoodie</option>
+        <option id="hoodiePrice_display" value="hoodie"></option>
         <option value="crewneck">Crewneck</option>
       </select>
+      
 
       <p>Color</p>
       <select id="color_select">
@@ -251,16 +251,12 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       </div>
     </div>
 
-    <div class="sidediv">
-      <img border="0" src="./images/img_not_loaded.png" alt="blah" width="100%" height="auto">
-    </div>
-
   </div>
 
   <div class="wrapper" id="summary_section">
     <div id="summary_box">
       <div id="summary_child">
-        <p>Summary of your order: </p>
+        <p>Summary of your order: <br /></p>
         <p id="first_name_disp"></p>
         <p id="last_name_disp"></p>
         <p id="email_disp"></p>
@@ -285,7 +281,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="sidediv">
       <div>
 
-        <h2>Thank you, your order has been confirmed.</h2>
+        <p>Thank you, your order has been confirmed.</p>
         <button id="export_btn" class="menu_btn">Export PDF</button>
         <button id="reload_page" class="menu_btn">Make Another Order</button>
 
