@@ -88,7 +88,8 @@ if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 }
 
 //initialization
-store.clear(); // you want to clear everything? no resume?
+store.clear(); // you want to clear everything? no resume? yes
+getAndApplySettings()
 disableNavButtons();
 disableNewOrderButton();
 setWelcomeInputListeners();
@@ -293,43 +294,126 @@ function setFromStore() {
 
   switch (store.get("type").toLowerCase()) {
     case "hoodie":
-      index = 0;
+      index = 1;
       type = "hoodie";
       break;
 
     case "crewneck":
-      index = 1;
+      index = 2;
       type = "crewneck";
       break;
+
+    default:
+      index = 0; 
+      break; 
   }
 
   document.getElementById("type_select").selectedIndex = index;
 
   switch (store.get("color").toLowerCase()) {
     case "green":
-      index = 0;
+      index = 1;
       break;
 
     case "gray":
-      index = 1;
+      index = 2;
       break;
+
+    default:
+      index = 0;
+      break;  
   }
 
   document.getElementById("color_select").selectedIndex = index;
 
+  switch (store.get("size")){
+    case "2XS":
+      index = 1;
+      break;
+
+    case "XS":
+      index = 2;
+      break; 
+    
+    case "S":
+      index = 3;
+      break; 
+      
+    case "M":
+      index = 4;
+      break;
+  
+    case "L":
+      index = 5;
+      break; 
+      
+    case "XL":
+      index = 6;
+      break;
+      
+    case "2XL":
+      index = 7;
+      break;
+
+    default:
+      index = 0;
+      break;  
+  }
+
+  document.getElementById("size_select").selectedIndex = index;
+
   for (let i = 1; i < customizationSections.length; i++) {
-    setTextAreaFromStore(customizationSections[i]);
+    setSelectAndTextFromStore(customizationSections[i]);
+  }
+
+  for (let i = 0 ; i < welcomeInputs.length ; i++) {
+    setWelcomeTextFromStore(welcomeInputs[i]);
+  }
+
+}
+
+/**
+ * Used for setting the sections that have both text and selects to
+ * values determined from the store
+ * @param {*} name 
+ */
+function setSelectAndTextFromStore(name) {
+  let textName = name + "_text";
+  let selectName = name + "_select";
+
+  if (store.get(textName) === "n/a" || store.get(textName) === "undefined") {
+    document.getElementById(textName).value = "";
+    
+    if (name !== "comment"){
+      document.getElementById(selectName).selectedIndex = 1;
+      document.getElementById(name + "_desc").style.display = "none";
+      defaultCheck(name + "_section");
+    }
+    
+  } else {
+    document.getElementById(textName).value = store.get(textName);
+    
+    if (name !== "comment"){
+      document.getElementById(selectName).selectedIndex = 2;
+      document.getElementById(name + "_desc").style.display = "block";
+      defaultCheck(name + "_section");
+    }  
   }
 }
 
-function setTextAreaFromStore(name) {
+/**
+ * Used to set first and last name, email, and phone number
+ * from the store
+ * @param {*} name 
+ */
+function setWelcomeTextFromStore(name){
   let textName = name + "_text";
 
   if (store.get(textName) === "n/a" || store.get(textName) === "undefined") {
     document.getElementById(textName).value = "";
   } else {
     document.getElementById(textName).value = store.get(textName);
-  }
+  }  
 }
 
 function updateStoreFromTextArea(name) {
@@ -641,6 +725,12 @@ function nextButtonCheck(name) {
  * Inteneded to be used when a new order is started.
  */
 function setDefaults() {
+
+  document.getElementById("first_name_text").value = "";
+  document.getElementById("last_name_text").value = "";
+  document.getElementById("email_text").value = "";
+  document.getElementById("phone_number_text").value = "";  
+
   document.getElementById("type_select").selectedIndex = 0;
   document.getElementById("color_select").selectedIndex = 0;
   document.getElementById("size_select").selectedIndex = 0;
@@ -788,20 +878,25 @@ function setSummaryFromStore() {
   }
 }
 
-getSettings(
-  {
-    spreadsheetId: spreadsheetId,
-    range: ["2", ""]
-  },
-  (err, resp) => {
-    if (err) {
-      console.log(err);
-    } else {
-      store.set("settings", resp.data.values);
-      console.log(store.get("settings"));
-    }
+function getAndApplySettings() {
+  getSettings(
+    {
+      spreadsheetId: spreadsheetId,
+      range: ["2", ""]
+    },
+    applySettings
+  );
+}
+
+function applySettings(err, resp) {
+  if (err) {
+    console.log(err);
+  } else {
+    store.set("settings", resp.data.values);
+    console.log(store.get("settings"));
+    document.getElementById("hoodiePrice_display").text = "Hoodie +$" + store.get("settings")[0][1];
   }
-);
+}
 
 function calculateCurrentPrice() {
   console.log(store.store);
@@ -835,7 +930,7 @@ function calculateCurrentPrice() {
 }
 
 function loadOrderInfoFromRow() {
-  const order_num = store.get("order_num");
+  const order_num = document.getElementById("input_order_text").value;
   getOrder(
     {
       spreadsheetId: spreadsheetId,
@@ -844,8 +939,11 @@ function loadOrderInfoFromRow() {
     (err, res) => {
       if (err) {
         console.log(err);
+        displayErrorPopUp(err);
       } else {
         const order_data = res.data.values[0];
+        store.set("order_num", order_num);
+        document.getElementById("order_num_disp").style.display = "inline-block";
         store.set("first_name_text", order_data[2]);
         store.set("last_name_text", order_data[3]);
         store.set("email_text", order_data[4]);
