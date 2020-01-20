@@ -26,11 +26,10 @@ const export_template = `
   <!DOCTYPE html>
   <html>
   <body>
-  <h1>Order number {{order_num}}</h1>
-  <p>Name: {{first_name_text}}</p>
-  <p>Name: {{last_name_text}}</p>
+  <h1>Order #{{order_num}}</h1>
+  <p>Name: {{first_name_text}} {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
-  <p>Phone number: {{phone_number_text}}</p>
+  <p>Phone Number: {{phone_number_text}}</p>
   <p>Clothing Type: {{type}} +\${{settings[0][0]}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
@@ -38,7 +37,7 @@ const export_template = `
   <p>Right Arm: {{right_arm_text}}</p>
   <p>Back: {{back_text}}</p>
   <p>Hood: {{hood_text}}</p>
-  <p>Other Comments: {{comment_text}}</p>
+  <p>Additional Information: {{comment_text}}</p>
   </body>
   </html>
 `;
