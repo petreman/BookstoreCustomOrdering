@@ -30,7 +30,7 @@ const export_template = `
   <p>Name: {{first_name_text}} {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
   <p>Phone Number: {{phone_number_text}}</p>
-  <p>Clothing Type: {{type}} +\${{settings[0][0]}}</p>
+  <p>Clothing Type: {{type}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
@@ -865,8 +865,8 @@ function disableNewOrderButton() {
 }
 
 function setSummaryPriceText(sku, key, cost) {
-  if (store.get("key") === "n/a") {
-    return "N/A";
+  if (store.get(key) === "n/a") {
+    return ": N/A";
   } else {
     return "(SKU: " + sku + "): " + store.get(key) + " +$" + cost;
   }
@@ -884,7 +884,7 @@ function setSummaryFromStore() {
     "Phone Number: " + store.get("phone_number_text");
 
   document.getElementById("hoodie_disp").innerHTML =
-    "Type " + setSummaryPriceText(store.get("settings")[9][1], "type", store.get("settings")[0][1]);
+    "Type " + (store.get("settings")[9][1], "type", store.get("settings")[0][1]);
   document.getElementById("crewneck_disp").innerHTML =
     "Type " + setSummaryPriceText(store.get("settings")[10][1], "type", store.get("settings")[1][1]);
   document.getElementById("green_disp").innerHTML =
