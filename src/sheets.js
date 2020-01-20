@@ -206,6 +206,8 @@ module.exports = {
   //   ]
   // }
   newOrder: (request, callback) => {
+    console.log("VALS");
+    console.log(request.values);
     opSheet(
       newOrderCallback,
       {
