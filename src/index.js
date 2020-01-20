@@ -894,7 +894,15 @@ function applySettings(err, resp) {
   } else {
     store.set("settings", resp.data.values);
     console.log(store.get("settings"));
-    document.getElementById("hoodiePrice_display").text = "Hoodie +$" + store.get("settings")[0][1];
+    document.getElementById("hoodiePrice_display").text = "Hoodie + $" + store.get("settings")[0][1];
+    document.getElementById("crewneckPrice_display").text = "Crewneck + $" + store.get("settings")[1][1];
+    document.getElementById("greenPrice_display").text = "Green + $" + store.get("settings")[2][1];
+    document.getElementById("grayPrice_display").text = "Gray + $" + store.get("settings")[3][1];
+    document.getElementById("frontPrice_display").text = "Yes + $" + store.get("settings")[4][1];
+    document.getElementById("leftPrice_display").text = "Yes + $" + store.get("settings")[5][1];
+    document.getElementById("rightPrice_display").text = "Yes + $" + store.get("settings")[6][1];
+    document.getElementById("backPrice_display").text = "Yes + $" + store.get("settings")[7][1];
+    document.getElementById("hoodPrice_display").text = "Yes + $" + store.get("settings")[8][1];
   }
 }
 
