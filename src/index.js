@@ -27,17 +27,18 @@ const export_template = `
   <html>
   <body>
   <h1>Order #{{order_num}}</h1>
-  <p>Name: {{first_name_text}} {{last_name_text}}</p>
-  <p>Email: {{email_text}}</p>
-  <p>Phone Number: {{phone_number_text}}</p>
-  <p>Clothing Type: {{type}}</p>
-  <p>Color: {{color}}</p>
-  <p>Front: {{front_text}}</p>
-  <p>Left Arm: {{left_arm_text}}</p>
-  <p>Right Arm: {{right_arm_text}}</p>
-  <p>Back: {{back_text}}</p>
-  <p>Hood: {{hood_text}}</p>
-  <p>Additional Information: {{comment_text}}</p>
+  <p><b>Name</b>: {{first_name_text}} {{last_name_text}}</p>
+  <p><b>Email</b>: {{email_text}}</p>
+  <p><b>Phone Number</b>: {{phone_number_text}}</p>
+  <p><b>Type</b><i>{{type_sku}}{{type_price}}</i>: {{type}}</p>
+  <p><b>Color</b><i>{{color_sku}}{{color_price}}</i>: {{color}}</p>
+  <p><b>Size</b>: {{size}}</p>
+  <p><b>Front</b><i>{{front_sku}}{{front_price}}</i>: {{front_text}}</p>
+  <p><b>Left Arm</b><i>{{left_arm_sku}}{{left_arm_price}}</i>: {{left_arm_text}}</p>
+  <p><b>Right Arm</b><i>{{right_arm_sku}}{{right_arm_price}}</i>: {{right_arm_text}}</p>
+  <p><b>Back</b><i>{{back_sku}}{{back_price}}</i>: {{back_text}}</p>
+  <p><b>Hood</b><i>{{hood_sku}}{{hood_price}}</i>: {{hood_text}}</p>
+  <p><b>Additional Information</b>: {{comment_text}}</p>
   </body>
   </html>
 `;
@@ -185,6 +186,88 @@ function loadImages() {
   });
 }
 
+function getSettingsAsJSON() {
+  let type_price;
+  let color_price;
+  let type_sku;
+  let color_sku;
+  let front_price;
+  let front_sku;
+  let left_arm_price;
+  let left_arm_sku;
+  let right_arm_price;
+  let right_arm_sku;
+  let back_price;
+  let back_sku;
+  let hood_price;
+  let hood_sku;
+  if (store.get("type") === "hoodie") {
+    type_price = " +$" + store.get("settings")[0][1];
+    type_sku = " SKU=" + store.get("settings")[9][1]
+  } else {
+    type_price = " +$" + store.get("settings")[1][1];
+    type_sku = " SKU=" + store.get("settings")[10][1];
+  }
+  if (store.get("color") === "green") {
+    color_price = " +$" + store.get("settings")[2][1];
+    color_sku = " SKU=" + store.get("settings")[11][1]
+  } else {
+    color_price = " +$" + store.get("settings")[3][1];
+    color_sku = " SKU=" + store.get("settings")[12][1];
+  }
+  if (store.get("front_text") === "n/a") {
+    front_price = "";
+    front_sku = "";
+  } else {
+    front_price = " +$" + store.get("settings")[4][1];
+    front_sku = " SKU=" + store.get("settings")[13][1]
+  }
+  if (store.get("left_arm_text") === "n/a") {
+    left_arm_price = "";
+    left_arm_sku = "";
+  } else {
+    left_arm_price = " +$" + store.get("settings")[5][1];
+    left_arm_sku = " SKU=" + store.get("settings")[14][1];
+  }
+  if (store.get("right_arm_text") === "n/a") {
+    right_arm_price = "";
+    right_arm_sku = "";
+  } else {
+    right_arm_price = " +$" + store.get("settings")[6][1];
+    right_arm_sku = " SKU=" + store.get("settings")[15][1];
+  }
+  if (store.get("back_text") === "n/a") {
+    back_price = "";
+    back_sku = "";
+  } else {
+    back_price = " +$" + store.get("settings")[7][1];
+    back_sku = " SKU=" + store.get("settings")[16][1];
+  }
+  if (store.get("hood_text") === "n/a" || store.get("type") === "crewneck") {
+    hood_price = "";
+    hood_sku = "";
+  } else {
+    hood_price = " +$" + store.get("settings")[8][1];
+    hood_sku = " SKU=" + store.get("settings")[17][1];
+  }
+  return {
+    "type_price": type_price, 
+    "type_sku": type_sku, 
+    "color_price": color_price, 
+    "color_sku": color_sku, 
+    "front_price": front_price, 
+    "front_sku": front_sku, 
+    "left_arm_price": left_arm_price, 
+    "left_arm_sku": left_arm_sku, 
+    "right_arm_price": right_arm_price, 
+    "right_arm_sku": right_arm_sku, 
+    "back_price": back_price, 
+    "back_sku": back_sku, 
+    "hood_price": hood_price, 
+    "hood_sku": hood_sku, 
+  }
+}
+
 /**
  * Exports the finalized order to a pdf for customer reference
  */
@@ -193,7 +276,7 @@ document.getElementById("export_btn").addEventListener("click", function() {
   let window_to_PDF = new BrowserWindow({ show: false }); //to just open the browser in background
   fs.writeFileSync(
     app.getPath("userData") + "/temp.html",
-    Mustache.to_html(export_template, store.store),
+    Mustache.to_html(export_template, Object.assign(store.store, getSettingsAsJSON())),
     { flag: "w" }
   );
   window_to_PDF.loadFile(app.getPath("userData") + "/temp.html"); //give the file link you want to display
@@ -1016,19 +1099,19 @@ function loadOrderInfoFromRow() {
         const order_data = res.data.values[0];
         store.set("order_num", order_num);
         document.getElementById("order_num_disp").style.display = "inline-block";
-        store.set("first_name_text", order_data[2]);
-        store.set("last_name_text", order_data[3]);
-        store.set("email_text", order_data[4]);
-        store.set("phone_number_text", order_data[5]);
-        store.set("type", order_data[6]);
-        store.set("color", order_data[7]);
-        store.set("size", order_data[8]);
-        store.set("front_text", order_data[9]);
-        store.set("left_arm_text", order_data[10]);
-        store.set("right_arm_text", order_data[11]);
-        store.set("back_text", order_data[12]);
-        store.set("hood_text", order_data[13]);
-        store.set("comment_text", order_data[14]);
+        store.set("first_name_text", order_data[2] || "");
+        store.set("last_name_text", order_data[3] || "");
+        store.set("email_text", order_data[4] || "");
+        store.set("phone_number_text", order_data[5] || "");
+        store.set("type", order_data[6] || "");
+        store.set("color", order_data[7] || "");
+        store.set("size", order_data[8] || "");
+        store.set("front_text", order_data[9] || "");
+        store.set("left_arm_text", order_data[10] || "");
+        store.set("right_arm_text", order_data[11] || "");
+        store.set("back_text", order_data[12] || "");
+        store.set("hood_text", order_data[13] || "");
+        store.set("comment_text", order_data[14] || "");
         console.log("set store:");
         console.log(store.store);
         setFromStore();
