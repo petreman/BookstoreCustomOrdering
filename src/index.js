@@ -513,19 +513,21 @@ function goToPrevSection() {
       break;
   }
 
-  updateOrder({
-    "spreadsheetId": spreadsheetId,
-    "row": store.get("order_num"),
-    "column_range": colRange,
-    "values": vals
-  }), (err, resp) => {
-    if (err) {
-      console.log(err);
-      displayErrorPopUp(err);
-      return;
-    } else {
-      console.log(resp);
-    }};
+  if (prevSection !== "comment_section") {
+    updateOrder({
+      "spreadsheetId": spreadsheetId,
+      "row": store.get("order_num"),
+      "column_range": colRange,
+      "values": vals
+    }), (err, resp) => {
+      if (err) {
+        console.log(err);
+        displayErrorPopUp(err);
+        return;
+      } else {
+        console.log(resp);
+      }};
+  }
 
   defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
