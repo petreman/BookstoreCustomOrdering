@@ -45,16 +45,31 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
   <div id=welcome_section>
 
     <div class="welcome_wrapper">
+      <div class="grid-container">
 
-      <div id="welcome_box" class="left">
-        <div id="welcome_child">
-          <p>Welcome</p>
-          <button id="welcome_new" class="menu_btn">New Order</button i>
-          <br />
-          <button id="welcome_load" class="menu_btn">Load Order</button>
-          <input type="number" id="input_order_text"></input>
+        <div class="grid-item"><h1>Welcome</h1><br></div>
+
+        <div class="grid-item">
+          <button id="welcome_new" class="menu_btn" style="width: 80%; margin:10%;">New  Order</button i>
         </div>
 
+        <div class="grid-item">
+          <div>
+            <input placeholder="Enter order number you want to load.." 
+            type="number" id="input_order_text" 
+            style="margin:auto 10%;">
+            </input>
+          </div>
+        </div>
+
+        <div class="grid-item">
+          <div>
+            <button id="welcome_load" class="menu_btn" style="width: 80%; margin:auto 10%;">
+            Load Order
+            </button>
+          </div>
+        </div>
+        
       </div>
 
       <div class="right">
