@@ -13,6 +13,25 @@ p {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+h1{
+  font-size: 44px;
+  margin: 10px 5%;
+  width: 90%;
+  height: auto;
+  font-family: sans-serif, "Open Sans", Arial;
+}
+
+.grid-container {
+  display: grid;
+  width:50%;
+  grid-row-gap: 5%;
+  grid-template-columns: auto;
+}
+
+.grid-item {
+  text-align: center;
+}
+
 html{
   height:100%;
 }
