@@ -1,11 +1,11 @@
-/*
-index.js
-
-Javascript file for the index.html page.
-Majority of methods are used to pass data between input areas and the Store.
-
-Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
-*/
+/**
+ * index.js
+ *
+ * Javascript file for the index.html page.
+ * Majority of methods are used to pass data between input areas and the Store.
+ *
+ * Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman
+ */
 "use strict";
 const { app, dialog, BrowserWindow } = require("electron").remote;
 const ipc = require("electron").ipcRenderer;
@@ -91,6 +91,10 @@ setTextListeners();
 setCustomizationSelectListeners();
 setDefaults();
 
+/**
+ * Event listener for the "New Order" button on the welcome screen.
+ * Starts a new order with the provided name, email, and phone number.
+ */
 document.getElementById("welcome_new").addEventListener("click", function() {
 
   newOrder({
@@ -125,10 +129,16 @@ document.getElementById("welcome_new").addEventListener("click", function() {
 
 });
 
+/**
+ * Listener for the "Next" button. When clicked, go to next section.
+ */
 document.getElementById("next_button").addEventListener("click", function() {
   goToNextSection();
 });
 
+/**
+ * Listener for the "Previous" button. When clicked, go to the previous section.
+ */
 document.getElementById("prev_button").addEventListener("click", function() {
   goToPrevSection();
 });
@@ -175,6 +185,9 @@ function loadImages() {
   });
 }
 
+/**
+ * Exports the finalized order to a pdf for customer reference
+ */
 document.getElementById("export_btn").addEventListener("click", function() {
   updateStore();
   let window_to_PDF = new BrowserWindow({ show: false }); //to just open the browser in background
@@ -205,6 +218,9 @@ document.getElementById("export_btn").addEventListener("click", function() {
   });
 });
 
+/**
+ * Sets the listeners for the "type" section (type, color, size)
+ */
 function setSelectListeners() {
   for (let i = 0; i < typeSelects.length; i++) {
     document
@@ -230,7 +246,9 @@ function setSelectListeners() {
 }
 
 /**
- * Sets all the listeners for text input areas
+ * Sets all the listeners for text input areas.
+ * Most importantly, if text area left empty, can't proceed
+ * to next section.
  */
 function setTextListeners() {
   for (let i = 1; i < customizationSections.length; i++) {
@@ -251,21 +269,34 @@ function setTextListeners() {
   }
 }
 
+/**
+ * Sets the order number to the one set in the store.
+ */
 function refreshOrderNumberDisplay() {
   document.getElementById("order_num_disp").innerHTML =
     "Order #" + store.get("order_num", "ORDER NUM NOT SET");
 }
 
+/**
+ * Enables the next and prev buttons in the footer
+ */
 function enableNavButtons() {
   document.getElementById("nav").style.display = "flex";
   document.getElementById("order_num_disp").style.display = "flex";
 }
 
+/**
+ * Disables the next and prev buttons in the footer
+ */
 function disableNavButtons() {
   document.getElementById("nav").style.display = "none";
   document.getElementById("order_num_disp").style.display = "none";
 }
 
+/**
+ * Sets all the test areas and selects to values determined from
+ * the store. Intended to be used when loading an order.
+ */
 function setFromStore() {
   let index = 0;
 
@@ -395,6 +426,11 @@ function setWelcomeTextFromStore(name){
   }  
 }
 
+/**
+ * Updates the store from what is in the provided section's
+ * text area.
+ * @param {} name - name of the section to store
+ */
 function updateStoreFromTextArea(name) {
   let textName = name + "_text";
   let textContent = document.getElementById(textName).value;
@@ -407,6 +443,9 @@ function updateStoreFromTextArea(name) {
   }
 }
 
+/**
+ * Updates the store from all selcts and text areas
+ */
 function updateStore() {
   //type
   let type_init = document.getElementById("type_select");
@@ -429,9 +468,6 @@ function updateStore() {
 
 /**
  * Goes to the previous section based on what the current one is
- * For now it is a switch case. Once I get it working I'll
- * modify it into something simpler
- * -Keegan
  */
 function goToPrevSection() {
   
@@ -536,9 +572,6 @@ function goToPrevSection() {
 
 /**
  * Goes to the next section based on what the current one is
- * For now it is a switch case. Once I get it working I'll
- * modify it into something simpler
- * -Keegan
  */
 function goToNextSection() {
   
@@ -727,17 +760,9 @@ function setDefaults() {
 }
 
 /**
- * Hides the prev and next buttons if on the welcome screen
+ * Sets the listeners for the customization areas "front" through
+ * "hood".
  */
-
-function checkIfWelcomeSection() {
-  if (currentSection === "welcome_section") {
-    disableNavButtons();
-  } else {
-    enableNavButtons();
-  }
-}
-
 function setCustomizationSelectListeners() {
   for (let i = 1; i < customizationSections.length - 1; i++) {
     document
@@ -773,6 +798,9 @@ function setCustomizationSelectListeners() {
   }
 }
 
+/**
+ * Hides all text areas for the customization sections.
+ */
 function hideTextAreas() {
   for (let i = 1; i < customizationSections.length - 1; i++) {
     document.getElementById(customizationSections[i] + "_desc").style.display =
@@ -780,6 +808,11 @@ function hideTextAreas() {
   }
 }
 
+/**
+ * Function that pops up the text input box if "yes" for that
+ * section is selected. If "no" or defualt value, hides text area.
+ * @param {} name 
+ */
 function customizationSelectCheck(name) {
   let select = document.getElementById(name.replace("_section", "_select"));
 
@@ -798,6 +831,9 @@ function customizationSelectCheck(name) {
   }
 }
 
+/**
+ * Sets the listners for the "welcome" text inputs.
+ */
 function setWelcomeInputListeners() {
   for (let i = 0; i < welcomeInputs.length; i++) {
     document
@@ -819,6 +855,9 @@ function setWelcomeInputListeners() {
   }
 }
 
+/**
+ * Disables the "New Order" button on the welcome section.
+ */
 function disableNewOrderButton() {
   document.getElementById("welcome_new").disabled = true;
 }
@@ -831,6 +870,9 @@ function setSummaryPriceText(sku, key, cost) {
   }
 }
 
+/**
+ * Sets up the summary page from the information in the store.
+ */
 function setSummaryFromStore() {
   document.getElementById("first_name_disp").innerHTML =
     "First Name: " + store.get("first_name_text");
@@ -893,7 +935,9 @@ function setSummaryFromStore() {
   }
 }
 
-
+/**
+ * 
+ */
 function getAndApplySettings() {
   getSettings(
     {
@@ -994,11 +1038,18 @@ function loadOrderInfoFromRow() {
   );
 }
 
+/**
+ * Sets the current order to what was put in the "Load Order"
+ * text input.
+ */
 document.getElementById("input_order_text").addEventListener("change", function() {
     store.set('order_num', this.value);
     console.log(store.get('order_num'));
 });
 
+/**
+ * Sets the listener for "Load Order" button, which calls loadOrderInfoFromRow().
+ */
 document.getElementById("welcome_load").addEventListener("click", loadOrderInfoFromRow);
 
 function loadTypeImage() {
@@ -1040,6 +1091,11 @@ document.getElementById("reload_page").addEventListener("click", () => {
   reloadPage();
 });
 
+/**
+ * Error popup tha displays overtop the rest of the app. Displays the 
+ * error given.
+ * @param {*} err 
+ */
 function displayErrorPopUp(err){
   
   //Get the modal
@@ -1078,6 +1134,10 @@ function displayErrorPopUp(err){
 
 }
 
+/**
+ * Listener for the submit button, which is on the summary page.
+ * Marks the order as "completed" on google sheets.
+ */
 document.getElementById("submit_btn").addEventListener("click", function(){
   
   finalizeOrder({
