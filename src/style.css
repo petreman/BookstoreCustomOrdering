@@ -13,6 +13,14 @@ p {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+.summary_child p{
+  font-size: 26px;
+  margin: 2% 0;
+  width: 100%;
+  height: auto;
+  font-family: sans-serif, "Open Sans", Arial;
+}
+
 h1{
   font-size: 44px;
   margin: 10px 5%;
@@ -29,7 +37,23 @@ header h2 {
   text-align: left;
   box-sizing: border-box;
   margin-left: 10px;
+  font-family: sans-serif, "Open Sans", Arial;
 }
+
+.summary_parent {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 20px;
+  }
+
+  
+  .summary_div1 { grid-area: 1 / 2 / 2 / 3; }
+  .summary_div2 { grid-area: 2 / 2 / 3 / 3; }
+  .summary_div3 { grid-area: 3 / 2 / 4 / 3; }
+  .summary_div4 { grid-area: 4 / 2 / 5 / 3; }
+  .summary_div5 { grid-area: 5 / 2 / 6 / 3; }
 
 .grid-container {
   display: grid;
