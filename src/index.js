@@ -852,32 +852,32 @@ function setSummaryFromStore() {
 
   document.getElementById("hoodie_disp").innerHTML =
     "Clothing type (SKU: " + store.get("settings")[9][1] + 
-    "): " + store.get("type");
+    "): " + store.get("type") + " (Price: $" + store.get("settings")[0][1] + ")";
   document.getElementById("crewneck_disp").innerHTML =
   "Clothing type (SKU: " + store.get("settings")[10][1] + 
-  "): " + store.get("type");
+  "): " + store.get("type") + " (Price: $" + store.get("settings")[1][1] + ")";
   document.getElementById("green_disp").innerHTML =
     "Clothing color (SKU: " + store.get("settings")[11][1] + 
-    "): " + store.get("color");
+    "): " + store.get("color") + " (Price: $" + store.get("settings")[2][1] + ")";
   document.getElementById("gray_disp").innerHTML =
   "Clothing color (SKU: " + store.get("settings")[12][1] + 
-  "): " + store.get("color");
+  "): " + store.get("color") + " (Price: $" + store.get("settings")[3][1] + ")";
 
   document.getElementById("size_disp").innerHTML =
     "Clothing size: " + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
     "Front (SKU: " + store.get("settings")[13][1] + 
-    "): " + store.get("front_text");
+    "): " + store.get("front_text") + " (Price: $" + store.get("settings")[4][1] + ")";
   document.getElementById("left_arm_disp").innerHTML =
     "Left Arm (SKU: " + store.get("settings")[14][1] + 
-    "): " + store.get("left_arm_text");
+    "): " + store.get("left_arm_text") + " (Price: $" + store.get("settings")[5][1] + ")";
   document.getElementById("right_arm_disp").innerHTML =
     "Right Arm (SKU: " + store.get("settings")[15][1] + 
-    "): " + store.get("right_arm_text");
+    "): " + store.get("right_arm_text") + " (Price: $" + store.get("settings")[6][1] + ")";
   document.getElementById("back_disp").innerHTML =
     "Back (SKU: " + store.get("settings")[16][1] + 
-    "): " + store.get("back_text");
+    "): " + store.get("back_text") + " (Price: $" + store.get("settings")[7][1] + ")";
   document.getElementById("comment_disp").innerHTML =
     "Additional Information: " + store.get("comment_text");
 
@@ -885,7 +885,7 @@ function setSummaryFromStore() {
 
     document.getElementById("hood_disp").innerHTML =
     "Hood (SKU: " + store.get("settings")[17][1] + 
-    "): " + store.get("hood_text");
+    "): " + store.get("hood_text") + " (Price: $" + store.get("settings")[8][1] + ")";
     
     document.getElementById("hoodie_disp").style.display = "auto";
     document.getElementById("hood_disp").style.display = "auto";
