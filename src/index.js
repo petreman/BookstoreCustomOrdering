@@ -31,7 +31,7 @@ const export_template = `
   <p>Name: {{last_name_text}}</p>
   <p>Email: {{email_text}}</p>
   <p>Phone number: {{phone_number_text}}</p>
-  <p>Clothing Type: {{type}}</p>
+  <p>Clothing Type: {{type}} +\${{settings[0][0]}}</p>
   <p>Color: {{color}}</p>
   <p>Front: {{front_text}}</p>
   <p>Left Arm: {{left_arm_text}}</p>
@@ -65,6 +65,13 @@ const customizationSections = [
   "hood",
   "comment"
 ];
+
+function numToPrice(currPrice) {
+  return (currPrice).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+}
 
 if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
   console.log("image location found");
@@ -127,15 +134,6 @@ document.getElementById("prev_button").addEventListener("click", function() {
   goToPrevSection();
 });
 
-document.getElementById("load_btn").addEventListener("click", function() {
-  const file_promise = dialog.showOpenDialog({ properties: ["openFile"] });
-  file_promise.then(function(value) {
-    if (value.canceled) return;
-    store.store = JSON.parse(fs.readFileSync(value.filePaths[0]));
-    setFromStore();
-  });
-});
-
 document.getElementById("img_btn").addEventListener("click", function() {
   const img_promise = dialog.showOpenDialog({ properties: ["openDirectory"] });
   img_promise.then(function(value) {
@@ -177,16 +175,6 @@ function loadImages() {
     }
   });
 }
-
-document.getElementById("save_btn").addEventListener("click", function() {
-  const save_promise = dialog.showSaveDialog({
-    defaultPath: "./clothing_order.json"
-  });
-  save_promise.then(function(value) {
-    if (value.canceled) return;
-    fs.writeFileSync(value.filePath, JSON.stringify(store.store), "utf-8");
-  });
-});
 
 document.getElementById("export_btn").addEventListener("click", function() {
   updateStore();
@@ -234,7 +222,11 @@ function setSelectListeners() {
         if (typeSelects[i] === "type") {
           type = this.value;
         }
+
+        calculateCurrentPrice();
+
       });
+
   }
 }
 
@@ -777,6 +769,7 @@ function setCustomizationSelectListeners() {
         }
 
         defaultCheck(customizationSections[i] + "_section");
+        calculateCurrentPrice();
       });
   }
 }
@@ -831,6 +824,14 @@ function disableNewOrderButton() {
   document.getElementById("welcome_new").disabled = true;
 }
 
+function setSummaryPriceText(sku, key, cost) {
+  if (store.get("key") === "n/a") {
+    return "N/A";
+  } else {
+    return "(SKU: " + store.get(sku + "): " + store.get(key) + " +$" + cost;
+  }
+}
+
 function setSummaryFromStore() {
   document.getElementById("first_name_disp").innerHTML =
     "First Name: " + store.get("first_name_text");
@@ -842,41 +843,32 @@ function setSummaryFromStore() {
     "Phone Number: " + store.get("phone_number_text");
 
   document.getElementById("hoodie_disp").innerHTML =
-    "Clothing type (SKU: " + store.get("settings")[9][1] + 
-    "): " + store.get("type") + " (Price: $" + store.get("settings")[0][1] + ")";
+    "Type " + setSummaryPriceText(store.get("settings")[9][1], "type", store.get("settings")[0][1]);
   document.getElementById("crewneck_disp").innerHTML =
-  "Clothing type (SKU: " + store.get("settings")[10][1] + 
-  "): " + store.get("type") + " (Price: $" + store.get("settings")[1][1] + ")";
+    "Type " + setSummaryPriceText(store.get("settings")[10][1], "type", store.get("settings")[1][1]);
   document.getElementById("green_disp").innerHTML =
-    "Clothing color (SKU: " + store.get("settings")[11][1] + 
-    "): " + store.get("color") + " (Price: $" + store.get("settings")[2][1] + ")";
+    "Color " + setSummaryPriceText(store.get("settings")[11][1], "color", store.get("settings")[2][1]);
   document.getElementById("gray_disp").innerHTML =
-  "Clothing color (SKU: " + store.get("settings")[12][1] + 
-  "): " + store.get("color") + " (Price: $" + store.get("settings")[3][1] + ")";
+    "Color " + setSummaryPriceText(store.get("settings")[12][1], "color", store.get("settings")[3][1]);
 
   document.getElementById("size_disp").innerHTML =
-    "Clothing size: " + store.get("size");
+    "Size: " + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
-    "Front (SKU: " + store.get("settings")[13][1] + 
-    "): " + store.get("front_text") + " (Price: $" + store.get("settings")[4][1] + ")";
+    "Front " + setSummaryPriceText(store.get("settings")[13][1], "front_text", store.get("settings")[4][1]);
   document.getElementById("left_arm_disp").innerHTML =
-    "Left Arm (SKU: " + store.get("settings")[14][1] + 
-    "): " + store.get("left_arm_text") + " (Price: $" + store.get("settings")[5][1] + ")";
+    "Left Arm " + setSummaryPriceText(store.get("settings")[14][1], "left_arm_text", store.get("settings")[5][1]);
   document.getElementById("right_arm_disp").innerHTML =
-    "Right Arm (SKU: " + store.get("settings")[15][1] + 
-    "): " + store.get("right_arm_text") + " (Price: $" + store.get("settings")[6][1] + ")";
+    "Right Arm " + setSummaryPriceText(store.get("settings")[15][1], "right_arm_text", store.get("settings")[6][1]);
   document.getElementById("back_disp").innerHTML =
-    "Back (SKU: " + store.get("settings")[16][1] + 
-    "): " + store.get("back_text") + " (Price: $" + store.get("settings")[7][1] + ")";
+    "Back " + setSummaryPriceText(store.get("settings")[16][1], "back_text", store.get("settings")[7][1]);
   document.getElementById("comment_disp").innerHTML =
     "Additional Information: " + store.get("comment_text");
 
   if (store.get("type") === "hoodie") {
 
     document.getElementById("hood_disp").innerHTML =
-    "Hood (SKU: " + store.get("settings")[17][1] + 
-    "): " + store.get("hood_text") + " (Price: $" + store.get("settings")[8][1] + ")";
+    "Hood " + setSummaryPriceText(store.get("settings")[17][1], "hood_text", store.get("settings")[8][1]);
     
     document.getElementById("hoodie_disp").style.display = "auto";
     document.getElementById("hood_disp").style.display = "auto";
@@ -932,6 +924,7 @@ function applySettings(err, resp) {
 }
 
 function calculateCurrentPrice() {
+  console.log("RECALCULATING PRICE");
   console.log(store.store);
   let currPrice = 0;
   if (store.get("type") === "hoodie") {
@@ -944,22 +937,22 @@ function calculateCurrentPrice() {
   } else if (store.get("color") && store.get("color") === "gray") {
     currPrice += parseFloat(store.get("settings")[3][1]);
   }
-  if (store.get("front_text") && store.get("front_text") !== "n/a") {
+  if (document.getElementById("front_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[4][1]);
   }
-  if (store.get("left_arm_text") && store.get("left_arm_text") !== "n/a") {
+  if (document.getElementById("left_arm_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[5][1]);
   }
-  if (store.get("right_arm_text") && store.get("right_arm_text") !== "n/a") {
+  if (document.getElementById("right_arm_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[6][1]);
   }
-  if (store.get("back_text") && store.get("back_text") !== "n/a") {
+  if (document.getElementById("back_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[7][1]);
   }
-  if (store.get("hood_text") && store.get("hood_text") !== "n/a") {
+  if (document.getElementById("hood_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[8][1]);
   }
-  document.getElementById("price_display").innerHTML = "Total: " + currPrice;
+  document.getElementById("price_display").innerHTML = "Total: " + numToPrice(currPrice);
 }
 
 function loadOrderInfoFromRow() {
