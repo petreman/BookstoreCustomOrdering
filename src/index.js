@@ -876,10 +876,8 @@ function setSummaryPriceText(sku, key, cost) {
  * Sets up the summary page from the information in the store.
  */
 function setSummaryFromStore() {
-  document.getElementById("first_name_disp").innerHTML =
-    "First Name: " + store.get("first_name_text");
-  document.getElementById("last_name_disp").innerHTML =
-    "Last Name: " + store.get("last_name_text");
+  document.getElementById("name_disp").innerHTML =
+    "Name: " + store.get("first_name_text") + " " + store.get("last_name_text");
   document.getElementById("email_disp").innerHTML =
     "Email: " + store.get("email_text");
   document.getElementById("phone_number_disp").innerHTML =
