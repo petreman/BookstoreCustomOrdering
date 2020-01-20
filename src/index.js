@@ -131,7 +131,6 @@ document.getElementById("welcome_new").addEventListener("click", function() {
       }
     });  
 
-
 });
 
 document.getElementById("next_button").addEventListener("click", function() {
@@ -926,6 +925,9 @@ function calculateCurrentPrice() {
 
 function loadOrderInfoFromRow() {
   const order_num = document.getElementById("input_order_text").value;
+  if (order_num == 1){
+    return;
+  }
   getOrder(
     {
       spreadsheetId: spreadsheetId,
@@ -1017,6 +1019,23 @@ function displayErrorPopUp(err){
 
   //display modal
   modal.style.display = "block";
+  
+  if (err.toString().includes("Unable to parse range:")){
+    document.getElementById("modal_line_1").innerHTML = "Order numbers are positive, starting from 2.";
+  }
+
+  else if (err.toString().includes("Range")){
+    document.getElementById("modal_line_1").innerHTML = "Order number out of range (no such order).";
+  }
+
+  else if (err.toString().includes("fetch")){
+    document.getElementById("modal_line_1").innerHTML = 
+      "Unable to connect to Google Sheets. Please check your connection and try again.";
+  }
+
+  else {
+    document.getElementById("modal_line_1").innerHTML = "";
+  }
 
   document.getElementById("error").innerHTML = err.toString();
 
