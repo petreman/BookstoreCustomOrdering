@@ -827,7 +827,7 @@ function setSummaryPriceText(sku, key, cost) {
   if (store.get("key") === "n/a") {
     return "N/A";
   } else {
-    return "(SKU: " + store.get(sku + "): " + store.get(key) + " +$" + cost;
+    return "(SKU: " + sku + "): " + store.get(key) + " +$" + cost;
   }
 }
 
