@@ -1,4 +1,4 @@
-/**
+/*
  * index.js
  *
  * Javascript file for the index.html page.
@@ -67,9 +67,9 @@ const customizationSections = [
 ];
 
 function numToPrice(currPrice) {
-  return (currPrice).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return currPrice.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD"
   });
 }
 
@@ -83,7 +83,7 @@ if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 //initialization
 const store = new Store();
 store.clear();
-getAndApplySettings()
+getAndApplySettings();
 disableNavButtons();
 disableNewOrderButton();
 setWelcomeInputListeners();
@@ -97,37 +97,45 @@ setDefaults();
  * Starts a new order with the provided name, email, and phone number.
  */
 document.getElementById("welcome_new").addEventListener("click", function() {
-
-  newOrder({
-      "spreadsheetId": spreadsheetId,
-      "values": [
-        store.get("first_name_text"), store.get("last_name_text"),
-        store.get("email_text"), store.get("phone_number_text")
+  newOrder(
+    {
+      spreadsheetId: spreadsheetId,
+      values: [
+        store.get("first_name_text"),
+        store.get("last_name_text"),
+        store.get("email_text"),
+        store.get("phone_number_text")
       ]
-    }, (err, resp) => {
+    },
+    (err, resp) => {
       if (err) {
         console.log(err);
         displayErrorPopUp(err);
         return;
-
       } else {
         const updatedRange = resp.data.updates.updatedRange;
-        const first_row = updatedRange.slice(updatedRange.indexOf("!"), updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
-        const second_row = updatedRange.slice(updatedRange.indexOf(":")).replace(/[^0-9]+/g, '');
+        const first_row = updatedRange
+          .slice(updatedRange.indexOf("!"), updatedRange.indexOf(":"))
+          .replace(/[^0-9]+/g, "");
+        const second_row = updatedRange
+          .slice(updatedRange.indexOf(":"))
+          .replace(/[^0-9]+/g, "");
         if (first_row === second_row) {
           console.log(first_row);
           store.set("order_num", first_row);
           refreshOrderNumberDisplay();
-          document.getElementById("order_num_disp").style.display = "inline-block";
+          document.getElementById("order_num_disp").style.display =
+            "inline-block";
           updateStore();
           goToNextSection();
         } else {
-          console.error("ORDERS DONT MATCH!!\n".concat(first_row, "\n", second_row));
+          console.error(
+            "ORDERS DONT MATCH!!\n".concat(first_row, "\n", second_row)
+          );
         }
-        
       }
-    });  
-
+    }
+  );
 });
 
 /**
@@ -164,22 +172,22 @@ function loadImages() {
   fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
     if (!err) {
       const img_dir = res.toString();
-    console.log(img_dir);
-    document
-      .getElementById("front_img")
-      .setAttribute("src", img_dir + "/front_img.png");
-    document
-      .getElementById("left_arm_img")
-      .setAttribute("src", img_dir + "/left_arm_img.png");
-    document
-      .getElementById("right_arm_img")
-      .setAttribute("src", img_dir + "/right_arm_img.png");
-    document
-      .getElementById("back_img")
-      .setAttribute("src", img_dir + "/back_img.png");
-    document
-      .getElementById("hood_img")
-      .setAttribute("src", img_dir + "/hood_img.png");
+      console.log(img_dir);
+      document
+        .getElementById("front_img")
+        .setAttribute("src", img_dir + "/front_img.png");
+      document
+        .getElementById("left_arm_img")
+        .setAttribute("src", img_dir + "/left_arm_img.png");
+      document
+        .getElementById("right_arm_img")
+        .setAttribute("src", img_dir + "/right_arm_img.png");
+      document
+        .getElementById("back_img")
+        .setAttribute("src", img_dir + "/back_img.png");
+      document
+        .getElementById("hood_img")
+        .setAttribute("src", img_dir + "/hood_img.png");
     } else {
       console.log("image location not found");
     }
@@ -203,14 +211,14 @@ function getSettingsAsJSON() {
   let hood_sku;
   if (store.get("type") === "hoodie") {
     type_price = " +$" + store.get("settings")[0][1];
-    type_sku = " SKU=" + store.get("settings")[9][1]
+    type_sku = " SKU=" + store.get("settings")[9][1];
   } else {
     type_price = " +$" + store.get("settings")[1][1];
     type_sku = " SKU=" + store.get("settings")[10][1];
   }
   if (store.get("color") === "green") {
     color_price = " +$" + store.get("settings")[2][1];
-    color_sku = " SKU=" + store.get("settings")[11][1]
+    color_sku = " SKU=" + store.get("settings")[11][1];
   } else {
     color_price = " +$" + store.get("settings")[3][1];
     color_sku = " SKU=" + store.get("settings")[12][1];
@@ -220,7 +228,7 @@ function getSettingsAsJSON() {
     front_sku = "";
   } else {
     front_price = " +$" + store.get("settings")[4][1];
-    front_sku = " SKU=" + store.get("settings")[13][1]
+    front_sku = " SKU=" + store.get("settings")[13][1];
   }
   if (store.get("left_arm_text") === "n/a") {
     left_arm_price = "";
@@ -251,21 +259,21 @@ function getSettingsAsJSON() {
     hood_sku = " SKU=" + store.get("settings")[17][1];
   }
   return {
-    "type_price": type_price, 
-    "type_sku": type_sku, 
-    "color_price": color_price, 
-    "color_sku": color_sku, 
-    "front_price": front_price, 
-    "front_sku": front_sku, 
-    "left_arm_price": left_arm_price, 
-    "left_arm_sku": left_arm_sku, 
-    "right_arm_price": right_arm_price, 
-    "right_arm_sku": right_arm_sku, 
-    "back_price": back_price, 
-    "back_sku": back_sku, 
-    "hood_price": hood_price, 
-    "hood_sku": hood_sku, 
-  }
+    type_price: type_price,
+    type_sku: type_sku,
+    color_price: color_price,
+    color_sku: color_sku,
+    front_price: front_price,
+    front_sku: front_sku,
+    left_arm_price: left_arm_price,
+    left_arm_sku: left_arm_sku,
+    right_arm_price: right_arm_price,
+    right_arm_sku: right_arm_sku,
+    back_price: back_price,
+    back_sku: back_sku,
+    hood_price: hood_price,
+    hood_sku: hood_sku
+  };
 }
 
 /**
@@ -276,7 +284,10 @@ document.getElementById("export_btn").addEventListener("click", function() {
   let window_to_PDF = new BrowserWindow({ show: false }); //to just open the browser in background
   fs.writeFileSync(
     app.getPath("userData") + "/temp.html",
-    Mustache.to_html(export_template, Object.assign(store.store, getSettingsAsJSON())),
+    Mustache.to_html(
+      export_template,
+      Object.assign(store.store, getSettingsAsJSON())
+    ),
     { flag: "w" }
   );
   window_to_PDF.loadFile(app.getPath("userData") + "/temp.html"); //give the file link you want to display
@@ -322,9 +333,7 @@ function setSelectListeners() {
         }
 
         calculateCurrentPrice();
-
       });
-
   }
 }
 
@@ -398,8 +407,8 @@ function setFromStore() {
       break;
 
     default:
-      index = 0; 
-      break; 
+      index = 0;
+      break;
   }
 
   document.getElementById("type_select").selectedIndex = index;
@@ -415,43 +424,43 @@ function setFromStore() {
 
     default:
       index = 0;
-      break;  
+      break;
   }
 
   document.getElementById("color_select").selectedIndex = index;
 
-  switch (store.get("size")){
+  switch (store.get("size")) {
     case "2XS":
       index = 1;
       break;
 
     case "XS":
       index = 2;
-      break; 
-    
+      break;
+
     case "S":
       index = 3;
-      break; 
-      
+      break;
+
     case "M":
       index = 4;
       break;
-  
+
     case "L":
       index = 5;
-      break; 
-      
+      break;
+
     case "XL":
       index = 6;
       break;
-      
+
     case "2XL":
       index = 7;
       break;
 
     default:
       index = 0;
-      break;  
+      break;
   }
 
   document.getElementById("size_select").selectedIndex = index;
@@ -460,16 +469,15 @@ function setFromStore() {
     setSelectAndTextFromStore(customizationSections[i]);
   }
 
-  for (let i = 0 ; i < welcomeInputs.length ; i++) {
+  for (let i = 0; i < welcomeInputs.length; i++) {
     setWelcomeTextFromStore(welcomeInputs[i]);
   }
-
 }
 
 /**
  * Used for setting the sections that have both text and selects to
  * values determined from the store
- * @param {*} name 
+ * @param {*} name
  */
 function setSelectAndTextFromStore(name) {
   let textName = name + "_text";
@@ -477,37 +485,36 @@ function setSelectAndTextFromStore(name) {
 
   if (store.get(textName) === "n/a" || store.get(textName) === "undefined") {
     document.getElementById(textName).value = "";
-    
-    if (name !== "comment"){
+
+    if (name !== "comment") {
       document.getElementById(selectName).selectedIndex = 1;
       document.getElementById(name + "_desc").style.display = "none";
       defaultCheck(name + "_section");
     }
-    
   } else {
     document.getElementById(textName).value = store.get(textName);
-    
-    if (name !== "comment"){
+
+    if (name !== "comment") {
       document.getElementById(selectName).selectedIndex = 2;
       document.getElementById(name + "_desc").style.display = "block";
       defaultCheck(name + "_section");
-    }  
+    }
   }
 }
 
 /**
  * Used to set first and last name, email, and phone number
  * from the store
- * @param {*} name 
+ * @param {*} name
  */
-function setWelcomeTextFromStore(name){
+function setWelcomeTextFromStore(name) {
   let textName = name + "_text";
 
   if (store.get(textName) === "n/a" || store.get(textName) === "undefined") {
     document.getElementById(textName).value = "";
   } else {
     document.getElementById(textName).value = store.get(textName);
-  }  
+  }
 }
 
 /**
@@ -554,7 +561,6 @@ function updateStore() {
  * Goes to the previous section based on what the current one is
  */
 function goToPrevSection() {
-  
   calculateCurrentPrice();
 
   let prevSection;
@@ -571,8 +577,7 @@ function goToPrevSection() {
       document.getElementById("next_button").disabled = false;
 
       colRange = ["G", "I"];
-      vals = [store.get("type"), 
-        store.get("color"), store.get("size")];
+      vals = [store.get("type"), store.get("color"), store.get("size")];
 
       break;
 
@@ -626,18 +631,20 @@ function goToPrevSection() {
 
   if (prevSection !== "comment_section") {
     updateOrder({
-      "spreadsheetId": spreadsheetId,
-      "row": store.get("order_num"),
-      "column_range": colRange,
-      "values": vals
-    }), (err, resp) => {
-      if (err) {
-        console.log(err);
-        displayErrorPopUp(err);
-        return;
-      } else {
-        console.log(resp);
-      }};
+      spreadsheetId: spreadsheetId,
+      row: store.get("order_num"),
+      column_range: colRange,
+      values: vals
+    }),
+      (err, resp) => {
+        if (err) {
+          console.log(err);
+          displayErrorPopUp(err);
+          return;
+        } else {
+          console.log(resp);
+        }
+      };
   }
 
   defaultCheck(prevSection);
@@ -650,17 +657,15 @@ function goToPrevSection() {
     document.getElementById("prev_button").disabled = true;
   }
 
-  currentSection = prevSection;  
-
+  currentSection = prevSection;
 }
 
 /**
  * Goes to the next section based on what the current one is
  */
 function goToNextSection() {
-  
   calculateCurrentPrice();
-  
+
   let nextSection;
   let colRange;
   let vals;
@@ -673,10 +678,12 @@ function goToNextSection() {
 
       colRange = ["C", "F"];
       vals = [
-        store.get("first_name_text"), store.get("last_name_text"),
-        store.get("email_text"), store.get("phone_number_text")
-        ];
-      
+        store.get("first_name_text"),
+        store.get("last_name_text"),
+        store.get("email_text"),
+        store.get("phone_number_text")
+      ];
+
       break;
 
     case "type_section":
@@ -684,8 +691,7 @@ function goToNextSection() {
       document.getElementById("next_button").disabled = true;
 
       colRange = ["G", "I"];
-      vals = [store.get("type"), 
-        store.get("color"), store.get("size")];
+      vals = [store.get("type"), store.get("color"), store.get("size")];
 
       break;
 
@@ -738,42 +744,41 @@ function goToNextSection() {
       break;
 
     case "summary_section":
-      nextSection = "thanks_section";  
+      nextSection = "thanks_section";
       document.getElementById("nav").style.display = "none";
       document.getElementById(currentSection).style.display = "none";
       document.getElementById(nextSection).style.display = "initial";
       currentSection = nextSection;
       return;
-
   }
 
   updateOrder({
-    "spreadsheetId": spreadsheetId,
-    "row": store.get("order_num"),
-    "column_range": colRange,
-    "values": vals
-  }), (err, resp) => {
-    if (err) {
-      console.log(err);
-      displayErrorPopUp(err);
-      return;
-    } else {
-      console.log(resp);
-      
-    }};
+    spreadsheetId: spreadsheetId,
+    row: store.get("order_num"),
+    column_range: colRange,
+    values: vals
+  }),
+    (err, resp) => {
+      if (err) {
+        console.log(err);
+        displayErrorPopUp(err);
+        return;
+      } else {
+        console.log(resp);
+      }
+    };
 
   if (nextSection !== "summary_section") {
-   document.getElementById(nextSection).style.display = "flex";
+    document.getElementById(nextSection).style.display = "flex";
   } else {
     document.getElementById(nextSection).style.display = "initial";
     document.getElementById("next_button").disabled = true;
   }
-  
+
   defaultCheck(nextSection);
   document.getElementById("prev_button").disabled = false;
   document.getElementById(currentSection).style.display = "none";
   currentSection = nextSection;
-
 }
 
 /**
@@ -824,11 +829,10 @@ function nextButtonCheck(name) {
  * Inteneded to be used when a new order is started.
  */
 function setDefaults() {
-
   document.getElementById("first_name_text").value = "";
   document.getElementById("last_name_text").value = "";
   document.getElementById("email_text").value = "";
-  document.getElementById("phone_number_text").value = "";  
+  document.getElementById("phone_number_text").value = "";
 
   document.getElementById("type_select").selectedIndex = 0;
   document.getElementById("color_select").selectedIndex = 0;
@@ -896,7 +900,7 @@ function hideTextAreas() {
 /**
  * Function that pops up the text input box if "yes" for that
  * section is selected. If "no" or defualt value, hides text area.
- * @param {} name 
+ * @param {} name
  */
 function customizationSelectCheck(name) {
   let select = document.getElementById(name.replace("_section", "_select"));
@@ -967,59 +971,92 @@ function setSummaryFromStore() {
     "Phone Number: " + store.get("phone_number_text");
 
   document.getElementById("hoodie_disp").innerHTML =
-    "Type " + (store.get("settings")[9][1], "type", store.get("settings")[0][1]);
+    "Type " +
+    (store.get("settings")[9][1], "type", store.get("settings")[0][1]);
   document.getElementById("crewneck_disp").innerHTML =
-    "Type " + setSummaryPriceText(store.get("settings")[10][1], "type", store.get("settings")[1][1]);
+    "Type " +
+    setSummaryPriceText(
+      store.get("settings")[10][1],
+      "type",
+      store.get("settings")[1][1]
+    );
   document.getElementById("green_disp").innerHTML =
-    "Color " + setSummaryPriceText(store.get("settings")[11][1], "color", store.get("settings")[2][1]);
+    "Color " +
+    setSummaryPriceText(
+      store.get("settings")[11][1],
+      "color",
+      store.get("settings")[2][1]
+    );
   document.getElementById("gray_disp").innerHTML =
-    "Color " + setSummaryPriceText(store.get("settings")[12][1], "color", store.get("settings")[3][1]);
+    "Color " +
+    setSummaryPriceText(
+      store.get("settings")[12][1],
+      "color",
+      store.get("settings")[3][1]
+    );
 
-  document.getElementById("size_disp").innerHTML =
-    "Size: " + store.get("size");
+  document.getElementById("size_disp").innerHTML = "Size: " + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
-    "Front " + setSummaryPriceText(store.get("settings")[13][1], "front_text", store.get("settings")[4][1]);
+    "Front " +
+    setSummaryPriceText(
+      store.get("settings")[13][1],
+      "front_text",
+      store.get("settings")[4][1]
+    );
   document.getElementById("left_arm_disp").innerHTML =
-    "Left Arm " + setSummaryPriceText(store.get("settings")[14][1], "left_arm_text", store.get("settings")[5][1]);
+    "Left Arm " +
+    setSummaryPriceText(
+      store.get("settings")[14][1],
+      "left_arm_text",
+      store.get("settings")[5][1]
+    );
   document.getElementById("right_arm_disp").innerHTML =
-    "Right Arm " + setSummaryPriceText(store.get("settings")[15][1], "right_arm_text", store.get("settings")[6][1]);
+    "Right Arm " +
+    setSummaryPriceText(
+      store.get("settings")[15][1],
+      "right_arm_text",
+      store.get("settings")[6][1]
+    );
   document.getElementById("back_disp").innerHTML =
-    "Back " + setSummaryPriceText(store.get("settings")[16][1], "back_text", store.get("settings")[7][1]);
+    "Back " +
+    setSummaryPriceText(
+      store.get("settings")[16][1],
+      "back_text",
+      store.get("settings")[7][1]
+    );
   document.getElementById("comment_disp").innerHTML =
     "Additional Information: " + store.get("comment_text");
 
   if (store.get("type") === "hoodie") {
-
     document.getElementById("hood_disp").innerHTML =
-    "Hood " + setSummaryPriceText(store.get("settings")[17][1], "hood_text", store.get("settings")[8][1]);
-    
+      "Hood " +
+      setSummaryPriceText(
+        store.get("settings")[17][1],
+        "hood_text",
+        store.get("settings")[8][1]
+      );
+
     document.getElementById("hoodie_disp").style.display = "auto";
     document.getElementById("hood_disp").style.display = "auto";
     document.getElementById("crewneck_disp").style.display = "none";
-
   } else {
     document.getElementById("crewneck_disp").style.display = "auto";
     document.getElementById("hoodie_disp").style.display = "none";
     document.getElementById("hood_disp").style.display = "none";
-
   }
 
   if (store.get("color") === "green") {
-
     document.getElementById("green_disp").style.display = "auto";
     document.getElementById("gray_disp").style.display = "none";
-
   } else {
-
     document.getElementById("gray_disp").style.display = "auto";
     document.getElementById("green_disp").style.display = "none";
-    
   }
 }
 
 /**
- * 
+ * Retrieves settings from spreadsheet, and inserts them into the Store
  */
 function getAndApplySettings() {
   getSettings(
@@ -1031,24 +1068,39 @@ function getAndApplySettings() {
   );
 }
 
+/*
+ * Inserts retrieved settings into the Store, and sets the price displays
+ */
 function applySettings(err, resp) {
   if (err) {
     console.log(err);
   } else {
     store.set("settings", resp.data.values);
     console.log(store.get("settings"));
-    document.getElementById("hoodiePrice_display").text = "Hoodie + $" + store.get("settings")[0][1];
-    document.getElementById("crewneckPrice_display").text = "Crewneck + $" + store.get("settings")[1][1];
-    document.getElementById("greenPrice_display").text = "Green + $" + store.get("settings")[2][1];
-    document.getElementById("grayPrice_display").text = "Gray + $" + store.get("settings")[3][1];
-    document.getElementById("frontPrice_display").text = "Yes + $" + store.get("settings")[4][1];
-    document.getElementById("leftPrice_display").text = "Yes + $" + store.get("settings")[5][1];
-    document.getElementById("rightPrice_display").text = "Yes + $" + store.get("settings")[6][1];
-    document.getElementById("backPrice_display").text = "Yes + $" + store.get("settings")[7][1];
-    document.getElementById("hoodPrice_display").text = "Yes + $" + store.get("settings")[8][1];
+    document.getElementById("hoodiePrice_display").text =
+      "Hoodie + $" + store.get("settings")[0][1];
+    document.getElementById("crewneckPrice_display").text =
+      "Crewneck + $" + store.get("settings")[1][1];
+    document.getElementById("greenPrice_display").text =
+      "Green + $" + store.get("settings")[2][1];
+    document.getElementById("grayPrice_display").text =
+      "Gray + $" + store.get("settings")[3][1];
+    document.getElementById("frontPrice_display").text =
+      "Yes + $" + store.get("settings")[4][1];
+    document.getElementById("leftPrice_display").text =
+      "Yes + $" + store.get("settings")[5][1];
+    document.getElementById("rightPrice_display").text =
+      "Yes + $" + store.get("settings")[6][1];
+    document.getElementById("backPrice_display").text =
+      "Yes + $" + store.get("settings")[7][1];
+    document.getElementById("hoodPrice_display").text =
+      "Yes + $" + store.get("settings")[8][1];
   }
 }
 
+/*
+ * Checks the current selections and adjusts the displayed price accordingly
+ */
 function calculateCurrentPrice() {
   console.log("RECALCULATING PRICE");
   console.log(store.store);
@@ -1078,12 +1130,17 @@ function calculateCurrentPrice() {
   if (document.getElementById("hood_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[8][1]);
   }
-  document.getElementById("price_display").innerHTML = "Total: " + numToPrice(currPrice);
+  document.getElementById("price_display").innerHTML =
+    "Total: " + numToPrice(currPrice);
 }
 
+/*
+ * Reads the row number inputted by the user, 
+ * and loads the corresponding data from the spreadsheet
+ */
 function loadOrderInfoFromRow() {
   const order_num = document.getElementById("input_order_text").value;
-  if (order_num == 1 || order_num == ""){
+  if (order_num == 1 || order_num == "") {
     return;
   }
   getOrder(
@@ -1098,7 +1155,8 @@ function loadOrderInfoFromRow() {
       } else {
         const order_data = res.data.values[0];
         store.set("order_num", order_num);
-        document.getElementById("order_num_disp").style.display = "inline-block";
+        document.getElementById("order_num_disp").style.display =
+          "inline-block";
         store.set("first_name_text", order_data[2] || "");
         store.set("last_name_text", order_data[3] || "");
         store.set("email_text", order_data[4] || "");
@@ -1125,15 +1183,19 @@ function loadOrderInfoFromRow() {
  * Sets the current order to what was put in the "Load Order"
  * text input.
  */
-document.getElementById("input_order_text").addEventListener("change", function() {
-    store.set('order_num', this.value);
-    console.log(store.get('order_num'));
-});
+document
+  .getElementById("input_order_text")
+  .addEventListener("change", function() {
+    store.set("order_num", this.value);
+    console.log(store.get("order_num"));
+  });
 
 /**
  * Sets the listener for "Load Order" button, which calls loadOrderInfoFromRow().
  */
-document.getElementById("welcome_load").addEventListener("click", loadOrderInfoFromRow);
+document
+  .getElementById("welcome_load")
+  .addEventListener("click", loadOrderInfoFromRow);
 
 function loadTypeImage() {
   fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
@@ -1166,6 +1228,9 @@ function loadTypeImage() {
   });
 }
 
+/*
+ * Sends the main process the signal to reload the page
+ */
 function reloadPage() {
   ipc.send("load-page");
 }
@@ -1175,12 +1240,11 @@ document.getElementById("reload_page").addEventListener("click", () => {
 });
 
 /**
- * Error popup tha displays overtop the rest of the app. Displays the 
+ * Error popup tha displays overtop the rest of the app. Displays the
  * error given.
- * @param {*} err 
+ * @param {*} err
  */
-function displayErrorPopUp(err){
-  
+function displayErrorPopUp(err) {
   //Get the modal
   var modal = document.getElementById("error_modal");
 
@@ -1189,21 +1253,17 @@ function displayErrorPopUp(err){
 
   //display modal
   modal.style.display = "block";
-  
-  if (err.toString().includes("Unable to parse range:")){
-    document.getElementById("modal_line_1").innerHTML = "Order numbers are positive, starting from 2.";
-  }
 
-  else if (err.toString().includes("Range")){
-    document.getElementById("modal_line_1").innerHTML = "Order number out of range (no such order).";
-  }
-
-  else if (err.toString().includes("fetch")){
-    document.getElementById("modal_line_1").innerHTML = 
+  if (err.toString().includes("Unable to parse range:")) {
+    document.getElementById("modal_line_1").innerHTML =
+      "Order numbers are positive, starting from 2.";
+  } else if (err.toString().includes("Range")) {
+    document.getElementById("modal_line_1").innerHTML =
+      "Order number out of range (no such order).";
+  } else if (err.toString().includes("fetch")) {
+    document.getElementById("modal_line_1").innerHTML =
       "Unable to connect to Google Sheets. Please check your connection and try again.";
-  }
-
-  else {
+  } else {
     document.getElementById("modal_line_1").innerHTML = "";
   }
 
@@ -1212,30 +1272,28 @@ function displayErrorPopUp(err){
   // When the user clicks on <span> (x), close the modal
   span.onclick = function() {
     modal.style.display = "none";
-  }
-
-
+  };
 }
 
 /**
  * Listener for the submit button, which is on the summary page.
  * Marks the order as "completed" on google sheets.
  */
-document.getElementById("submit_btn").addEventListener("click", function(){
-  
-  finalizeOrder({
-    "spreadsheetId": spreadsheetId,
-    "row": store.get("order_num")
-  }, (err, resp) => {
-    if (err) {
-      console.log(err);
-      displayErrorPopUp(err);
-      return;
-    } else {
-      console.log(resp);
-      goToNextSection();
+document.getElementById("submit_btn").addEventListener("click", function() {
+  finalizeOrder(
+    {
+      spreadsheetId: spreadsheetId,
+      row: store.get("order_num")
+    },
+    (err, resp) => {
+      if (err) {
+        console.log(err);
+        displayErrorPopUp(err);
+        return;
+      } else {
+        console.log(resp);
+        goToNextSection();
+      }
     }
-
-  })
-
+  );
 });
