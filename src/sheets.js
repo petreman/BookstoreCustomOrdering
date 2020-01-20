@@ -8,10 +8,11 @@ const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = "token.json";
+const TOKEN_PATH = "./token.json";
+const CREDENTIALS_PATH = "./credentials.json";
 
 const opSheet = (operationCallback, request, callback) => {
-  fs.readFile("credentials.json", (err, content) => {
+  fs.readFile(CREDENTIALS_PATH, (err, content) => {
     if (err) return console.log("Error loading client secret file:", err);
     authorize(JSON.parse(content), operationCallback, request, callback);
   });
@@ -116,7 +117,7 @@ function getCurrentDate() {
 
 module.exports = {
   getNewToken: () => {
-    fs.readFile("credentials.json", (err, content) => {
+    fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
       const credentials = JSON.parse(content);
       const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -154,7 +155,7 @@ module.exports = {
   },
 
   getTokenGeneratorURL: callback => {
-    fs.readFile("credentials.json", (err, content) => {
+    fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
       const credentials = JSON.parse(content);
       const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -172,7 +173,7 @@ module.exports = {
   },
 
   generateTokenFromURLCode: code => {
-    fs.readFile("credentials.json", (err, content) => {
+    fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
       const credentials = JSON.parse(content);
       const { client_secret, client_id, redirect_uris } = credentials.installed;

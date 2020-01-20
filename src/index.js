@@ -154,9 +154,9 @@ document.getElementById("img_btn").addEventListener("click", function() {
 
 function loadImages() {
   fs.readFile(app.getPath("userData") + "/img_location.txt", (err, res) => {
-    const img_dir = res.toString();
+    if (!err) {
+      const img_dir = res.toString();
     console.log(img_dir);
-    //document.getElementById('type_img').setAttribute('src', img_dir + '/type_img.png');
     document
       .getElementById("front_img")
       .setAttribute("src", img_dir + "/front_img.png");
@@ -172,6 +172,9 @@ function loadImages() {
     document
       .getElementById("hood_img")
       .setAttribute("src", img_dir + "/hood_img.png");
+    } else {
+      console.log("image location not found");
+    }
   });
 }
 
