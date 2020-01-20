@@ -83,6 +83,7 @@ setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
 setCustomizationSelectListeners();
+setDefaults();
 
 document.getElementById("welcome_new").addEventListener("click", function() {
 
@@ -107,7 +108,6 @@ document.getElementById("welcome_new").addEventListener("click", function() {
           store.set("order_num", first_row);
           refreshOrderNumberDisplay();
           document.getElementById("order_num_disp").style.display = "inline-block";
-          setDefaults();
           updateStore();
           goToNextSection();
         } else {
@@ -962,7 +962,7 @@ function calculateCurrentPrice() {
 
 function loadOrderInfoFromRow() {
   const order_num = document.getElementById("input_order_text").value;
-  if (order_num == 1){
+  if (order_num == 1 || order_num == ""){
     return;
   }
   getOrder(
