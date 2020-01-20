@@ -52,7 +52,6 @@ const print_options = {
 };
 
 //variables
-let store;
 let type; //will be used to check if hood option should be taken
 let currentSection = "welcome_section";
 const welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
@@ -67,19 +66,6 @@ const customizationSections = [
   "comment"
 ];
 
-try {
-  const store_path = app.getPath("userData") + "/config.json";
-  console.log(store_path);
-  const store_data = JSON.parse(fs.readFileSync(store_path));
-  console.log(store_data);
-  store = new Store();
-  store.store = store_data;
-  setFromStore();
-} catch (error) {
-  console.log(error);
-  store = new Store();
-}
-
 if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
   console.log("image location found");
   loadImages();
@@ -88,7 +74,8 @@ if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 }
 
 //initialization
-store.clear(); // you want to clear everything? no resume? yes
+const store = new Store();
+store.clear();
 getAndApplySettings()
 disableNavButtons();
 disableNewOrderButton();
@@ -98,7 +85,6 @@ setTextListeners();
 setCustomizationSelectListeners();
 
 document.getElementById("welcome_new").addEventListener("click", function() {
-  // store.clear();
 
   newOrder({
       "spreadsheetId": spreadsheetId,
@@ -950,7 +936,7 @@ function calculateCurrentPrice() {
   }
   if (store.get("color") === "green") {
     currPrice += parseFloat(store.get("settings")[2][1]);
-  } else if (store.get("color") && store.get("color") === "grey") {
+  } else if (store.get("color") && store.get("color") === "gray") {
     currPrice += parseFloat(store.get("settings")[3][1]);
   }
   if (store.get("front_text") && store.get("front_text") !== "n/a") {
