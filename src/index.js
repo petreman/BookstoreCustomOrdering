@@ -346,7 +346,7 @@ function setTextListeners() {
   for (let i = 1; i < customizationSections.length; i++) {
     document
       .getElementById(customizationSections[i] + "_text")
-      .addEventListener("change", function() {
+      .addEventListener("input", function() {
         updateStoreFromTextArea(customizationSections[i]);
 
         if (
@@ -927,7 +927,7 @@ function setWelcomeInputListeners() {
   for (let i = 0; i < welcomeInputs.length; i++) {
     document
       .getElementById(welcomeInputs[i] + "_text")
-      .addEventListener("change", function() {
+      .addEventListener("input", function() {
         updateStoreFromTextArea(welcomeInputs[i]);
 
         if (
