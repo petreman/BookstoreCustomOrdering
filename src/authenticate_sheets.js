@@ -1,4 +1,8 @@
-const {
+/*
+ * A test file used to retrieve new tokens, test Google Sheets methods
+ */
+
+ const {
   getNewToken,
   getTokenGeneratorURL,
   generateTokenFromURLCode,

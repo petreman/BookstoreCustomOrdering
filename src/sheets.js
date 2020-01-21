@@ -1,3 +1,10 @@
+/**
+ * sheets.js
+ *
+ * Javascript file which offers an easy-to-use interface for Google Sheets
+ * 
+ * Author: Philippe Nadon
+ */
 const dateTime = require("node-datetime");
 const fs = require("fs");
 const readline = require("readline");
@@ -43,6 +50,9 @@ function authorize(credentials, operationCallback, request, callback) {
   });
 }
 
+/*
+ * Callback function used to send a new order to Google Sheets
+ */
 function newOrderCallback(auth, request_vals, callback) {
   var request = {
     spreadsheetId: request_vals.spreadsheetId,
@@ -61,6 +71,9 @@ function newOrderCallback(auth, request_vals, callback) {
   sheets.spreadsheets.values.append(request, callback);
 }
 
+/*
+ * Callback function used to update an in-progress order in Google Sheets
+ */
 function updateOrderCallback(auth, request_vals, callback) {
   var request = {
     spreadsheetId: request_vals.spreadsheetId,
@@ -88,6 +101,9 @@ function getOrderCallback(auth, request, callback) {
   sheets.spreadsheets.values.get(request, callback);
 }
 
+/*
+ * Callback function used to set settings in Google Sheets
+ */
 function setSettingsCallback(auth, request_vals, callback) {
   var request = {
     spreadsheetId: request_vals.spreadsheetId,
@@ -105,17 +121,26 @@ function setSettingsCallback(auth, request_vals, callback) {
   sheets.spreadsheets.values.update(request, callback);
 }
 
+/*
+ * Callback function used to retrieve app settings in Google Sheets
+ */
 function getSettingsCallback(auth, request, callback) {
   const sheets = google.sheets({ version: "v4", auth });
   sheets.spreadsheets.values.get(request, callback);
 }
 
+/*
+ * Helper function which retrieves the current date
+ */
 function getCurrentDate() {
   const dt = dateTime.create();
   return dt.format("Y-m-d H:M:S");
 }
 
 module.exports = {
+  /*
+   * Module functionused for generating a new token
+   */
   getNewToken: () => {
     fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
@@ -154,6 +179,9 @@ module.exports = {
     });
   },
 
+  /*
+   * Module function used for creating a URL where a token code can be generated.
+   */
   getTokenGeneratorURL: callback => {
     fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
@@ -172,6 +200,9 @@ module.exports = {
     });
   },
 
+  /*
+   * Uses the code retrieved from the URL to generate a token
+   */
   generateTokenFromURLCode: code => {
     fs.readFile(CREDENTIALS_PATH, (err, content) => {
       if (err) return console.log("Error loading client secret file:", err);
@@ -198,13 +229,17 @@ module.exports = {
     });
   },
 
-  // Example request:
-  // {
-  //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "values": [
-  //     "New Order", "New Order 2"
-  //   ]
-  // }
+  /*
+  * Module function used for generating a new order
+  *
+  * Example request:
+  * {
+  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+  *   "values": [
+  *     "New Order", "New Order 2"
+  *   ]
+  * }
+  */
   newOrder: (request, callback) => {
     console.log("VALS");
     console.log(request.values);
@@ -219,15 +254,19 @@ module.exports = {
     );
   },
 
-  // Example request:
-  // {
-  //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "row": "3",
-  //   "column_range": ["A", "B"],
-  //   "values": [
-  //     "Order 4 Updated", "B column value"
-  //   ]
-  // }
+  /*
+  * Module function used to update an existing order
+  * 
+  * Example request:
+  * {
+  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+  *   "row": "3",
+  *   "column_range": ["A", "B"],
+  *   "values": [
+  *     "Order 4 Updated", "B column value"
+  *   ]
+  * }
+  */
   updateOrder: (request, callback) => {
     opSheet(
       updateOrderCallback,
@@ -246,11 +285,15 @@ module.exports = {
     );
   },
 
-  // Example request:
-  // {
-  //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   row: "2",
-  // }
+  /*
+  * Module function used to retrieve an order's information 
+  *
+  * Example request:
+  * {
+  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+  *   "row": "2",
+  * }
+  */
   getOrder: (request, callback) => {
     opSheet(
       getOrderCallback,
@@ -262,22 +305,26 @@ module.exports = {
     );
   },
 
-  // Example request:
-  // {
-  //   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  //   "range": ["2", ""],
-  //   "values": ["~/Desktop/clothing_images/",
-  //     "30.5",
-  //     "25.5",
-  //     "10.5",
-  //     "10.5",
-  //     "5.5",
-  //     "3.5",
-  //     "3.5",
-  //     "4.5",
-  //     "2.5"
-  //   ]
-  // }
+  /*
+  * Module function used to set the app's settings in the Google Sheet
+  *
+  * Example request:
+  * {
+  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+  *   "range": ["2", ""],
+  *   "values": ["~/Desktop/clothing_images/",
+  *     "30.5",
+  *     "25.5",
+  *     "10.5",
+  *     "10.5",
+  *     "5.5",
+  *     "3.5",
+  *     "3.5",
+  *     "4.5",
+  *     "2.5"
+  *   ]
+  * }
+  */
   setSettings: (request, callback) => {
     if (request.range[0] == "1") {
       console.error("INVALID ROW RANGE ACCESSED: DO NOT ACCESS HEADERS!");
@@ -298,11 +345,15 @@ module.exports = {
     );
   },
 
-  // Example request:
-  // {
-  //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   range: ["2", ""]
-  // }
+  /*
+  * Module function used to retrieve the app's settings
+  *
+  * Example request:
+  * {
+  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+  *   "range": ["2", ""]
+  * }
+  */
   getSettings: (request, callback) => {
     opSheet(
       getSettingsCallback,
@@ -314,6 +365,15 @@ module.exports = {
     );
   },
 
+  /*
+  * Module function used to submit confirmation that an order has been complete
+  *
+  * Example request:
+  * {
+  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+  *   "row": "2"
+  * }
+  */
   finalizeOrder: (request, callback) => {
     opSheet(
       updateOrderCallback,
@@ -325,15 +385,4 @@ module.exports = {
       callback
     );
   }
-
-  // Example usage:
-  // getSetting({
-  //   spreadsheetId: '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  //   range: ["2", ""]
-  //   },
-  //   function(err, res) {
-  //     if (err) console.log(err);
-  //     else console.log(res);
-  //   }
-  // );
 };
