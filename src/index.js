@@ -86,6 +86,7 @@ store.clear();
 getAndApplySettings();
 disableNavButtons();
 disableNewOrderButton();
+disableLoadOrderButton();
 setWelcomeInputListeners();
 setSelectListeners();
 setTextListeners();
@@ -652,9 +653,11 @@ function goToPrevSection() {
 
   if (prevSection !== "welcome_section") {
     document.getElementById(prevSection).style.display = "flex";
+    document.body.style.background = "white";
   } else {
     document.getElementById(prevSection).style.display = "initial";
     document.getElementById("prev_button").disabled = true;
+    document.body.style.background = "#eeeeee";
   }
 
   currentSection = prevSection;
@@ -770,9 +773,11 @@ function goToNextSection() {
 
   if (nextSection !== "summary_section") {
     document.getElementById(nextSection).style.display = "flex";
+    document.body.style.background = "white";
   } else {
-    document.getElementById(nextSection).style.display = "initial";
+    document.getElementById(nextSection).style.display = "inline-block";
     document.getElementById("next_button").disabled = true;
+    document.body.style.background = "#eeeeee";
   }
 
   defaultCheck(nextSection);
@@ -833,6 +838,7 @@ function setDefaults() {
   document.getElementById("last_name_text").value = "";
   document.getElementById("email_text").value = "";
   document.getElementById("phone_number_text").value = "";
+  document.getElementById("input_order_text").value = "";
 
   document.getElementById("type_select").selectedIndex = 0;
   document.getElementById("color_select").selectedIndex = 0;
@@ -942,6 +948,7 @@ function setWelcomeInputListeners() {
         }
       });
   }
+  
 }
 
 /**
@@ -951,11 +958,18 @@ function disableNewOrderButton() {
   document.getElementById("welcome_new").disabled = true;
 }
 
+/**
+ * Disables the "Load Order" button on the welcome section.
+ */
+function disableLoadOrderButton() {
+  document.getElementById("welcome_load").disabled = true;
+}
+
 function setSummaryPriceText(sku, key, cost) {
   if (store.get(key) === "n/a") {
-    return ": N/A";
+    return "N/A";
   } else {
-    return "(SKU: " + sku + "): " + store.get(key) + " +$" + cost;
+    return "+$" + cost + " (SKU: ".italics() + sku.italics() + ")".italics() + ": " + store.get(key);
   }
 }
 
@@ -964,73 +978,77 @@ function setSummaryPriceText(sku, key, cost) {
  */
 function setSummaryFromStore() {
   document.getElementById("name_disp").innerHTML =
-    "Name: " + store.get("first_name_text") + " " + store.get("last_name_text");
+    "Name: ".bold() + store.get("first_name_text") + " " + store.get("last_name_text");
   document.getElementById("email_disp").innerHTML =
-    "Email: " + store.get("email_text");
+    "Email: ".bold() + store.get("email_text");
   document.getElementById("phone_number_disp").innerHTML =
-    "Phone Number: " + store.get("phone_number_text");
+    "Phone Number: ".bold() + store.get("phone_number_text");
 
   document.getElementById("hoodie_disp").innerHTML =
-    "Type " +
-    (store.get("settings")[9][1], "type", store.get("settings")[0][1]);
+  "Type: ".bold() +
+  setSummaryPriceText(
+    store.get("settings")[9][1],
+    "type",
+    store.get("settings")[0][1]
+  );
   document.getElementById("crewneck_disp").innerHTML =
-    "Type " +
+    "Type: ".bold() +
     setSummaryPriceText(
       store.get("settings")[10][1],
       "type",
       store.get("settings")[1][1]
     );
   document.getElementById("green_disp").innerHTML =
-    "Color " +
+    "Color: ".bold() +
     setSummaryPriceText(
       store.get("settings")[11][1],
       "color",
       store.get("settings")[2][1]
     );
   document.getElementById("gray_disp").innerHTML =
-    "Color " +
+    "Color: ".bold() +
     setSummaryPriceText(
       store.get("settings")[12][1],
       "color",
       store.get("settings")[3][1]
     );
 
-  document.getElementById("size_disp").innerHTML = "Size: " + store.get("size");
+  document.getElementById("size_disp").innerHTML = "Size: ".bold() + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
-    "Front " +
+    "Front: ".bold() +
     setSummaryPriceText(
       store.get("settings")[13][1],
       "front_text",
       store.get("settings")[4][1]
     );
   document.getElementById("left_arm_disp").innerHTML =
-    "Left Arm " +
+    "Left Arm: ".bold() +
     setSummaryPriceText(
       store.get("settings")[14][1],
       "left_arm_text",
       store.get("settings")[5][1]
     );
   document.getElementById("right_arm_disp").innerHTML =
-    "Right Arm " +
+    "Right Arm: ".bold() +
     setSummaryPriceText(
       store.get("settings")[15][1],
       "right_arm_text",
       store.get("settings")[6][1]
     );
   document.getElementById("back_disp").innerHTML =
-    "Back " +
+    "Back: ".bold() +
     setSummaryPriceText(
       store.get("settings")[16][1],
       "back_text",
       store.get("settings")[7][1]
     );
   document.getElementById("comment_disp").innerHTML =
-    "Additional Information: " + store.get("comment_text");
+    "Additional Information: ".bold() + store.get("comment_text");
 
   if (store.get("type") === "hoodie") {
     document.getElementById("hood_disp").innerHTML =
-      "Hood " +
+      "Hood: ".bold() +
       setSummaryPriceText(
         store.get("settings")[17][1],
         "hood_text",
@@ -1185,9 +1203,15 @@ function loadOrderInfoFromRow() {
  */
 document
   .getElementById("input_order_text")
-  .addEventListener("change", function() {
-    store.set("order_num", this.value);
-    console.log(store.get("order_num"));
+  .addEventListener("input", function() {
+    if (this.value === "" || Number(this.value) < 2) {
+      document.getElementById("welcome_load").disabled = true;
+    } else {
+      store.set("order_num", this.value);
+      console.log(store.get("order_num"));
+      document.getElementById("welcome_load").disabled = false;
+    }
+    
   });
 
 /**

@@ -31,9 +31,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
   <nav>
     <ul>
       <li><button id="img_btn" class="menu_btn">Load Images</button></li>
-      <li>
-        <h2 id="order_num_disp">Order #</h2>
-      </li>
+      <li><h2 id="order_num_disp">Order #</h2></li>
     </ul>
   </nav>
 </header>
@@ -43,7 +41,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
   <div id=welcome_section>
 
     <div class="jumbotron">
-      <h2 style="text-align: center;">New Order</h2 s>
+      <h2 style="text-align: center;">New Order</h2>
       
         <form>
           <label for="name" style = "display: block;"id="first_name">First Name:</label>
@@ -264,10 +262,9 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
   </div>
 
-  <div class="wrapper" id="summary_section">
-    <div id="summary_box">
-      <div id="summary_child">
-        <h1>Summary of your order:</h1><br>
+  <div id="summary_section" class="jumbotron">
+    
+        <h1>Order Summary</h1><br>
         <p id="name_disp"></p>
         <p id="email_disp"></p>
         <p id="phone_number_disp"></p><br>
@@ -285,9 +282,8 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
         <p id="hood_disp"></p><br>
 
         <p id="comment_disp"></p>
-        <button id="submit_btn" class="menu_btn" style="width: 90%; margin:10% 0 auto 0;">Submit Order</button>
-      </div>
-    </div>
+        <button id="submit_btn" class="welcome_btn">Submit Order</button>
+      
   </div>
 
   <div id="thanks_section" class="wrapper">
