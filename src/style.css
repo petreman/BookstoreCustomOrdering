@@ -13,6 +13,10 @@ p {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
+#summary_section p {
+  font-size: 24px;
+}
+
 .summary_child p{
   font-size: 26px;
   margin: 2% 0;
@@ -22,6 +26,8 @@ p {
 }
 
 h1{
+  font-family: "DIN Pro Bold", sans-serif;
+  color: #3d4a43;
   font-size: 44px;
   margin: 10px 5%;
   width: 90%;
@@ -69,9 +75,6 @@ header h2 {
 html{
   height:100%;
 }
-body{
-  margin-bottom: 110px;
-}
 
 .center {
   position: absolute;
@@ -111,7 +114,7 @@ select {
 
 body {
   margin: 100px 0;
-  background-color: white;
+  background-color: #eeeeee;
   position: relative;
 }
 
@@ -390,9 +393,10 @@ text:hover {
   margin-bottom: 2%;
   margin-left: 5%;
   padding: 0;
+  position: relative;
   -webkit-box-shadow: 13px 13px 9px 0px rgba(0,0,0,0.3);
   box-shadow: 13px 13px 9px 0px rgba(0,0,0,0.3);
-  background-color: #eeeeee;
+  background-color: white;
   width: 42.5%;
   border-radius: 5px;
   padding: 0;
@@ -420,13 +424,13 @@ input:focus {
 
 h2 {
   font-family: "DIN Pro Bold", sans-serif;
+  color: #3d4a43;
   margin: 0;
   padding-left: 5%;
   padding-right: 5%;
   padding-top: 30px;
   padding-bottom: 20px;
   font-size: 30px;
-  color: #3d4a43;
 }
 
 input.welcome_input{
@@ -525,4 +529,24 @@ input.welcome_input{
   opacity: 0.5;
   cursor: default;
   pointer-events: none;
+}
+
+#summary_section {
+  display: none;
+  margin-right: 5%;
+  margin-right: 5%;
+  width: fit-content;
+  padding-top: 2%;
+}
+
+#submit_btn {
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: 2%;
+  margin-right: 5%;
+  margin-top: 2%;
+  justify-content: center;
+  float: none; 
+  padding: 0;
+  text-align: center;
 }
