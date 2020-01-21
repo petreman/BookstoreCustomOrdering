@@ -176,8 +176,9 @@ header li {
   font-family: sans-serif, "Open Sans", Arial;
 }
 
-header li h2 {
+header h2 {
   margin: 0;
+  padding: 0;
   color: #eee;
   font-size: 30px;
   white-space: nowrap;
