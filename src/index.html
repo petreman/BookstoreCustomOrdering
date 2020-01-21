@@ -42,50 +42,48 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
   <div id=welcome_section>
 
-    <div class="welcome_wrapper">
-      <div class="grid-container">
-
-        <div class="grid-item"><h1>Welcome</h1><br></div>
-
-        <div class="grid-item">
-          <button id="welcome_new" class="menu_btn" style="width: 80%; margin:10%;">New  Order</button i>
-        </div>
-
-        <div class="grid-item">
-          <div>
-            <input placeholder="Enter order #" 
-            type="number" id="input_order_text" 
-            style="margin:auto 10%;">
-            </input>
-          </div>
-        </div>
-
-        <div class="grid-item">
-          <div>
-            <button id="welcome_load" class="menu_btn" style="width: 80%; margin:auto 10%;">
-            Load Order
-            </button>
-          </div>
-        </div>
+    <div class="jumbotron">
+      <h2 style="text-align: center;">New Order</h2 s>
+      
+        <form>
+          <label for="name" style = "display: block;"id="first_name">First Name:</label>
+          <input type="text" id="first_name_text" class="welcome_input" rows="2" name="first_name" cols="20"></input>
+        </form>
         
-      </div>
-
-      <div class="right">
-        <p id="first_name">First Name:</p>
-        <input type="text" id="first_name_text" rows="2" name="first_name" cols="20"></input><br>
-
-        <p id="last_name">Last Name:</p>
-        <input type="text" id="last_name_text" rows="2" name="last_name" cols="20"></input><br>
-
-
-        <p id="email">Email:</p>
-        <input type="text" id="email_text" rows="2" name="email" cols="20"></input><br>
-
-        <p id="phone_number">Phone Number:</p>
-        <input type="text" id="phone_number_text" rows="2" name="phone_number" cols="20"></input>
-      </div>
-
-    </div>
+        <form>
+          <label id="last_name">Last Name:</label>
+          <input type="text" id="last_name_text" class="welcome_input" rows="2" name="last_name" cols="20"></input>
+        </form>
+  
+        <form>
+          <label id="email">Email:</label>
+          <input type="text" id="email_text" class="welcome_input" rows="2" name="email" cols="20"></input>
+      </form>
+  
+      <form>
+        <label id="phone_number">Phone Number:</label>
+        <input type="number" id="phone_number_text" class="welcome_input" rows="2" name="phone_number" cols="20"></input>
+      </form>
+  
+        <div class="grid-item">
+          <button id="welcome_new" class="welcome_btn">New Order</button>
+        </div>
+      
+      </div> 
+  
+      <div class="jumbotron">
+          <h2 style="text-align: center;">Load Order</h2 s>
+          
+            <form>
+              <label for="order" style = "display: block;"id="load_order">Order #:</label>
+              <input placeholder="Enter order #" type="number" id="input_order_text" class="welcome_input"></input>
+            </form>
+            
+            <div class="grid-item">
+                <button id="welcome_load" class="welcome_btn">Load Order</button>
+            </div>
+          
+      </div> 
 
   </div>
 
@@ -306,18 +304,18 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
 
   </div>
 
-  <header id="footer">
-    <ul id="nav">
-      <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
-      <li id="next_section"><button id="next_button" class="menu_btn">Next</button></li>
-    </ul>
-    <h2 id="price_display">Price: </h2>
-  </header>
-
   <!--We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.-->
 </body>
+
+<header id="footer">
+  <ul id="nav">
+    <li id="prev_section"><button id="prev_button" class="menu_btn">Prev</button></li>
+    <li id="next_section"><button id="next_button" class="menu_btn">Next</button></li>
+  </ul>
+  <h2 id="price_display">Price: </h2>
+</header>
 
 <script src="index.js"></script>
 
