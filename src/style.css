@@ -43,7 +43,9 @@ header h2 {
   text-align: left;
   box-sizing: border-box;
   margin-left: 10px;
+  margin-right: 10px;
   font-family: sans-serif, "Open Sans", Arial;
+  padding: 0;
 }
 
 .summary_parent {
@@ -174,17 +176,6 @@ header li {
   font-size: 1rem;
   border-radius: 0.25rem;
   font-family: sans-serif, "Open Sans", Arial;
-}
-
-header h2 {
-  margin: 0;
-  padding: 0;
-  color: #eee;
-  font-size: 30px;
-  white-space: nowrap;
-  text-align: left;
-  box-sizing: border-box;
-  margin-left: 10px;
 }
 
 /* Adapted from eClass */
@@ -532,12 +523,18 @@ input.welcome_input{
   pointer-events: none;
 }
 
-#summary_section {
+#summary_section, #thanks_section {
   display: none;
   margin-right: 5%;
   margin-right: 5%;
   width: 90%;
   padding-top: 2%;
+}
+
+#thanks_btns {
+  text-align: center;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 #submit_btn {

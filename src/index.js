@@ -750,7 +750,7 @@ function goToNextSection() {
       nextSection = "thanks_section";
       document.getElementById("nav").style.display = "none";
       document.getElementById(currentSection).style.display = "none";
-      document.getElementById(nextSection).style.display = "initial";
+      document.getElementById(nextSection).style.display = "inline-block";
       currentSection = nextSection;
       return;
   }
