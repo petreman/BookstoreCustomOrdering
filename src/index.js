@@ -1354,3 +1354,12 @@ document.getElementById("submit_btn").addEventListener("click", function() {
     }
   );
 });
+
+document.getElementById("new_order_form").addEventListener("submit", function(event){
+  
+  event.preventDefault();
+  
+  if (document.getElementById("welcome_load").disabled === false) {
+    document.getElementById("welcome_load").dispatchEvent(new Event("click"));
+  }
+});

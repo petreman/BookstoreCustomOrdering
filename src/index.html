@@ -43,22 +43,22 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
     <div class="jumbotron">
       <h2 style="text-align: center;">New Order</h2>
       
-        <form>
+        <form onSubmit="return false;">
           <label for="name" style = "display: block;"id="first_name">First Name:</label>
           <input required type="text" id="first_name_text" class="welcome_input" rows="2" name="first_name" cols="20"></input>
         </form>
         
-        <form>
+        <form onSubmit="return false;">
           <label id="last_name">Last Name:</label>
           <input required type="text" id="last_name_text" class="welcome_input" rows="2" name="last_name" cols="20"></input>
         </form>
   
-        <form>
+        <form onSubmit="return false;">
           <label id="email">Email:</label>
           <input type="email" id="email_text" class="welcome_input" rows="2" name="email" cols="20"></input>
       </form>
   
-      <form>
+      <form onSubmit="return false;">
         <label id="phone_number">Phone Number:</label>
         <input type="tel" required id="phone_number_text" class="welcome_input" rows="2" name="phone_number" cols="20"></input>
       </form>
@@ -72,7 +72,7 @@ Authors: Jinzhe Li, Philippe Nadon, Keegan Petreman -->
       <div class="jumbotron">
           <h2 style="text-align: center;">Load Order</h2 s>
           
-            <form>
+            <form id="new_order_form">
               <label for="order" style = "display: block;"id="load_order">Order #:</label>
               <input placeholder="Enter order #" type="number" id="input_order_text" class="welcome_input"></input>
             </form>
