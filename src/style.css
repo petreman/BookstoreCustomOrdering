@@ -139,7 +139,7 @@ header {
   align-items: center;
   padding: 0.5rem 1rem;
   box-sizing: border-box;
-
+  align-items: center;
   background: transparent url("./images/banner-bg.svg") center center;
   background-color: transparent;
   background-position-x: center;
@@ -572,4 +572,23 @@ input.welcome_input{
   margin-right: 5%;
   align-items: center;
   height: 100%;
+}
+
+#footer #nav{
+  list-style-type: none;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  display: table;
+  flex: 1;
+}
+
+#footer #nav li {
+  display: inline;
+}
+
+#price_display {
+  right: 0;
+  display: flex;
+  margin-right: 0;
 }
