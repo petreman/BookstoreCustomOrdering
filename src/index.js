@@ -651,13 +651,17 @@ function goToPrevSection() {
   defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
 
-  if (prevSection !== "welcome_section") {
+  if (prevSection !== "welcome_section" & prevSection !== "comment_section") {
     document.getElementById(prevSection).style.display = "flex";
-    document.body.style.background = "white";
-  } else {
-    document.getElementById(prevSection).style.display = "initial";
+    
+  } else if (prevSection === "comment_section") {
+    document.getElementById(prevSection).style.display = "inline-block";
+  } else if (prevSection === "welcome_section"){
+    document.getElementById(prevSection).style.display = "block";
     document.getElementById("prev_button").disabled = true;
-    document.body.style.background = "#eeeeee";
+  } else {
+    document.getElementById(prevSection).style.display = "inline-block";
+    document.getElementById("prev_button").disabled = true;
   }
 
   currentSection = prevSection;
@@ -771,13 +775,13 @@ function goToNextSection() {
       }
     };
 
-  if (nextSection !== "summary_section") {
+  if (nextSection !== "summary_section" && nextSection !== "comment_section") {
     document.getElementById(nextSection).style.display = "flex";
-    document.body.style.background = "white";
+  } else if (nextSection === "comment_section") {
+    document.getElementById(nextSection).style.display = "inline-block";
   } else {
     document.getElementById(nextSection).style.display = "inline-block";
     document.getElementById("next_button").disabled = true;
-    document.body.style.background = "#eeeeee";
   }
 
   defaultCheck(nextSection);
