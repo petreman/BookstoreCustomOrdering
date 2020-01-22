@@ -53,6 +53,8 @@ const print_options = {
 
 //variables
 let type; //will be used to check if hood option should be taken
+var phoneFormat = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+var emailFormat = /\S+@\S+\.\S+/;
 let currentSection = "welcome_section";
 const welcomeInputs = ["first_name", "last_name", "email", "phone_number"];
 const typeSelects = ["type", "color", "size"];
@@ -941,19 +943,42 @@ function setWelcomeInputListeners() {
         updateStoreFromTextArea(welcomeInputs[i]);
 
         if (
-          document.getElementById("first_name_text").value.trim() == "" ||
-          document.getElementById("last_name_text").value.trim() == "" ||
-          document.getElementById("email_text").value.trim() == "" ||
-          document.getElementById("phone_number_text").value.trim() == ""
-        ) {
-          document.getElementById("welcome_new").disabled = true;
-        } else {
+          document.getElementById("first_name_text").value.trim() != "" &&
+          document.getElementById("last_name_text").value.trim() != "" &&
+          document.getElementById("email_text").value.match(emailFormat) &&
+          document.getElementById("phone_number_text").value.match(phoneFormat)
+          ) {
           document.getElementById("welcome_new").disabled = false;
+        } else {
+          document.getElementById("welcome_new").disabled = true;
         }
+
       });
   }
   
 }
+
+document.getElementById("email_text").addEventListener("change", function(){
+  
+  if (!document.getElementById("email_text").value.match(emailFormat)){
+    document.getElementById("email_text").style.border = "1px solid red";
+  }
+  else {
+    document.getElementById("email_text").style.border = "1px solid #ccc"
+  }
+
+});
+
+document.getElementById("phone_number_text").addEventListener("change", function(){
+  
+  if (!document.getElementById("phone_number_text").value.match(phoneFormat)){
+    document.getElementById("phone_number_text").style.border = "1px solid red";
+  }
+  else {
+    document.getElementById("phone_number_text").style.border = "1px solid #ccc"
+  }
+  
+});
 
 /**
  * Disables the "New Order" button on the welcome section.
