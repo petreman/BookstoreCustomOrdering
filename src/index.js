@@ -40,7 +40,7 @@ const export_template = `
       <p><b>Back</b><i>{{back_sku}}{{back_price}}</i>: {{back_text}}</p>
       <p><b>Hood</b><i>{{hood_sku}}{{hood_price}}</i>: {{hood_text}}</p><br>
       <p><b>Additional Information</b>: {{comment_text}}</p><br>
-      <p><b>Total Price</b>: {{price_display}}</p><br>
+      <p><b>Total Price</b>: {{total_price}}</p><br>
     </div>
   </body>
   </html>
@@ -1155,6 +1155,7 @@ function calculateCurrentPrice() {
   if (document.getElementById("hood_select").selectedIndex === 2) {
     currPrice += parseFloat(store.get("settings")[8][1]);
   }
+  store.set("total_price", "$" + currPrice);
   document.getElementById("price_display").innerHTML =
     "Total: " + numToPrice(currPrice);
 }
