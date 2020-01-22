@@ -26,19 +26,22 @@ const export_template = `
   <!DOCTYPE html>
   <html>
   <body>
-  <h1>Order #{{order_num}}</h1>
-  <p><b>Name</b>: {{first_name_text}} {{last_name_text}}</p>
-  <p><b>Email</b>: {{email_text}}</p>
-  <p><b>Phone Number</b>: {{phone_number_text}}</p>
-  <p><b>Type</b><i>{{type_sku}}{{type_price}}</i>: {{type}}</p>
-  <p><b>Color</b><i>{{color_sku}}{{color_price}}</i>: {{color}}</p>
-  <p><b>Size</b>: {{size}}</p>
-  <p><b>Front</b><i>{{front_sku}}{{front_price}}</i>: {{front_text}}</p>
-  <p><b>Left Arm</b><i>{{left_arm_sku}}{{left_arm_price}}</i>: {{left_arm_text}}</p>
-  <p><b>Right Arm</b><i>{{right_arm_sku}}{{right_arm_price}}</i>: {{right_arm_text}}</p>
-  <p><b>Back</b><i>{{back_sku}}{{back_price}}</i>: {{back_text}}</p>
-  <p><b>Hood</b><i>{{hood_sku}}{{hood_price}}</i>: {{hood_text}}</p>
-  <p><b>Additional Information</b>: {{comment_text}}</p>
+    <div style="height: auto; font-family: sans-serif, Arial">
+      <h1>Order #{{order_num}}</h1><br>
+      <p><b>Name</b>: {{first_name_text}} {{last_name_text}}</p>
+      <p><b>Email</b>: {{email_text}}</p>
+      <p><b>Phone Number</b>: {{phone_number_text}}</p><br>
+      <p><b>Type</b><i>{{type_sku}}{{type_price}}</i>: {{type}}</p>
+      <p><b>Color</b><i>{{color_sku}}{{color_price}}</i>: {{color}}</p>
+      <p><b>Size</b>: {{size}}</p><br>
+      <p><b>Front</b><i>{{front_sku}}{{front_price}}</i>: {{front_text}}</p>
+      <p><b>Left Arm</b><i>{{left_arm_sku}}{{left_arm_price}}</i>: {{left_arm_text}}</p>
+      <p><b>Right Arm</b><i>{{right_arm_sku}}{{right_arm_price}}</i>: {{right_arm_text}}</p>
+      <p><b>Back</b><i>{{back_sku}}{{back_price}}</i>: {{back_text}}</p>
+      <p><b>Hood</b><i>{{hood_sku}}{{hood_price}}</i>: {{hood_text}}</p><br>
+      <p><b>Additional Information</b>: {{comment_text}}</p><br>
+      <p><b>Total Price</b>: {{price_display}}</p><br>
+    </div>
   </body>
   </html>
 `;
@@ -297,7 +300,7 @@ document.getElementById("export_btn").addEventListener("click", function() {
       .printToPDF(print_options)
       .then(data => {
         const path_promise = dialog.showSaveDialog({
-          defaultPath: "./order.pdf"
+          defaultPath: "./order_" + store.get("order_num") + ".pdf"
         });
         path_promise.then(function(value) {
           if (value.canceled) return;
