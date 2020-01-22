@@ -89,7 +89,7 @@ if (fs.existsSync(app.getPath("userData") + "/img_location.txt")) {
 const store = new Store();
 store.clear();
 getAndApplySettings();
-disableNavButtons();
+hideNavButtons();
 disableNewOrderButton();
 disableLoadOrderButton();
 setWelcomeInputListeners();
@@ -386,7 +386,7 @@ function enableNavButtons() {
 /**
  * Disables the next and prev buttons in the footer
  */
-function disableNavButtons() {
+function hideNavButtons() {
   document.getElementById("nav").style.display = "none";
   document.getElementById("order_num_disp").style.display = "none";
   document.getElementById("price_display").style.display = "none";
@@ -757,7 +757,7 @@ function goToNextSection() {
 
     case "summary_section":
       nextSection = "thanks_section";
-      document.getElementById("nav").style.display = "none";
+      hideNavButtons();
       document.getElementById(currentSection).style.display = "none";
       document.getElementById(nextSection).style.display = "inline-block";
       currentSection = nextSection;
@@ -1353,4 +1353,13 @@ document.getElementById("submit_btn").addEventListener("click", function() {
       }
     }
   );
+});
+
+document.getElementById("new_order_form").addEventListener("submit", function(event){
+  
+  event.preventDefault();
+  
+  if (document.getElementById("welcome_load").disabled === false) {
+    document.getElementById("welcome_load").dispatchEvent(new Event("click"));
+  }
 });
