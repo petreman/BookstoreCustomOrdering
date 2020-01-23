@@ -657,7 +657,7 @@ function goToPrevSection() {
   document.getElementById(currentSection).style.display = "none";
 
   if (
-    (prevSection !== "welcome_section") &
+    (prevSection !== "welcome_section") &&
     (prevSection !== "comment_section")
   ) {
     document.getElementById(prevSection).style.display = "flex";
