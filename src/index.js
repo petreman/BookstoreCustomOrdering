@@ -656,12 +656,14 @@ function goToPrevSection() {
   defaultCheck(prevSection);
   document.getElementById(currentSection).style.display = "none";
 
-  if (prevSection !== "welcome_section" & prevSection !== "comment_section") {
+  if (
+    (prevSection !== "welcome_section") &
+    (prevSection !== "comment_section")
+  ) {
     document.getElementById(prevSection).style.display = "flex";
-    
   } else if (prevSection === "comment_section") {
     document.getElementById(prevSection).style.display = "inline-block";
-  } else if (prevSection === "welcome_section"){
+  } else if (prevSection === "welcome_section") {
     document.getElementById(prevSection).style.display = "block";
     document.getElementById("prev_button").disabled = true;
   } else {
@@ -950,38 +952,36 @@ function setWelcomeInputListeners() {
           document.getElementById("last_name_text").value.trim() != "" &&
           document.getElementById("email_text").value.match(emailFormat) &&
           document.getElementById("phone_number_text").value.match(phoneFormat)
-          ) {
+        ) {
           document.getElementById("welcome_new").disabled = false;
         } else {
           document.getElementById("welcome_new").disabled = true;
         }
-
       });
   }
-  
 }
 
-document.getElementById("email_text").addEventListener("change", function(){
-  
-  if (!document.getElementById("email_text").value.match(emailFormat)){
+document.getElementById("email_text").addEventListener("change", function() {
+  if (!document.getElementById("email_text").value.match(emailFormat)) {
     document.getElementById("email_text").style.border = "1px solid red";
+  } else {
+    document.getElementById("email_text").style.border = "1px solid #ccc";
   }
-  else {
-    document.getElementById("email_text").style.border = "1px solid #ccc"
-  }
-
 });
 
-document.getElementById("phone_number_text").addEventListener("change", function(){
-  
-  if (!document.getElementById("phone_number_text").value.match(phoneFormat)){
-    document.getElementById("phone_number_text").style.border = "1px solid red";
-  }
-  else {
-    document.getElementById("phone_number_text").style.border = "1px solid #ccc"
-  }
-  
-});
+document
+  .getElementById("phone_number_text")
+  .addEventListener("change", function() {
+    if (
+      !document.getElementById("phone_number_text").value.match(phoneFormat)
+    ) {
+      document.getElementById("phone_number_text").style.border =
+        "1px solid red";
+    } else {
+      document.getElementById("phone_number_text").style.border =
+        "1px solid #ccc";
+    }
+  });
 
 /**
  * Disables the "New Order" button on the welcome section.
@@ -1001,7 +1001,15 @@ function setSummaryPriceText(sku, key, cost) {
   if (store.get(key) === "n/a") {
     return "N/A";
   } else {
-    return "+$" + cost + " (SKU: ".italics() + sku.italics() + ")".italics() + ": " + store.get(key);
+    return (
+      "+$" +
+      cost +
+      " (SKU: ".italics() +
+      sku.italics() +
+      ")".italics() +
+      ": " +
+      store.get(key)
+    );
   }
 }
 
@@ -1010,19 +1018,22 @@ function setSummaryPriceText(sku, key, cost) {
  */
 function setSummaryFromStore() {
   document.getElementById("name_disp").innerHTML =
-    "Name: ".bold() + store.get("first_name_text") + " " + store.get("last_name_text");
+    "Name: ".bold() +
+    store.get("first_name_text") +
+    " " +
+    store.get("last_name_text");
   document.getElementById("email_disp").innerHTML =
     "Email: ".bold() + store.get("email_text");
   document.getElementById("phone_number_disp").innerHTML =
     "Phone Number: ".bold() + store.get("phone_number_text");
 
   document.getElementById("hoodie_disp").innerHTML =
-  "Type: ".bold() +
-  setSummaryPriceText(
-    store.get("settings")[9][1],
-    "type",
-    store.get("settings")[0][1]
-  );
+    "Type: ".bold() +
+    setSummaryPriceText(
+      store.get("settings")[9][1],
+      "type",
+      store.get("settings")[0][1]
+    );
   document.getElementById("crewneck_disp").innerHTML =
     "Type: ".bold() +
     setSummaryPriceText(
@@ -1045,7 +1056,8 @@ function setSummaryFromStore() {
       store.get("settings")[3][1]
     );
 
-  document.getElementById("size_disp").innerHTML = "Size: ".bold() + store.get("size");
+  document.getElementById("size_disp").innerHTML =
+    "Size: ".bold() + store.get("size");
 
   document.getElementById("front_disp").innerHTML =
     "Front: ".bold() +
@@ -1186,7 +1198,7 @@ function calculateCurrentPrice() {
 }
 
 /*
- * Reads the row number input by the user, 
+ * Reads the row number input by the user,
  * and loads the corresponding data from the spreadsheet
  */
 function loadOrderInfoFromRow() {
@@ -1244,7 +1256,6 @@ document
       console.log(store.get("order_num"));
       document.getElementById("welcome_load").disabled = false;
     }
-    
   });
 
 /**
@@ -1362,11 +1373,12 @@ document.getElementById("submit_btn").addEventListener("click", function() {
  * Listener for the new order input text box. When "enter" is pressed,
  * loads the order entered in the text input.
  */
-document.getElementById("new_order_form").addEventListener("submit", function(event){
-  
-  event.preventDefault();
-  
-  if (document.getElementById("welcome_load").disabled === false) {
-    document.getElementById("welcome_load").dispatchEvent(new Event("click"));
-  }
-});
+document
+  .getElementById("new_order_form")
+  .addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (document.getElementById("welcome_load").disabled === false) {
+      document.getElementById("welcome_load").dispatchEvent(new Event("click"));
+    }
+  });

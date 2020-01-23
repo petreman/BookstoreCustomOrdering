@@ -2,7 +2,7 @@
  * sheets.js
  *
  * Javascript file which offers an easy-to-use interface for Google Sheets
- * 
+ *
  * Author: Philippe Nadon
  */
 const dateTime = require("node-datetime");
@@ -230,16 +230,16 @@ module.exports = {
   },
 
   /*
-  * Module function used for generating a new order
-  *
-  * Example request:
-  * {
-  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  *   "values": [
-  *     "New Order", "New Order 2"
-  *   ]
-  * }
-  */
+   * Module function used for generating a new order
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+   *   "values": [
+   *     "New Order", "New Order 2"
+   *   ]
+   * }
+   */
   newOrder: (request, callback) => {
     console.log("VALS");
     console.log(request.values);
@@ -255,18 +255,18 @@ module.exports = {
   },
 
   /*
-  * Module function used to update an existing order
-  * 
-  * Example request:
-  * {
-  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  *   "row": "3",
-  *   "column_range": ["A", "B"],
-  *   "values": [
-  *     "Order 4 Updated", "B column value"
-  *   ]
-  * }
-  */
+   * Module function used to update an existing order
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+   *   "row": "3",
+   *   "column_range": ["A", "B"],
+   *   "values": [
+   *     "Order 4 Updated", "B column value"
+   *   ]
+   * }
+   */
   updateOrder: (request, callback) => {
     opSheet(
       updateOrderCallback,
@@ -286,14 +286,14 @@ module.exports = {
   },
 
   /*
-  * Module function used to retrieve an order's information 
-  *
-  * Example request:
-  * {
-  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  *   "row": "2",
-  * }
-  */
+   * Module function used to retrieve an order's information
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+   *   "row": "2",
+   * }
+   */
   getOrder: (request, callback) => {
     opSheet(
       getOrderCallback,
@@ -306,25 +306,25 @@ module.exports = {
   },
 
   /*
-  * Module function used to set the app's settings in the Google Sheet
-  *
-  * Example request:
-  * {
-  *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
-  *   "range": ["2", ""],
-  *   "values": ["~/Desktop/clothing_images/",
-  *     "30.5",
-  *     "25.5",
-  *     "10.5",
-  *     "10.5",
-  *     "5.5",
-  *     "3.5",
-  *     "3.5",
-  *     "4.5",
-  *     "2.5"
-  *   ]
-  * }
-  */
+   * Module function used to set the app's settings in the Google Sheet
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": "1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus",
+   *   "range": ["2", ""],
+   *   "values": ["~/Desktop/clothing_images/",
+   *     "30.5",
+   *     "25.5",
+   *     "10.5",
+   *     "10.5",
+   *     "5.5",
+   *     "3.5",
+   *     "3.5",
+   *     "4.5",
+   *     "2.5"
+   *   ]
+   * }
+   */
   setSettings: (request, callback) => {
     if (request.range[0] == "1") {
       console.error("INVALID ROW RANGE ACCESSED: DO NOT ACCESS HEADERS!");
@@ -346,14 +346,14 @@ module.exports = {
   },
 
   /*
-  * Module function used to retrieve the app's settings
-  *
-  * Example request:
-  * {
-  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  *   "range": ["2", ""]
-  * }
-  */
+   * Module function used to retrieve the app's settings
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+   *   "range": ["2", ""]
+   * }
+   */
   getSettings: (request, callback) => {
     opSheet(
       getSettingsCallback,
@@ -366,14 +366,14 @@ module.exports = {
   },
 
   /*
-  * Module function used to submit confirmation that an order has been complete
-  *
-  * Example request:
-  * {
-  *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
-  *   "row": "2"
-  * }
-  */
+   * Module function used to submit confirmation that an order has been complete
+   *
+   * Example request:
+   * {
+   *   "spreadsheetId": '1Xw6PiPi5F3e0vODyDbU0SUPQCYe1iyYh0OEEjjKrXus',
+   *   "row": "2"
+   * }
+   */
   finalizeOrder: (request, callback) => {
     opSheet(
       updateOrderCallback,
