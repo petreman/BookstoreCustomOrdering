@@ -17,9 +17,8 @@ in less than 3 weeks. I managed to pull through, and this project was an immense
 and enjoy working in an agile environment now!
 
 ## Note
-
-The order data entered in the app is stored on a Google Sheet, which is hardcoded into the app due to time constraints. 
-I have attempted to remove the U of A's Sheet from the code and have it instead go to a test sheet that anyone can try without causing issues. However, I have not implemented this, so the program is essentially *non-functional*.
+The order data that's entered into the app is stored on a Google Sheet, which is hardcoded into the app due to time constraints. 
+I have attempted to remove the U of A's Sheet from the code and have it instead go to a test sheet that anyone can try without causing issues. However, I have not implemented this yet, so the program is essentially *non-functional*. All files containing reference to the active U of A sheet have been removed as to prevent any accidental damage on their sheet.
 
 ## Special Thanks
 Thank you to my more experienced team members who helped me learn and grow through development, the instructors of the course for giving
