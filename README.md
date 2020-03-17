@@ -19,6 +19,5 @@ The order data entered in the app is stored on a Google Sheet, which is hardcode
 I have removed the U of A's Sheet from the code and have instead set it up to a test sheet that anyone can try without causing issues.
 
 ## Special Thanks
-Thank you to my more experienced team members, who helped me learn and grow through development, the instructors of the course for giving
-me and many others such awesome opportunities to show others what we can do, and for the U of A bookstore for giving us a chance! This was definitely
-an experience I'll never forget.
+Thank you to my more experienced team members who helped me learn and grow through development, the instructors of the course for giving
+me and many others such awesome opportunities to show the community what we can do, and for the U of A bookstore for giving us a chance! This was definitely an experience I'll never forget.
